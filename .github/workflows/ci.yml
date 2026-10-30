@@ -221,7 +221,7 @@ jobs:
           pnpm --filter @slatico/react-native-example codegen
           cd examples/react-native/ios
           ruby setup_ios_project.rb
-          RCT_IGNORE_PODS_DEPRECATION=1 pod install
+          pod install
           xcodebuild build \
             -workspace SlaticoReactNativeExample.xcworkspace \
             -scheme RNSVG \
