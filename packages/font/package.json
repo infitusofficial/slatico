@@ -1,0 +1,56 @@
+{
+  "name": "@slatico/font",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Production-ready WOFF2, WOFF, and TTF monochrome icon fonts, CSS stylesheets, and Unicode PUA metadata for Slatico (Thin, Light, Regular, Bold, Fill)",
+  "license": "MIT",
+  "author": "Infitus Creative Studio",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/infitusofficial/slatico.git",
+    "directory": "packages/font"
+  },
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "style": "./dist/slatico.css",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./slatico.css": "./dist/slatico.css",
+    "./slatico.min.css": "./dist/slatico.min.css",
+    "./glyphs.json": "./dist/slatico-glyphs.json",
+    "./slatico-glyphs.json": "./dist/slatico-glyphs.json",
+    "./codepoints.json": "./codepoints.json",
+    "./fonts/*": "./dist/fonts/*",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "codepoints.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@slatico/core": "workspace:*"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean && tsx ../../scripts/build-font-assets.ts",
+    "typecheck": "tsc --noEmit"
+  }
+}

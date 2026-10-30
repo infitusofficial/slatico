@@ -1,0 +1,141 @@
+name: CI Validation
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate, Lint, Typecheck, Test & Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate SVG icon sources
+        run: pnpm icons:validate
+
+      - name: Generate icon catalog and components
+        run: pnpm icons:generate
+
+      - name: Run linter
+        run: pnpm lint
+
+      - name: Run TypeScript typecheck
+        run: pnpm typecheck
+
+      - name: Run unit tests
+        run: pnpm test
+
+      - name: Build workspace packages and website
+        run: pnpm build
+
+  flutter:
+    name: Validate & Test Flutter Package (slatico_icons)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - name: Install Node dependencies and generate Flutter artifacts
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm icons:generate
+
+      - name: Setup Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - name: Install Flutter package dependencies
+        working-directory: packages/flutter
+        run: flutter pub get
+
+      - name: Verify Dart formatting
+        working-directory: packages/flutter
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Run Flutter analyzer
+        working-directory: packages/flutter
+        run: flutter analyze
+
+      - name: Run Flutter unit and widget tests
+        working-directory: packages/flutter
+        run: flutter test
+
+      - name: Verify pub.dev dry-run publishing readiness
+        working-directory: packages/flutter
+        run: flutter pub publish --dry-run
+
+      - name: Compile Flutter example application for Web
+        working-directory: packages/flutter/example
+        run: |
+          flutter pub get
+          flutter build web
+
+  android:
+    name: Validate & Build Android Native Library (com.infitus.slatico)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - name: Install Node dependencies and generate Android VectorDrawables & Kotlin sources
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm icons:generate
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build Android Library AAR, Run Unit Tests, Compile Sample App & Verify POM Metadata
+        working-directory: packages/android
+        run: |
+          chmod +x gradlew
+          ./gradlew :library:assembleRelease :library:testDebugUnitTest :sample:assembleDebug :library:generatePomFileForReleasePublication --stacktrace
+          test -s library/build/outputs/aar/library-release.aar
+          test -s sample/build/outputs/apk/debug/sample-debug.apk

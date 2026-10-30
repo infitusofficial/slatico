@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/icon_house_thin"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/slatico_house_thin"
+        android:contentDescription="@string/home_icon_desc" />
+
+    <ImageView
+        android:id="@+id/icon_house_light"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/slatico_house_light"
+        android:contentDescription="@string/home_icon_desc" />
+
+    <ImageView
+        android:id="@+id/icon_house_regular"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/slatico_house_regular"
+        android:contentDescription="@string/home_icon_desc" />
+
+    <ImageView
+        android:id="@+id/icon_house_bold"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/slatico_house_bold"
+        android:contentDescription="@string/home_icon_desc" />
+
+    <ImageView
+        android:id="@+id/icon_house_fill"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/slatico_house_fill"
+        android:contentDescription="@string/home_icon_desc" />
+
+    <ImageView
+        android:id="@+id/icon_house_duotone"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/slatico_house_duotone"
+        android:contentDescription="@string/home_icon_desc" />
+
+    <ImageView
+        android:id="@+id/icon_house_color"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/slatico_house_color"
+        android:contentDescription="@string/home_icon_desc" />
+
+</LinearLayout>

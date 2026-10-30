@@ -1,0 +1,60 @@
+name: slatico_icons
+description: >-
+  Slatico by Infitus Creative Studio — Modern 7-style Flutter icon system
+  supporting Thin, Light, Regular, Bold, Fill (TTF IconData), Duotone, and
+  Color (flutter_svg vectors) on a 24x24 optical grid.
+version: 0.1.0
+homepage: https://github.com/infitusofficial/slatico
+repository: https://github.com/infitusofficial/slatico/tree/main/packages/flutter
+issue_tracker: https://github.com/infitusofficial/slatico/issues
+documentation: https://github.com/infitusofficial/slatico/blob/main/packages/flutter/README.md
+
+topics:
+  - icons
+  - svg
+  - ui
+  - design-system
+  - vector-icons
+
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  web:
+  windows:
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+  flutter: ">=3.19.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_svg: ^2.0.17
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  assets:
+    - assets/svg/duotone/
+    - assets/svg/color/
+  fonts:
+    - family: Slatico Thin
+      fonts:
+        - asset: assets/fonts/slatico-thin.ttf
+    - family: Slatico Light
+      fonts:
+        - asset: assets/fonts/slatico-light.ttf
+    - family: Slatico Regular
+      fonts:
+        - asset: assets/fonts/slatico-regular.ttf
+    - family: Slatico Bold
+      fonts:
+        - asset: assets/fonts/slatico-bold.ttf
+    - family: Slatico Fill
+      fonts:
+        - asset: assets/fonts/slatico-fill.ttf

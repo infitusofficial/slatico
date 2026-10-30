@@ -1,0 +1,16 @@
+packages:
+  - "apps/*"
+  - "packages/core"
+  - "packages/svg"
+  - "packages/react"
+  - "packages/vue"
+  - "packages/web"
+  - "packages/font"
+  - "packages/react-native"
+
+allowBuilds:
+  esbuild: true
+  sharp: true
+  "@tailwindcss/oxide": true
+
+

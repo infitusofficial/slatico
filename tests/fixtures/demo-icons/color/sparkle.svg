@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" data-demo="true">
+  <defs>
+    <linearGradient id="slatico-sparkle-grad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6366F1"/>
+      <stop offset="50%" stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#EC4899"/>
+    </linearGradient>
+  </defs>
+  <path d="M12 2L14.65 9.35L22 12L14.65 14.65L12 22L9.35 14.65L2 12L9.35 9.35L12 2Z" fill="url(#slatico-sparkle-grad)"/>
+  <circle cx="12" cy="12" r="2.25" fill="#FDE047"/>
+</svg>

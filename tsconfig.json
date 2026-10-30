@@ -1,0 +1,22 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "types": ["node"]
+  },
+  "include": [
+    "scripts/**/*.ts",
+    "tests/**/*.ts",
+    "packages/core/src/**/*.ts",
+    "packages/svg/src/**/*.ts",
+    "packages/react/src/**/*.ts",
+    "packages/react/src/**/*.tsx",
+    "packages/vue/src/**/*.ts",
+    "packages/web/src/**/*.ts",
+    "packages/font/src/**/*.ts",
+    "packages/react-native/src/**/*.ts",
+    "packages/react-native/src/**/*.tsx"
+  ],
+  "exclude": ["node_modules", "**/dist", "**/.next", "**/out"]
+}

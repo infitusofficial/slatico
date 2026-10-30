@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "puaRangeStart": "0xE001",
+  "puaRangeEnd": "0xF8FF",
+  "nextCodepoint": "0xE018",
+  "retiredCodepoints": [],
+  "codepoints": {
+    "bell": "0xE001",
+    "cloud": "0xE002",
+    "cloud-check": "0xE003",
+    "credit-card": "0xE004",
+    "envelope": "0xE005",
+    "envelope-open": "0xE006",
+    "gear": "0xE007",
+    "house": "0xE008",
+    "layout-dashboard": "0xE009",
+    "lock": "0xE00A",
+    "lock-open": "0xE00B",
+    "magnifying-glass": "0xE00C",
+    "minus": "0xE00D",
+    "pencil": "0xE00E",
+    "plus": "0xE00F",
+    "shield": "0xE010",
+    "shield-check": "0xE011",
+    "sliders-horizontal": "0xE012",
+    "trash": "0xE013",
+    "trash-x": "0xE014",
+    "trend-up": "0xE015",
+    "user": "0xE016",
+    "wallet": "0xE017"
+  }
+}

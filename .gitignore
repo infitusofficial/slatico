@@ -147,3 +147,40 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Build and temporary files
+build/
+.dart_tool/
+pubspec.lock
+tmp/
+.tmp/
+*.tmp
+*.bak
+*.orig
+*~
+next-env.d.ts
+
+# Android, Gradle & Native caches/artifacts
+.gradle/
+**/.gradle/
+local.properties
+**/local.properties
+*.apk
+*.aab
+*.aar
+.idea/
+*.iml
+
+# Signing keys & credentials (never commit)
+*.jks
+*.keystore
+*.gpg
+*.secring
+*.asc
+*.pem
+*.key
+*.p12
+
+# OS metadata
+.DS_Store
+Thumbs.db

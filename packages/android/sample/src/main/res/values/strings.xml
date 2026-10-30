@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Slatico Android Sample</string>
+    <string name="home_icon_desc">Home</string>
+    <string name="security_icon_desc">Security Verified</string>
+    <string name="wallet_icon_desc">Wallet</string>
+</resources>

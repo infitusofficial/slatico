@@ -1,0 +1,58 @@
+{
+  "name": "slatico-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Slatico by Infitus Creative Studio — Modern, original, open-source, multi-platform SVG icon library",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/infitusofficial/slatico.git"
+  },
+  "homepage": "https://github.com/infitusofficial/slatico",
+  "bugs": {
+    "url": "https://github.com/infitusofficial/slatico/issues"
+  },
+  "author": "Infitus Creative Studio",
+  "license": "MIT",
+  "packageManager": "pnpm@12.16.1",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "icons:validate": "tsx scripts/validate-icons.ts",
+    "icons:generate": "tsx scripts/generate-icons.ts",
+    "build:packages": "pnpm --filter \"@slatico/*\" --filter \"!@slatico/website\" build",
+    "build:website": "pnpm --filter @slatico/website build",
+    "build": "pnpm icons:generate && pnpm build:packages && pnpm build:website",
+    "dev:website": "pnpm --filter @slatico/website dev",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit && pnpm --filter \"@slatico/*\" typecheck",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "clean": "tsx scripts/clean.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@types/node": "^22.13.5",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "eslint": "^9.21.0",
+    "fast-xml-parser": "^5.0.9",
+    "globals": "^16.0.0",
+    "opentype.js": "^2.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-native-svg": "^15.11.2",
+    "svg2ttf": "^6.1.0",
+    "svgicons2svgfont": "^16.0.0",
+    "svgo": "^3.3.2",
+    "tsup": "^8.4.0",
+    "tsx": "^4.19.3",
+    "ttf2woff": "^3.0.0",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.25.0",
+    "vitest": "^3.0.7",
+    "vue": "^3.5.13",
+    "wawoff2": "^2.0.1"
+  }
+}
