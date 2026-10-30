@@ -34,6 +34,7 @@ function renderBellNativeVariant(params: VariantRenderParams): ReactNode {
         </>
       );
     case "regular":
+    default:
       return (
         <>
         <Path fill={color} d="M12 2.425a2.573 2.573 0 0 1 2.571 2.505 6.8 6.8 0 0 1 4.226 6.293v1.732c0 1.573.5 3.105 1.427 4.375l.907 1.245h-5.603a3.576 3.576 0 0 1-7.056 0H2.869l.907-1.245a7.43 7.43 0 0 0 1.427-4.375v-1.732A6.8 6.8 0 0 1 9.428 4.93 2.574 2.574 0 0 1 12 2.425m-2.354 16.15a2.423 2.423 0 0 0 4.708 0zm2.354-13a5.65 5.65 0 0 0-5.647 5.648v1.732a8.6 8.6 0 0 1-1.257 4.47h13.808a8.57 8.57 0 0 1-1.256-4.47v-1.732A5.65 5.65 0 0 0 12 5.575m0-2c-.633 0-1.169.413-1.354.985a6.8 6.8 0 0 1 2.707 0A1.42 1.42 0 0 0 12 3.575" />
@@ -57,17 +58,17 @@ function renderBellNativeVariant(params: VariantRenderParams): ReactNode {
         <>
         <Path fill={color} d="M9.644 18.575a2.426 2.426 0 0 0 4.712 0zm2.356-13a5.65 5.65 0 0 0-5.647 5.648v1.732a8.6 8.6 0 0 1-1.257 4.47h13.808a8.57 8.57 0 0 1-1.256-4.47v-1.732A5.65 5.65 0 0 0 12 5.575m0-2c-.633 0-1.17.413-1.355.985a6.8 6.8 0 0 1 2.71 0A1.425 1.425 0 0 0 12 3.575m3.53 15a3.576 3.576 0 0 1-7.06 0h-5.6l.906-1.245a7.43 7.43 0 0 0 1.427-4.375v-1.732A6.8 6.8 0 0 1 9.426 4.93a2.576 2.576 0 0 1 5.148 0 6.8 6.8 0 0 1 4.223 6.293v1.732c0 1.573.5 3.105 1.427 4.375l.907 1.245z" />
         <G fill={resolvedSecondaryColor} fillRule="evenodd" clipRule="evenodd" opacity={secondaryOpacity}>
-          <Path d="M17.648 11.223a5.648 5.648 0 0 0-11.295 0v1.732a8.6 8.6 0 0 1-1.257 4.47h13.808a8.57 8.57 0 0 1-1.256-4.47z" />
-          <Path d="M12 20.425a2.426 2.426 0 0 1-2.356-1.85h4.712A2.426 2.426 0 0 1 12 20.425" />
-          <Path d="M13.356 4.56a6.8 6.8 0 0 0-2.712 0 1.425 1.425 0 0 1 2.711 0" />
+          <Path d="M17.648 11.223a5.648 5.648 0 0 0-11.295 0v1.732a8.6 8.6 0 0 1-1.257 4.47h13.808a8.57 8.57 0 0 1-1.256-4.47z" fill={resolvedSecondaryColor} fillRule="evenodd" clipRule="evenodd" />
+          <Path d="M12 20.425a2.426 2.426 0 0 1-2.356-1.85h4.712A2.426 2.426 0 0 1 12 20.425" fill={resolvedSecondaryColor} fillRule="evenodd" clipRule="evenodd" />
+          <Path d="M13.356 4.56a6.8 6.8 0 0 0-2.712 0 1.425 1.425 0 0 1 2.711 0" fill={resolvedSecondaryColor} fillRule="evenodd" clipRule="evenodd" />
         </G>
         </>
       );
     case "color":
       return (
         <>
-        <Path fill="black" d="M9.575 18a2.425 2.425 0 1 0 4.85 0h1.15a3.575 3.575 0 0 1-7.15 0z" />
-        <Path fill="black" d="M10.575 5a1.425 1.425 0 1 1 2.85 0h1.15a2.575 2.575 0 0 0-5.15 0z" />
+        <Path fill="#000000" d="M9.575 18a2.425 2.425 0 1 0 4.85 0h1.15a3.575 3.575 0 0 1-7.15 0z" />
+        <Path fill="#000000" d="M10.575 5a1.425 1.425 0 1 1 2.85 0h1.15a2.575 2.575 0 0 0-5.15 0z" />
         <Path fill="#FF6040" d="M17.648 11.223a5.648 5.648 0 0 0-11.295 0v1.732a8.6 8.6 0 0 1-1.257 4.47h13.808a8.57 8.57 0 0 1-1.256-4.47zm1.149 1.732c0 1.573.5 3.105 1.427 4.375l.907 1.245H2.869l.907-1.245a7.43 7.43 0 0 0 1.427-4.375v-1.732a6.797 6.797 0 1 1 13.594 0z" />
         </>
       );
@@ -86,7 +87,37 @@ export function BellIcon({
 }: SlaticoNativeIconProps): ReactElement {
   const rawId = useId();
   const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
-  const resolvedSecondaryColor = secondaryColor ?? color;
+  const resolvedSize =
+    typeof size === "number"
+      ? Number.isFinite(size) && size > 0
+        ? size
+        : 24
+      : typeof size === "string" &&
+          size.trim().length > 0 &&
+          (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
+        ? size.trim()
+        : 24;
+  const resolvedColor =
+    typeof color === "string" &&
+    color.trim().length > 0 &&
+    color.trim() !== "currentColor"
+      ? color.trim()
+      : "#09090B";
+  const resolvedSecondaryColor =
+    typeof secondaryColor === "string" &&
+    secondaryColor.trim().length > 0 &&
+    secondaryColor.trim() !== "currentColor"
+      ? secondaryColor.trim()
+      : resolvedColor;
+  const parsedSecOpacity =
+    typeof secondaryOpacity === "number"
+      ? secondaryOpacity
+      : typeof secondaryOpacity === "string" && secondaryOpacity.trim().length > 0
+        ? Number(secondaryOpacity)
+        : 0.22;
+  const resolvedSecondaryOpacity = Number.isFinite(parsedSecOpacity)
+    ? Math.min(1, Math.max(0, parsedSecOpacity))
+    : 0.22;
   const resolvedA11yLabel = accessibilityLabel ?? title;
   const a11yProps = resolvedA11yLabel
     ? { accessible: true, accessibilityRole: "image" as const, accessibilityLabel: resolvedA11yLabel }
@@ -95,17 +126,17 @@ export function BellIcon({
   return (
     <Svg
       viewBox="0 0 24 24"
-      width={size}
-      height={size}
+      width={resolvedSize}
+      height={resolvedSize}
       fill="none"
       {...a11yProps}
       {...rest}
     >
       {renderBellNativeVariant({
         variant,
-        color,
+        color: resolvedColor,
         resolvedSecondaryColor,
-        secondaryOpacity,
+        secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}
     </Svg>

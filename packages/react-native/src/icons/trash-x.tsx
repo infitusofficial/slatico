@@ -34,6 +34,7 @@ function renderTrashXNativeVariant(params: VariantRenderParams): ReactNode {
         </>
       );
     case "regular":
+    default:
       return (
         <>
         <Path fill={color} d="M12 2.425c1.974 0 3.575 1.6 3.575 3.575v.425h4.478l-.57.886-.153.239a7.4 7.4 0 0 0-1.166 3.574l-.479 8.03a2.575 2.575 0 0 1-2.57 2.421h-6.23a2.575 2.575 0 0 1-2.57-2.422l-.48-8.029A7.4 7.4 0 0 0 4.67 7.55l-.153-.24-.57-.885h4.478V6c0-1.974 1.6-3.575 3.575-3.575m-5.986 5.15a8.6 8.6 0 0 1 .97 3.48l.478 8.03c.045.753.669 1.34 1.423 1.34h6.23c.754 0 1.378-.587 1.423-1.34l.478-8.03a8.6 8.6 0 0 1 .97-3.48zm7.58 4.019a.574.574 0 1 1 .812.812L12.812 14l1.594 1.594a.574.574 0 1 1-.812.812L12 14.813l-1.594 1.593a.574.574 0 1 1-.812-.812L11.188 14l-1.594-1.594a.574.574 0 1 1 .812-.812L12 13.188zM12 3.575A2.425 2.425 0 0 0 9.575 6v.425h4.85V6A2.425 2.425 0 0 0 12 3.575" />
@@ -55,8 +56,8 @@ function renderTrashXNativeVariant(params: VariantRenderParams): ReactNode {
       return (
         <>
         <G fill={resolvedSecondaryColor} opacity={secondaryOpacity}>
-          <Path fillRule="evenodd" d="M6.014 7.575a8.6 8.6 0 0 1 .97 3.48l.478 8.03c.045.753.669 1.34 1.423 1.34h6.23c.754 0 1.378-.587 1.423-1.34l.478-8.03a8.6 8.6 0 0 1 .97-3.48z" clipRule="evenodd" />
-          <Path d="M12 3.575A2.425 2.425 0 0 1 14.425 6v.425h-4.85V6A2.425 2.425 0 0 1 12 3.575" />
+          <Path fillRule="evenodd" d="M6.014 7.575a8.6 8.6 0 0 1 .97 3.48l.478 8.03c.045.753.669 1.34 1.423 1.34h6.23c.754 0 1.378-.587 1.423-1.34l.478-8.03a8.6 8.6 0 0 1 .97-3.48z" clipRule="evenodd" fill={resolvedSecondaryColor} />
+          <Path d="M12 3.575A2.425 2.425 0 0 1 14.425 6v.425h-4.85V6A2.425 2.425 0 0 1 12 3.575" fill={resolvedSecondaryColor} />
         </G>
         <Path fill={color} fillRule="evenodd" d="M12 3.575A2.425 2.425 0 0 1 14.425 6v.425h-4.85V6A2.425 2.425 0 0 1 12 3.575m-3.575 2.85H3.947l.57.886.153.239a7.4 7.4 0 0 1 1.166 3.574l.478 8.03a2.575 2.575 0 0 0 2.57 2.421h6.231a2.575 2.575 0 0 0 2.57-2.422l.48-8.029A7.4 7.4 0 0 1 19.33 7.55l.153-.24.57-.885h-4.478V6a3.575 3.575 0 0 0-7.15 0zm-2.411 1.15a8.6 8.6 0 0 1 .97 3.48l.478 8.03c.045.753.669 1.34 1.423 1.34h6.23c.754 0 1.378-.587 1.423-1.34l.478-8.03a8.6 8.6 0 0 1 .97-3.48zm8.392 4.019a.574.574 0 0 0-.812 0L12 13.188l-1.594-1.594a.574.574 0 1 0-.812.812L11.188 14l-1.594 1.594a.574.574 0 1 0 .812.812L12 14.813l1.594 1.593a.574.574 0 1 0 .812-.812L12.812 14l1.594-1.594a.574.574 0 0 0 0-.812" clipRule="evenodd" />
         </>
@@ -64,8 +65,8 @@ function renderTrashXNativeVariant(params: VariantRenderParams): ReactNode {
     case "color":
       return (
         <>
-        <Path fill="black" d="M14.425 6a2.425 2.425 0 1 0-4.85 0v1h-1.15V6a3.575 3.575 0 0 1 7.15 0v1h-1.15z" />
-        <Path fill="black" d="M13.594 11.594a.574.574 0 1 1 .812.812L12.812 14l1.594 1.594a.574.574 0 1 1-.812.812L12 14.813l-1.594 1.593a.574.574 0 1 1-.812-.812L11.188 14l-1.594-1.594a.574.574 0 1 1 .812-.812L12 13.188z" />
+        <Path fill="#000000" d="M14.425 6a2.425 2.425 0 1 0-4.85 0v1h-1.15V6a3.575 3.575 0 0 1 7.15 0v1h-1.15z" />
+        <Path fill="#000000" d="M13.594 11.594a.574.574 0 1 1 .812.812L12.812 14l1.594 1.594a.574.574 0 1 1-.812.812L12 14.813l-1.594 1.593a.574.574 0 1 1-.812-.812L11.188 14l-1.594-1.594a.574.574 0 1 1 .812-.812L12 13.188z" />
         <Path fill="#FF6040" d="m20.053 6.425-.57.886-.153.239a7.4 7.4 0 0 0-1.166 3.574l-.479 8.03a2.575 2.575 0 0 1-2.57 2.421h-6.23a2.575 2.575 0 0 1-2.57-2.422l-.48-8.029A7.4 7.4 0 0 0 4.67 7.55l-.153-.24-.57-.885zm-14.04 1.15a8.6 8.6 0 0 1 .971 3.48l.478 8.03c.045.753.669 1.34 1.423 1.34h6.23c.754 0 1.378-.587 1.423-1.34l.478-8.03a8.6 8.6 0 0 1 .97-3.48z" />
         </>
       );
@@ -84,7 +85,37 @@ export function TrashXIcon({
 }: SlaticoNativeIconProps): ReactElement {
   const rawId = useId();
   const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
-  const resolvedSecondaryColor = secondaryColor ?? color;
+  const resolvedSize =
+    typeof size === "number"
+      ? Number.isFinite(size) && size > 0
+        ? size
+        : 24
+      : typeof size === "string" &&
+          size.trim().length > 0 &&
+          (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
+        ? size.trim()
+        : 24;
+  const resolvedColor =
+    typeof color === "string" &&
+    color.trim().length > 0 &&
+    color.trim() !== "currentColor"
+      ? color.trim()
+      : "#09090B";
+  const resolvedSecondaryColor =
+    typeof secondaryColor === "string" &&
+    secondaryColor.trim().length > 0 &&
+    secondaryColor.trim() !== "currentColor"
+      ? secondaryColor.trim()
+      : resolvedColor;
+  const parsedSecOpacity =
+    typeof secondaryOpacity === "number"
+      ? secondaryOpacity
+      : typeof secondaryOpacity === "string" && secondaryOpacity.trim().length > 0
+        ? Number(secondaryOpacity)
+        : 0.22;
+  const resolvedSecondaryOpacity = Number.isFinite(parsedSecOpacity)
+    ? Math.min(1, Math.max(0, parsedSecOpacity))
+    : 0.22;
   const resolvedA11yLabel = accessibilityLabel ?? title;
   const a11yProps = resolvedA11yLabel
     ? { accessible: true, accessibilityRole: "image" as const, accessibilityLabel: resolvedA11yLabel }
@@ -93,17 +124,17 @@ export function TrashXIcon({
   return (
     <Svg
       viewBox="0 0 24 24"
-      width={size}
-      height={size}
+      width={resolvedSize}
+      height={resolvedSize}
       fill="none"
       {...a11yProps}
       {...rest}
     >
       {renderTrashXNativeVariant({
         variant,
-        color,
+        color: resolvedColor,
         resolvedSecondaryColor,
-        secondaryOpacity,
+        secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}
     </Svg>

@@ -34,6 +34,7 @@ function renderMagnifyingGlassNativeVariant(params: VariantRenderParams): ReactN
         </>
       );
     case "regular":
+    default:
       return (
         <>
         <Path fill={color} d="M11.5 2.425a9.075 9.075 0 0 1 9.075 9.075 9.04 9.04 0 0 1-2.278 6.01q.058.034.11.084l3 3a.574.574 0 1 1-.813.812l-3-3a.6.6 0 0 1-.084-.11 9.04 9.04 0 0 1-6.01 2.28 9.075 9.075 0 0 1 0-18.151m0 1.15a7.925 7.925 0 1 0 0 15.85 7.925 7.925 0 0 0 0-15.85" />
@@ -61,7 +62,7 @@ function renderMagnifyingGlassNativeVariant(params: VariantRenderParams): ReactN
     case "color":
       return (
         <>
-        <Path fill="black" d="M17.594 17.594a.574.574 0 0 1 .812 0l3 3a.574.574 0 1 1-.812.812l-3-3a.574.574 0 0 1 0-.812" />
+        <Path fill="#000000" d="M17.594 17.594a.574.574 0 0 1 .812 0l3 3a.574.574 0 1 1-.812.812l-3-3a.574.574 0 0 1 0-.812" />
         <Path fill="#FF6040" d="M19.425 11.5a7.925 7.925 0 1 0-15.85 0 7.925 7.925 0 0 0 15.85 0m1.15 0a9.075 9.075 0 1 1-18.15 0 9.075 9.075 0 0 1 18.15 0" />
         </>
       );
@@ -80,7 +81,37 @@ export function MagnifyingGlassIcon({
 }: SlaticoNativeIconProps): ReactElement {
   const rawId = useId();
   const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
-  const resolvedSecondaryColor = secondaryColor ?? color;
+  const resolvedSize =
+    typeof size === "number"
+      ? Number.isFinite(size) && size > 0
+        ? size
+        : 24
+      : typeof size === "string" &&
+          size.trim().length > 0 &&
+          (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
+        ? size.trim()
+        : 24;
+  const resolvedColor =
+    typeof color === "string" &&
+    color.trim().length > 0 &&
+    color.trim() !== "currentColor"
+      ? color.trim()
+      : "#09090B";
+  const resolvedSecondaryColor =
+    typeof secondaryColor === "string" &&
+    secondaryColor.trim().length > 0 &&
+    secondaryColor.trim() !== "currentColor"
+      ? secondaryColor.trim()
+      : resolvedColor;
+  const parsedSecOpacity =
+    typeof secondaryOpacity === "number"
+      ? secondaryOpacity
+      : typeof secondaryOpacity === "string" && secondaryOpacity.trim().length > 0
+        ? Number(secondaryOpacity)
+        : 0.22;
+  const resolvedSecondaryOpacity = Number.isFinite(parsedSecOpacity)
+    ? Math.min(1, Math.max(0, parsedSecOpacity))
+    : 0.22;
   const resolvedA11yLabel = accessibilityLabel ?? title;
   const a11yProps = resolvedA11yLabel
     ? { accessible: true, accessibilityRole: "image" as const, accessibilityLabel: resolvedA11yLabel }
@@ -89,17 +120,17 @@ export function MagnifyingGlassIcon({
   return (
     <Svg
       viewBox="0 0 24 24"
-      width={size}
-      height={size}
+      width={resolvedSize}
+      height={resolvedSize}
       fill="none"
       {...a11yProps}
       {...rest}
     >
       {renderMagnifyingGlassNativeVariant({
         variant,
-        color,
+        color: resolvedColor,
         resolvedSecondaryColor,
-        secondaryOpacity,
+        secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}
     </Svg>

@@ -1,5 +1,6 @@
 packages:
   - "apps/*"
+  - "examples/react-native"
   - "packages/core"
   - "packages/svg"
   - "packages/react"

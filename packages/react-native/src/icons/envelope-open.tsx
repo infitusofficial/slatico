@@ -34,6 +34,7 @@ function renderEnvelopeOpenNativeVariant(params: VariantRenderParams): ReactNode
         </>
       );
     case "regular":
+    default:
       return (
         <>
         <Path fill={color} d="M10.571 3.26a2.58 2.58 0 0 1 2.858 0l7 4.668a2.58 2.58 0 0 1 1.146 2.142V19A2.575 2.575 0 0 1 19 21.575H5A2.575 2.575 0 0 1 2.425 19v-8.93c0-.86.43-1.665 1.146-2.142zm2.219.958a1.425 1.425 0 0 0-1.58 0l-7 4.667a1.43 1.43 0 0 0-.635 1.185V19c0 .787.638 1.425 1.425 1.425h14c.787 0 1.425-.638 1.425-1.425v-8.93c0-.476-.239-.92-.635-1.185zM18.715 9.5a.575.575 0 1 1 .57.998l-6.504 3.717a1.58 1.58 0 0 1-1.562 0l-6.504-3.717a.575.575 0 1 1 .57-.998l6.504 3.716c.13.074.291.074.422 0z" />
@@ -63,7 +64,7 @@ function renderEnvelopeOpenNativeVariant(params: VariantRenderParams): ReactNode
       return (
         <>
         <Path fill="#FF6040" d="M20.425 10.07c0-.476-.239-.921-.635-1.185l-7-4.667a1.425 1.425 0 0 0-1.58 0l-7 4.667a1.43 1.43 0 0 0-.635 1.185V19c0 .787.638 1.425 1.425 1.425h14c.787 0 1.425-.638 1.425-1.425zm1.15 8.93A2.575 2.575 0 0 1 19 21.575H5A2.575 2.575 0 0 1 2.425 19v-8.93c0-.86.43-1.665 1.146-2.142l7-4.667a2.58 2.58 0 0 1 2.858 0l7 4.667a2.58 2.58 0 0 1 1.146 2.142z" />
-        <Path fill="black" d="M18.715 9.501a.575.575 0 1 1 .57.998l-6.504 3.717a1.58 1.58 0 0 1-1.562 0l-6.504-3.717a.575.575 0 1 1 .57-.998l6.504 3.716c.13.074.291.074.422 0z" />
+        <Path fill="#000000" d="M18.715 9.501a.575.575 0 1 1 .57.998l-6.504 3.717a1.58 1.58 0 0 1-1.562 0l-6.504-3.717a.575.575 0 1 1 .57-.998l6.504 3.716c.13.074.291.074.422 0z" />
         </>
       );
   }
@@ -81,7 +82,37 @@ export function EnvelopeOpenIcon({
 }: SlaticoNativeIconProps): ReactElement {
   const rawId = useId();
   const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
-  const resolvedSecondaryColor = secondaryColor ?? color;
+  const resolvedSize =
+    typeof size === "number"
+      ? Number.isFinite(size) && size > 0
+        ? size
+        : 24
+      : typeof size === "string" &&
+          size.trim().length > 0 &&
+          (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
+        ? size.trim()
+        : 24;
+  const resolvedColor =
+    typeof color === "string" &&
+    color.trim().length > 0 &&
+    color.trim() !== "currentColor"
+      ? color.trim()
+      : "#09090B";
+  const resolvedSecondaryColor =
+    typeof secondaryColor === "string" &&
+    secondaryColor.trim().length > 0 &&
+    secondaryColor.trim() !== "currentColor"
+      ? secondaryColor.trim()
+      : resolvedColor;
+  const parsedSecOpacity =
+    typeof secondaryOpacity === "number"
+      ? secondaryOpacity
+      : typeof secondaryOpacity === "string" && secondaryOpacity.trim().length > 0
+        ? Number(secondaryOpacity)
+        : 0.22;
+  const resolvedSecondaryOpacity = Number.isFinite(parsedSecOpacity)
+    ? Math.min(1, Math.max(0, parsedSecOpacity))
+    : 0.22;
   const resolvedA11yLabel = accessibilityLabel ?? title;
   const a11yProps = resolvedA11yLabel
     ? { accessible: true, accessibilityRole: "image" as const, accessibilityLabel: resolvedA11yLabel }
@@ -90,17 +121,17 @@ export function EnvelopeOpenIcon({
   return (
     <Svg
       viewBox="0 0 24 24"
-      width={size}
-      height={size}
+      width={resolvedSize}
+      height={resolvedSize}
       fill="none"
       {...a11yProps}
       {...rest}
     >
       {renderEnvelopeOpenNativeVariant({
         variant,
-        color,
+        color: resolvedColor,
         resolvedSecondaryColor,
-        secondaryOpacity,
+        secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}
     </Svg>

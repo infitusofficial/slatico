@@ -34,6 +34,7 @@ function renderCreditCardNativeVariant(params: VariantRenderParams): ReactNode {
         </>
       );
     case "regular":
+    default:
       return (
         <>
         <Path fill={color} d="M19 4.25A2.75 2.75 0 0 1 21.75 7v10A2.75 2.75 0 0 1 19 19.75H5A2.75 2.75 0 0 1 2.25 17V7A2.75 2.75 0 0 1 5 4.25zm-15.25 6.5V17c0 .69.56 1.25 1.25 1.25h14c.69 0 1.25-.56 1.25-1.25v-6.25zm8.25 4.5a.75.75 0 0 1 0 1.5h-1a.75.75 0 0 1 0-1.5zm6 0a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5zM5 5.75c-.69 0-1.25.56-1.25 1.25v2.25h16.5V7c0-.69-.56-1.25-1.25-1.25z" />
@@ -55,8 +56,8 @@ function renderCreditCardNativeVariant(params: VariantRenderParams): ReactNode {
       return (
         <>
         <G fill={resolvedSecondaryColor} opacity={secondaryOpacity}>
-          <Path fillRule="evenodd" d="M20.25 7c0-.69-.56-1.25-1.25-1.25H5c-.69 0-1.25.56-1.25 1.25v2.25h16.5z" clipRule="evenodd" />
-          <Path d="M20.25 10.75H3.75V17c0 .69.56 1.25 1.25 1.25h14c.69 0 1.25-.56 1.25-1.25zM12 15.25a.75.75 0 0 1 0 1.5h-1a.75.75 0 0 1 0-1.5zm6 0a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5z" />
+          <Path fillRule="evenodd" d="M20.25 7c0-.69-.56-1.25-1.25-1.25H5c-.69 0-1.25.56-1.25 1.25v2.25h16.5z" clipRule="evenodd" fill={resolvedSecondaryColor} />
+          <Path d="M20.25 10.75H3.75V17c0 .69.56 1.25 1.25 1.25h14c.69 0 1.25-.56 1.25-1.25zM12 15.25a.75.75 0 0 1 0 1.5h-1a.75.75 0 0 1 0-1.5zm6 0a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5z" fill={resolvedSecondaryColor} />
         </G>
         <Path fill={color} fillRule="evenodd" d="M2.25 17V7A2.75 2.75 0 0 1 5 4.25h14A2.75 2.75 0 0 1 21.75 7v10A2.75 2.75 0 0 1 19 19.75H5A2.75 2.75 0 0 1 2.25 17m18 0c0 .69-.56 1.25-1.25 1.25H5c-.69 0-1.25-.56-1.25-1.25v-6.25h16.5zM12 15.25a.75.75 0 0 1 0 1.5h-1a.75.75 0 0 1 0-1.5zm6 0a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5zm1-9.5c.69 0 1.25.56 1.25 1.25v2.25H3.75V7c0-.69.56-1.25 1.25-1.25z" clipRule="evenodd" />
         </>
@@ -64,8 +65,8 @@ function renderCreditCardNativeVariant(params: VariantRenderParams): ReactNode {
     case "color":
       return (
         <>
-        <Path fill="black" d="M18 15.25a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5z" />
-        <Path fill="black" d="M21 9.25a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1 0-1.5z" />
+        <Path fill="#000000" d="M18 15.25a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5z" />
+        <Path fill="#000000" d="M21 9.25a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1 0-1.5z" />
         <Path fill="#FF6040" d="M12 15.25a.75.75 0 0 1 0 1.5h-1a.75.75 0 0 1 0-1.5z" />
         <Path fill="#FF6040" d="M20.25 7c0-.69-.56-1.25-1.25-1.25H5c-.69 0-1.25.56-1.25 1.25v10c0 .69.56 1.25 1.25 1.25h14c.69 0 1.25-.56 1.25-1.25zm1.5 10A2.75 2.75 0 0 1 19 19.75H5A2.75 2.75 0 0 1 2.25 17V7A2.75 2.75 0 0 1 5 4.25h14A2.75 2.75 0 0 1 21.75 7z" />
         </>
@@ -85,7 +86,37 @@ export function CreditCardIcon({
 }: SlaticoNativeIconProps): ReactElement {
   const rawId = useId();
   const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
-  const resolvedSecondaryColor = secondaryColor ?? color;
+  const resolvedSize =
+    typeof size === "number"
+      ? Number.isFinite(size) && size > 0
+        ? size
+        : 24
+      : typeof size === "string" &&
+          size.trim().length > 0 &&
+          (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
+        ? size.trim()
+        : 24;
+  const resolvedColor =
+    typeof color === "string" &&
+    color.trim().length > 0 &&
+    color.trim() !== "currentColor"
+      ? color.trim()
+      : "#09090B";
+  const resolvedSecondaryColor =
+    typeof secondaryColor === "string" &&
+    secondaryColor.trim().length > 0 &&
+    secondaryColor.trim() !== "currentColor"
+      ? secondaryColor.trim()
+      : resolvedColor;
+  const parsedSecOpacity =
+    typeof secondaryOpacity === "number"
+      ? secondaryOpacity
+      : typeof secondaryOpacity === "string" && secondaryOpacity.trim().length > 0
+        ? Number(secondaryOpacity)
+        : 0.22;
+  const resolvedSecondaryOpacity = Number.isFinite(parsedSecOpacity)
+    ? Math.min(1, Math.max(0, parsedSecOpacity))
+    : 0.22;
   const resolvedA11yLabel = accessibilityLabel ?? title;
   const a11yProps = resolvedA11yLabel
     ? { accessible: true, accessibilityRole: "image" as const, accessibilityLabel: resolvedA11yLabel }
@@ -94,17 +125,17 @@ export function CreditCardIcon({
   return (
     <Svg
       viewBox="0 0 24 24"
-      width={size}
-      height={size}
+      width={resolvedSize}
+      height={resolvedSize}
       fill="none"
       {...a11yProps}
       {...rest}
     >
       {renderCreditCardNativeVariant({
         variant,
-        color,
+        color: resolvedColor,
         resolvedSecondaryColor,
-        secondaryOpacity,
+        secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}
     </Svg>

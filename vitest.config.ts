@@ -9,8 +9,13 @@ export default defineConfig({
       "@slatico/react": path.resolve(import.meta.dirname, "packages/react/src/index.ts"),
       "@slatico/vue": path.resolve(import.meta.dirname, "packages/vue/src/index.ts"),
       "@slatico/web": path.resolve(import.meta.dirname, "packages/web/src/index.ts"),
+      "@slatico/react-native/icons": path.resolve(
+        import.meta.dirname,
+        "packages/react-native/src/icons"
+      ),
       "@slatico/react-native": path.resolve(import.meta.dirname, "packages/react-native/src/index.ts"),
-      "react-native-svg": path.resolve(import.meta.dirname, "tests/mocks/react-native-svg.ts")
+      "react-native-svg": path.resolve(import.meta.dirname, "tests/mocks/react-native-svg.ts"),
+      "react-native": path.resolve(import.meta.dirname, "tests/mocks/react-native.ts")
     }
   },
   test: {

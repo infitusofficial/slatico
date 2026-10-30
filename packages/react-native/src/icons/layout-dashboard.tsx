@@ -34,6 +34,7 @@ function renderLayoutDashboardNativeVariant(params: VariantRenderParams): ReactN
         </>
       );
     case "regular":
+    default:
       return (
         <>
         <Path fill={color} d="M19 3.425A2.575 2.575 0 0 1 21.575 6v12A2.575 2.575 0 0 1 19 20.575H5A2.575 2.575 0 0 1 2.425 18V6A2.575 2.575 0 0 1 5 3.425zm-9.925 6.65v9.35H19c.787 0 1.425-.638 1.425-1.425v-7.925zM3.575 18c0 .787.638 1.425 1.425 1.425h2.925v-9.35h-4.35zM5 4.575c-.787 0-1.425.638-1.425 1.425v2.925h16.85V6c0-.787-.638-1.425-1.425-1.425z" />
@@ -56,16 +57,16 @@ function renderLayoutDashboardNativeVariant(params: VariantRenderParams): ReactN
         <>
         <Path fill={color} fillRule="evenodd" d="M8.5 20.575H19A2.575 2.575 0 0 0 21.575 18V6A2.575 2.575 0 0 0 19 3.425H5A2.575 2.575 0 0 0 2.425 6v12A2.575 2.575 0 0 0 5 20.575zm-.575-1.15H5A1.425 1.425 0 0 1 3.575 18v-7.925h4.35zm1.15-9.35v9.35H19c.787 0 1.425-.638 1.425-1.425v-7.925zm-5.5-1.15h16.85V6c0-.787-.638-1.425-1.425-1.425H5c-.787 0-1.425.638-1.425 1.425z" clipRule="evenodd" />
         <G fill={resolvedSecondaryColor} opacity={secondaryOpacity}>
-          <Path d="M3.575 8.925h16.85V6c0-.787-.638-1.425-1.425-1.425H5c-.787 0-1.425.638-1.425 1.425z" />
-          <Path d="M9.075 10.075v9.35H19c.787 0 1.425-.638 1.425-1.425v-7.925z" />
-          <Path d="M7.925 19.425H5A1.425 1.425 0 0 1 3.575 18v-7.925h4.35z" />
+          <Path d="M3.575 8.925h16.85V6c0-.787-.638-1.425-1.425-1.425H5c-.787 0-1.425.638-1.425 1.425z" fill={resolvedSecondaryColor} />
+          <Path d="M9.075 10.075v9.35H19c.787 0 1.425-.638 1.425-1.425v-7.925z" fill={resolvedSecondaryColor} />
+          <Path d="M7.925 19.425H5A1.425 1.425 0 0 1 3.575 18v-7.925h4.35z" fill={resolvedSecondaryColor} />
         </G>
         </>
       );
     case "color":
       return (
         <>
-        <Path fill="black" d="M7.925 20v-9.925H3a.575.575 0 0 1 0-1.15h18a.575.575 0 0 1 0 1.15H9.075V20a.575.575 0 0 1-1.15 0" />
+        <Path fill="#000000" d="M7.925 20v-9.925H3a.575.575 0 0 1 0-1.15h18a.575.575 0 0 1 0 1.15H9.075V20a.575.575 0 0 1-1.15 0" />
         <Path fill="#FF6040" d="M20.425 6c0-.787-.638-1.425-1.425-1.425H5c-.787 0-1.425.638-1.425 1.425v12c0 .787.638 1.425 1.425 1.425h14c.787 0 1.425-.638 1.425-1.425zm1.15 12A2.575 2.575 0 0 1 19 20.575H5A2.575 2.575 0 0 1 2.425 18V6A2.575 2.575 0 0 1 5 3.425h14A2.575 2.575 0 0 1 21.575 6z" />
         </>
       );
@@ -84,7 +85,37 @@ export function LayoutDashboardIcon({
 }: SlaticoNativeIconProps): ReactElement {
   const rawId = useId();
   const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
-  const resolvedSecondaryColor = secondaryColor ?? color;
+  const resolvedSize =
+    typeof size === "number"
+      ? Number.isFinite(size) && size > 0
+        ? size
+        : 24
+      : typeof size === "string" &&
+          size.trim().length > 0 &&
+          (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
+        ? size.trim()
+        : 24;
+  const resolvedColor =
+    typeof color === "string" &&
+    color.trim().length > 0 &&
+    color.trim() !== "currentColor"
+      ? color.trim()
+      : "#09090B";
+  const resolvedSecondaryColor =
+    typeof secondaryColor === "string" &&
+    secondaryColor.trim().length > 0 &&
+    secondaryColor.trim() !== "currentColor"
+      ? secondaryColor.trim()
+      : resolvedColor;
+  const parsedSecOpacity =
+    typeof secondaryOpacity === "number"
+      ? secondaryOpacity
+      : typeof secondaryOpacity === "string" && secondaryOpacity.trim().length > 0
+        ? Number(secondaryOpacity)
+        : 0.22;
+  const resolvedSecondaryOpacity = Number.isFinite(parsedSecOpacity)
+    ? Math.min(1, Math.max(0, parsedSecOpacity))
+    : 0.22;
   const resolvedA11yLabel = accessibilityLabel ?? title;
   const a11yProps = resolvedA11yLabel
     ? { accessible: true, accessibilityRole: "image" as const, accessibilityLabel: resolvedA11yLabel }
@@ -93,17 +124,17 @@ export function LayoutDashboardIcon({
   return (
     <Svg
       viewBox="0 0 24 24"
-      width={size}
-      height={size}
+      width={resolvedSize}
+      height={resolvedSize}
       fill="none"
       {...a11yProps}
       {...rest}
     >
       {renderLayoutDashboardNativeVariant({
         variant,
-        color,
+        color: resolvedColor,
         resolvedSecondaryColor,
-        secondaryOpacity,
+        secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}
     </Svg>

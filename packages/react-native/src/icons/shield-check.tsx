@@ -34,6 +34,7 @@ function renderShieldCheckNativeVariant(params: VariantRenderParams): ReactNode 
         </>
       );
     case "regular":
+    default:
       return (
         <>
         <Path fill={color} d="m12.363 2.554.004.003.023.018.101.075c.093.068.235.167.424.287.378.239.945.562 1.685.886 1.48.65 3.65 1.302 6.4 1.302h.575v3.919c0 4.621-2.106 9.24-6.312 11.414-.606.313-1.201.588-1.744.786-.534.194-1.062.331-1.519.331s-.985-.137-1.519-.33a15 15 0 0 1-1.744-.787c-4.206-2.174-6.312-6.792-6.312-11.414V5.125H3c2.266 0 4.439-.648 6.06-1.308.807-.328 1.47-.656 1.93-.902a15 15 0 0 0 .661-.375l.033-.02.007-.005.001-.001.35-.221zm-.832 1.375c-.488.26-1.187.607-2.038.954-1.563.636-3.663 1.28-5.918 1.378v2.783c0 4.31 1.961 8.465 5.69 10.392.581.301 1.13.552 1.61.727.491.179.87.262 1.125.262.256 0 .634-.083 1.125-.262.48-.175 1.029-.426 1.61-.727 3.729-1.927 5.69-6.082 5.69-10.392v-2.78c-2.665-.083-4.794-.732-6.287-1.387-.8-.35-1.418-.703-1.84-.97a10 10 0 0 1-.332-.221q-.176.102-.435.243m3.563 4.665a.574.574 0 1 1 .812.812L11.113 14.2a1.574 1.574 0 0 1-2.226 0l-1.293-1.293a.574.574 0 1 1 .812-.812L9.7 13.387a.426.426 0 0 0 .602 0z" />
@@ -64,7 +65,7 @@ function renderShieldCheckNativeVariant(params: VariantRenderParams): ReactNode 
       return (
         <>
         <Path fill="#FF6040" d="M20.425 6.265c-2.665-.084-4.794-.733-6.287-1.388-.8-.35-1.418-.703-1.84-.97a10 10 0 0 1-.332-.221q-.176.102-.435.243c-.488.26-1.187.607-2.038.954-1.563.636-3.663 1.28-5.918 1.378v2.783c0 4.31 1.961 8.465 5.69 10.392.581.301 1.13.552 1.61.727.491.179.87.262 1.125.262.256 0 .634-.083 1.125-.262.48-.175 1.029-.426 1.61-.727 3.729-1.927 5.69-6.082 5.69-10.392zm1.15 2.779c0 4.621-2.106 9.24-6.312 11.414-.606.313-1.201.588-1.744.786-.534.194-1.062.331-1.519.331s-.985-.137-1.519-.33a15 15 0 0 1-1.744-.787c-4.206-2.174-6.312-6.792-6.312-11.414V5.125H3c2.266 0 4.439-.648 6.06-1.308.807-.328 1.47-.656 1.93-.902a15 15 0 0 0 .661-.375l.033-.02.007-.005.001-.001.35-.221.321.26v.002l.004.002.023.018.101.075c.093.068.235.167.424.287.378.239.945.562 1.685.886 1.48.65 3.65 1.302 6.4 1.302h.575z" />
-        <Path fill="black" d="M15.094 8.594a.574.574 0 1 1 .812.812L11.113 14.2a1.574 1.574 0 0 1-2.226 0l-1.293-1.293a.574.574 0 1 1 .812-.812L9.7 13.387a.426.426 0 0 0 .602 0z" />
+        <Path fill="#000000" d="M15.094 8.594a.574.574 0 1 1 .812.812L11.113 14.2a1.574 1.574 0 0 1-2.226 0l-1.293-1.293a.574.574 0 1 1 .812-.812L9.7 13.387a.426.426 0 0 0 .602 0z" />
         </>
       );
   }
@@ -82,7 +83,37 @@ export function ShieldCheckIcon({
 }: SlaticoNativeIconProps): ReactElement {
   const rawId = useId();
   const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
-  const resolvedSecondaryColor = secondaryColor ?? color;
+  const resolvedSize =
+    typeof size === "number"
+      ? Number.isFinite(size) && size > 0
+        ? size
+        : 24
+      : typeof size === "string" &&
+          size.trim().length > 0 &&
+          (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
+        ? size.trim()
+        : 24;
+  const resolvedColor =
+    typeof color === "string" &&
+    color.trim().length > 0 &&
+    color.trim() !== "currentColor"
+      ? color.trim()
+      : "#09090B";
+  const resolvedSecondaryColor =
+    typeof secondaryColor === "string" &&
+    secondaryColor.trim().length > 0 &&
+    secondaryColor.trim() !== "currentColor"
+      ? secondaryColor.trim()
+      : resolvedColor;
+  const parsedSecOpacity =
+    typeof secondaryOpacity === "number"
+      ? secondaryOpacity
+      : typeof secondaryOpacity === "string" && secondaryOpacity.trim().length > 0
+        ? Number(secondaryOpacity)
+        : 0.22;
+  const resolvedSecondaryOpacity = Number.isFinite(parsedSecOpacity)
+    ? Math.min(1, Math.max(0, parsedSecOpacity))
+    : 0.22;
   const resolvedA11yLabel = accessibilityLabel ?? title;
   const a11yProps = resolvedA11yLabel
     ? { accessible: true, accessibilityRole: "image" as const, accessibilityLabel: resolvedA11yLabel }
@@ -91,17 +122,17 @@ export function ShieldCheckIcon({
   return (
     <Svg
       viewBox="0 0 24 24"
-      width={size}
-      height={size}
+      width={resolvedSize}
+      height={resolvedSize}
       fill="none"
       {...a11yProps}
       {...rest}
     >
       {renderShieldCheckNativeVariant({
         variant,
-        color,
+        color: resolvedColor,
         resolvedSecondaryColor,
-        secondaryOpacity,
+        secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}
     </Svg>

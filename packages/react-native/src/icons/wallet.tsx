@@ -34,6 +34,7 @@ function renderWalletNativeVariant(params: VariantRenderParams): ReactNode {
         </>
       );
     case "regular":
+    default:
       return (
         <>
         <Path fill={color} d="M17 4.425c1.243 0 2.28.88 2.521 2.053A2.576 2.576 0 0 1 21.575 9v8A2.575 2.575 0 0 1 19 19.575H7a2.576 2.576 0 0 1-2.522-2.053A2.576 2.576 0 0 1 2.425 15V7A2.575 2.575 0 0 1 5 4.425zM7 7.575c-.787 0-1.425.638-1.425 1.425v8c0 .787.638 1.425 1.425 1.425h12c.787 0 1.425-.638 1.425-1.425v-.425H14a3.575 3.575 0 0 1 0-7.15h6.425V9c0-.787-.638-1.425-1.425-1.425zm-2-2c-.787 0-1.425.638-1.425 1.425v8c0 .582.35 1.08.85 1.302V9A2.575 2.575 0 0 1 7 6.425h11.303c-.221-.5-.72-.85-1.303-.85zm9 5a2.425 2.425 0 1 0 0 4.85h6.425v-4.85zM14 12a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
@@ -58,18 +59,18 @@ function renderWalletNativeVariant(params: VariantRenderParams): ReactNode {
         <Path fill={color} d="M14 12a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
         <Path fill={color} fillRule="evenodd" d="M17 4.425c1.243 0 2.28.88 2.521 2.053A2.576 2.576 0 0 1 21.575 9v8A2.575 2.575 0 0 1 19 19.575H7a2.576 2.576 0 0 1-2.522-2.053A2.576 2.576 0 0 1 2.425 15V7A2.575 2.575 0 0 1 5 4.425zM7 7.575c-.787 0-1.425.638-1.425 1.425v8c0 .787.638 1.425 1.425 1.425h12c.787 0 1.425-.638 1.425-1.425v-.425H14a3.575 3.575 0 0 1 0-7.15h6.425V9c0-.787-.638-1.425-1.425-1.425zm-2-2c-.787 0-1.425.638-1.425 1.425v8c0 .582.35 1.08.85 1.302V9A2.575 2.575 0 0 1 7 6.425h11.303c-.221-.5-.72-.85-1.303-.85zm9 5a2.425 2.425 0 1 0 0 4.85h6.425v-4.85z" clipRule="evenodd" />
         <G fill={resolvedSecondaryColor} opacity={secondaryOpacity}>
-          <Path d="M14 12a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
-          <Path d="M7 7.575c-.787 0-1.425.638-1.425 1.425v8c0 .787.638 1.425 1.425 1.425h12c.787 0 1.425-.638 1.425-1.425v-.425H14a3.575 3.575 0 0 1 0-7.15h6.425V9c0-.787-.638-1.425-1.425-1.425z" />
-          <Path d="M5 5.575c-.787 0-1.425.638-1.425 1.425v8c0 .582.35 1.08.85 1.302V9A2.575 2.575 0 0 1 7 6.425h11.303c-.221-.5-.72-.85-1.303-.85z" />
-          <Path fillRule="evenodd" d="M14 10.575a2.425 2.425 0 1 0 0 4.85h6.425v-4.85zM15 13a1 1 0 1 0-2 0 1 1 0 0 0 2 0" clipRule="evenodd" />
+          <Path d="M14 12a1 1 0 1 1 0 2 1 1 0 0 1 0-2" fill={resolvedSecondaryColor} />
+          <Path d="M7 7.575c-.787 0-1.425.638-1.425 1.425v8c0 .787.638 1.425 1.425 1.425h12c.787 0 1.425-.638 1.425-1.425v-.425H14a3.575 3.575 0 0 1 0-7.15h6.425V9c0-.787-.638-1.425-1.425-1.425z" fill={resolvedSecondaryColor} />
+          <Path d="M5 5.575c-.787 0-1.425.638-1.425 1.425v8c0 .582.35 1.08.85 1.302V9A2.575 2.575 0 0 1 7 6.425h11.303c-.221-.5-.72-.85-1.303-.85z" fill={resolvedSecondaryColor} />
+          <Path fillRule="evenodd" d="M14 10.575a2.425 2.425 0 1 0 0 4.85h6.425v-4.85zM15 13a1 1 0 1 0-2 0 1 1 0 0 0 2 0" clipRule="evenodd" fill={resolvedSecondaryColor} />
         </G>
         </>
       );
     case "color":
       return (
         <>
-        <Path fill="black" fillRule="evenodd" d="M2.425 15V7A2.575 2.575 0 0 1 5 4.425h12c1.243 0 2.28.881 2.522 2.053A2.6 2.6 0 0 0 19 6.425h-.696c-.221-.5-.722-.85-1.304-.85H5c-.787 0-1.425.638-1.425 1.425v8c0 .582.35 1.083.85 1.304V17q0 .27.053.522A2.576 2.576 0 0 1 2.425 15" clipRule="evenodd" />
-        <Path fill="black" fillRule="evenodd" d="M20.425 10.575H14a2.425 2.425 0 1 0 0 4.85h6.425v1.15H14a3.575 3.575 0 0 1 0-7.15h6.425z" clipRule="evenodd" />
+        <Path fill="#000000" fillRule="evenodd" d="M2.425 15V7A2.575 2.575 0 0 1 5 4.425h12c1.243 0 2.28.881 2.522 2.053A2.6 2.6 0 0 0 19 6.425h-.696c-.221-.5-.722-.85-1.304-.85H5c-.787 0-1.425.638-1.425 1.425v8c0 .582.35 1.083.85 1.304V17q0 .27.053.522A2.576 2.576 0 0 1 2.425 15" clipRule="evenodd" />
+        <Path fill="#000000" fillRule="evenodd" d="M20.425 10.575H14a2.425 2.425 0 1 0 0 4.85h6.425v1.15H14a3.575 3.575 0 0 1 0-7.15h6.425z" clipRule="evenodd" />
         <Path fill="#FF6040" d="M15 13a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
         <Path fill="#FF6040" d="M4.478 17.522A2.576 2.576 0 0 0 7 19.575h12A2.575 2.575 0 0 0 21.575 17V9A2.576 2.576 0 0 0 19 6.425H7A2.575 2.575 0 0 0 4.425 9v8q0 .27.053.522M20.425 17c0 .787-.638 1.425-1.425 1.425H7A1.425 1.425 0 0 1 5.575 17V9c0-.787.638-1.425 1.425-1.425h12c.787 0 1.425.638 1.425 1.425z" />
         </>
@@ -89,7 +90,37 @@ export function WalletIcon({
 }: SlaticoNativeIconProps): ReactElement {
   const rawId = useId();
   const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
-  const resolvedSecondaryColor = secondaryColor ?? color;
+  const resolvedSize =
+    typeof size === "number"
+      ? Number.isFinite(size) && size > 0
+        ? size
+        : 24
+      : typeof size === "string" &&
+          size.trim().length > 0 &&
+          (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
+        ? size.trim()
+        : 24;
+  const resolvedColor =
+    typeof color === "string" &&
+    color.trim().length > 0 &&
+    color.trim() !== "currentColor"
+      ? color.trim()
+      : "#09090B";
+  const resolvedSecondaryColor =
+    typeof secondaryColor === "string" &&
+    secondaryColor.trim().length > 0 &&
+    secondaryColor.trim() !== "currentColor"
+      ? secondaryColor.trim()
+      : resolvedColor;
+  const parsedSecOpacity =
+    typeof secondaryOpacity === "number"
+      ? secondaryOpacity
+      : typeof secondaryOpacity === "string" && secondaryOpacity.trim().length > 0
+        ? Number(secondaryOpacity)
+        : 0.22;
+  const resolvedSecondaryOpacity = Number.isFinite(parsedSecOpacity)
+    ? Math.min(1, Math.max(0, parsedSecOpacity))
+    : 0.22;
   const resolvedA11yLabel = accessibilityLabel ?? title;
   const a11yProps = resolvedA11yLabel
     ? { accessible: true, accessibilityRole: "image" as const, accessibilityLabel: resolvedA11yLabel }
@@ -98,17 +129,17 @@ export function WalletIcon({
   return (
     <Svg
       viewBox="0 0 24 24"
-      width={size}
-      height={size}
+      width={resolvedSize}
+      height={resolvedSize}
       fill="none"
       {...a11yProps}
       {...rest}
     >
       {renderWalletNativeVariant({
         variant,
-        color,
+        color: resolvedColor,
         resolvedSecondaryColor,
-        secondaryOpacity,
+        secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}
     </Svg>

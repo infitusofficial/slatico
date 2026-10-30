@@ -43,7 +43,7 @@
     "opentype.js": "^2.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-native-svg": "^15.11.2",
+    "react-native-svg": "15.12.0",
     "svg2ttf": "^6.1.0",
     "svgicons2svgfont": "^16.0.0",
     "svgo": "^3.3.2",

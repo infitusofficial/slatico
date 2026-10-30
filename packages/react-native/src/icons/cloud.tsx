@@ -34,6 +34,7 @@ function renderCloudNativeVariant(params: VariantRenderParams): ReactNode {
         </>
       );
     case "regular":
+    default:
       return (
         <>
         <Path fill={color} d="M11.382 5.425c2.64 0 4.88 1.613 5.865 3.907.385-.003.921.005 1.378.106 2.215.495 2.95 2.543 2.95 4.312 0 .993-.053 2.208-.64 3.174-.628 1.032-1.774 1.651-3.637 1.651H6.45c-2.252 0-4.026-1.937-4.026-4.2 0-1.912 1.243-3.528 2.999-3.988a6.054 6.054 0 0 1 5.958-4.962m0 1.15a4.904 4.904 0 0 0-4.878 4.357.575.575 0 0 1-.486.505c-1.389.206-2.443 1.42-2.443 2.938 0 1.687 1.317 3.05 2.876 3.05h10.847c1.588 0 2.294-.506 2.654-1.099.401-.66.473-1.569.473-2.576 0-1.544-.616-2.868-2.05-3.188-.489-.11-1.11-.079-1.518-.079a.58.58 0 0 1-.542-.381c-.736-2.065-2.662-3.527-4.933-3.527M15 15.425a.575.575 0 0 1 0 1.15H9a.575.575 0 0 1 0-1.15z" />
@@ -63,7 +64,7 @@ function renderCloudNativeVariant(params: VariantRenderParams): ReactNode {
       return (
         <>
         <Path fill="#FF6040" d="M20.425 13.75c0-1.544-.616-2.868-2.05-3.188-.489-.11-1.11-.079-1.518-.079a.58.58 0 0 1-.542-.381c-.736-2.065-2.662-3.527-4.933-3.527a4.904 4.904 0 0 0-4.878 4.357.575.575 0 0 1-.486.505c-1.389.206-2.443 1.42-2.443 2.938 0 1.687 1.317 3.05 2.876 3.05h10.847c1.588 0 2.294-.506 2.654-1.099.401-.66.473-1.569.473-2.576m1.15 0c0 .993-.053 2.208-.64 3.174-.628 1.032-1.774 1.651-3.637 1.651H6.45c-2.252 0-4.026-1.937-4.026-4.2 0-1.912 1.243-3.528 2.999-3.988a6.054 6.054 0 0 1 5.958-4.962c2.64 0 4.88 1.613 5.865 3.907.385-.003.921.005 1.378.106 2.215.495 2.95 2.543 2.95 4.312" />
-        <Path fill="black" d="M15 15.425a.575.575 0 0 1 0 1.15H9a.575.575 0 0 1 0-1.15z" />
+        <Path fill="#000000" d="M15 15.425a.575.575 0 0 1 0 1.15H9a.575.575 0 0 1 0-1.15z" />
         </>
       );
   }
@@ -81,7 +82,37 @@ export function CloudIcon({
 }: SlaticoNativeIconProps): ReactElement {
   const rawId = useId();
   const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
-  const resolvedSecondaryColor = secondaryColor ?? color;
+  const resolvedSize =
+    typeof size === "number"
+      ? Number.isFinite(size) && size > 0
+        ? size
+        : 24
+      : typeof size === "string" &&
+          size.trim().length > 0 &&
+          (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
+        ? size.trim()
+        : 24;
+  const resolvedColor =
+    typeof color === "string" &&
+    color.trim().length > 0 &&
+    color.trim() !== "currentColor"
+      ? color.trim()
+      : "#09090B";
+  const resolvedSecondaryColor =
+    typeof secondaryColor === "string" &&
+    secondaryColor.trim().length > 0 &&
+    secondaryColor.trim() !== "currentColor"
+      ? secondaryColor.trim()
+      : resolvedColor;
+  const parsedSecOpacity =
+    typeof secondaryOpacity === "number"
+      ? secondaryOpacity
+      : typeof secondaryOpacity === "string" && secondaryOpacity.trim().length > 0
+        ? Number(secondaryOpacity)
+        : 0.22;
+  const resolvedSecondaryOpacity = Number.isFinite(parsedSecOpacity)
+    ? Math.min(1, Math.max(0, parsedSecOpacity))
+    : 0.22;
   const resolvedA11yLabel = accessibilityLabel ?? title;
   const a11yProps = resolvedA11yLabel
     ? { accessible: true, accessibilityRole: "image" as const, accessibilityLabel: resolvedA11yLabel }
@@ -90,17 +121,17 @@ export function CloudIcon({
   return (
     <Svg
       viewBox="0 0 24 24"
-      width={size}
-      height={size}
+      width={resolvedSize}
+      height={resolvedSize}
       fill="none"
       {...a11yProps}
       {...rest}
     >
       {renderCloudNativeVariant({
         variant,
-        color,
+        color: resolvedColor,
         resolvedSecondaryColor,
-        secondaryOpacity,
+        secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}
     </Svg>

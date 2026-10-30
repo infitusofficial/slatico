@@ -34,6 +34,7 @@ function renderLockOpenNativeVariant(params: VariantRenderParams): ReactNode {
         </>
       );
     case "regular":
+    default:
       return (
         <>
         <Path fill={color} d="M12 2.425c2.188 0 4.132 1.508 4.563 3.568a.575.575 0 0 1-1.125.236c-.312-1.49-1.756-2.654-3.438-2.654-.914 0-1.787.353-2.428.977a3.26 3.26 0 0 0-.997 2.337v1.536H18A2.575 2.575 0 0 1 20.575 11v8A2.575 2.575 0 0 1 18 21.575H6A2.575 2.575 0 0 1 3.425 19v-8A2.575 2.575 0 0 1 6 8.425h1.425V6.889A4.4 4.4 0 0 1 8.77 3.727 4.63 4.63 0 0 1 12 2.425m-6 7.15c-.787 0-1.425.638-1.425 1.425v8c0 .787.638 1.425 1.425 1.425h12c.787 0 1.425-.638 1.425-1.425v-8c0-.787-.638-1.425-1.425-1.425zM12 14a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
@@ -62,8 +63,8 @@ function renderLockOpenNativeVariant(params: VariantRenderParams): ReactNode {
     case "color":
       return (
         <>
-        <Path fill="black" d="M7.425 9V6.889A4.4 4.4 0 0 1 8.77 3.727 4.63 4.63 0 0 1 12 2.425c2.188 0 4.132 1.508 4.563 3.568a.575.575 0 0 1-1.125.236c-.312-1.49-1.756-2.654-3.438-2.654-.914 0-1.787.353-2.428.977a3.26 3.26 0 0 0-.997 2.337V9a.575.575 0 0 1-1.15 0" />
-        <Path fill="black" d="M13 15a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+        <Path fill="#000000" d="M7.425 9V6.889A4.4 4.4 0 0 1 8.77 3.727 4.63 4.63 0 0 1 12 2.425c2.188 0 4.132 1.508 4.563 3.568a.575.575 0 0 1-1.125.236c-.312-1.49-1.756-2.654-3.438-2.654-.914 0-1.787.353-2.428.977a3.26 3.26 0 0 0-.997 2.337V9a.575.575 0 0 1-1.15 0" />
+        <Path fill="#000000" d="M13 15a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
         <Path fill="#FF6040" d="M19.425 11c0-.787-.638-1.425-1.425-1.425H6c-.787 0-1.425.638-1.425 1.425v8c0 .787.638 1.425 1.425 1.425h12c.787 0 1.425-.638 1.425-1.425zm1.15 8A2.575 2.575 0 0 1 18 21.575H6A2.575 2.575 0 0 1 3.425 19v-8A2.575 2.575 0 0 1 6 8.425h12A2.575 2.575 0 0 1 20.575 11z" />
         </>
       );
@@ -82,7 +83,37 @@ export function LockOpenIcon({
 }: SlaticoNativeIconProps): ReactElement {
   const rawId = useId();
   const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
-  const resolvedSecondaryColor = secondaryColor ?? color;
+  const resolvedSize =
+    typeof size === "number"
+      ? Number.isFinite(size) && size > 0
+        ? size
+        : 24
+      : typeof size === "string" &&
+          size.trim().length > 0 &&
+          (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
+        ? size.trim()
+        : 24;
+  const resolvedColor =
+    typeof color === "string" &&
+    color.trim().length > 0 &&
+    color.trim() !== "currentColor"
+      ? color.trim()
+      : "#09090B";
+  const resolvedSecondaryColor =
+    typeof secondaryColor === "string" &&
+    secondaryColor.trim().length > 0 &&
+    secondaryColor.trim() !== "currentColor"
+      ? secondaryColor.trim()
+      : resolvedColor;
+  const parsedSecOpacity =
+    typeof secondaryOpacity === "number"
+      ? secondaryOpacity
+      : typeof secondaryOpacity === "string" && secondaryOpacity.trim().length > 0
+        ? Number(secondaryOpacity)
+        : 0.22;
+  const resolvedSecondaryOpacity = Number.isFinite(parsedSecOpacity)
+    ? Math.min(1, Math.max(0, parsedSecOpacity))
+    : 0.22;
   const resolvedA11yLabel = accessibilityLabel ?? title;
   const a11yProps = resolvedA11yLabel
     ? { accessible: true, accessibilityRole: "image" as const, accessibilityLabel: resolvedA11yLabel }
@@ -91,17 +122,17 @@ export function LockOpenIcon({
   return (
     <Svg
       viewBox="0 0 24 24"
-      width={size}
-      height={size}
+      width={resolvedSize}
+      height={resolvedSize}
       fill="none"
       {...a11yProps}
       {...rest}
     >
       {renderLockOpenNativeVariant({
         variant,
-        color,
+        color: resolvedColor,
         resolvedSecondaryColor,
-        secondaryOpacity,
+        secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}
     </Svg>

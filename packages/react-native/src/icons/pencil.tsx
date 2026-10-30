@@ -34,6 +34,7 @@ function renderPencilNativeVariant(params: VariantRenderParams): ReactNode {
         </>
       );
     case "regular":
+    default:
       return (
         <>
         <Path fill={color} d="M14.233 4.715a3.575 3.575 0 0 1 5.056 5.055l-7.45 7.451a2.6 2.6 0 0 1-1.113.656l-4.88 1.395c-.258.074-.63.1-.927-.142-.327-.266-.347-.665-.278-.957.288-1.21 1.147-3.903 1.488-4.96a2.56 2.56 0 0 1 .625-1.019zm-6.666 8.293a1.4 1.4 0 0 0-.344.558c-.314.973-1.032 3.232-1.369 4.508l4.556-1.304a1.4 1.4 0 0 0 .615-.362l5.738-5.74c-.607-.196-1.37-.578-2.11-1.318s-1.121-1.502-1.318-2.11zm10.908-7.48a2.424 2.424 0 0 0-3.429 0l-.753.753c.015.128.045.31.109.525.139.466.434 1.1 1.064 1.73.631.632 1.266.926 1.732 1.065.215.065.396.095.524.11l.753-.754a2.424 2.424 0 0 0 0-3.429" />
@@ -55,8 +56,8 @@ function renderPencilNativeVariant(params: VariantRenderParams): ReactNode {
       return (
         <>
         <G fill={resolvedSecondaryColor} opacity={secondaryOpacity}>
-          <Path d="M18.475 8.958a2.435 2.435 0 0 0 .015-3.444 2.435 2.435 0 0 0-3.444.015l-.76.76c.015.128.044.31.107.526.138.467.43 1.103 1.062 1.734.63.63 1.266.924 1.734 1.061.216.064.398.093.526.107z" />
-          <Path d="m10.961 16.472 5.788-5.788c-.61-.195-1.374-.576-2.114-1.315a5.25 5.25 0 0 1-1.315-2.114L7.503 13.07c-.16.16-.278.352-.347.563-.32.979-1.05 3.25-1.395 4.532l4.58-1.327c.234-.068.448-.195.62-.367" />
+          <Path d="M18.475 8.958a2.435 2.435 0 0 0 .015-3.444 2.435 2.435 0 0 0-3.444.015l-.76.76c.015.128.044.31.107.526.138.467.43 1.103 1.062 1.734.63.63 1.266.924 1.734 1.061.216.064.398.093.526.107z" fill={resolvedSecondaryColor} />
+          <Path d="m10.961 16.472 5.788-5.788c-.61-.195-1.374-.576-2.114-1.315a5.25 5.25 0 0 1-1.315-2.114L7.503 13.07c-.16.16-.278.352-.347.563-.32.979-1.05 3.25-1.395 4.532l4.58-1.327c.234-.068.448-.195.62-.367" fill={resolvedSecondaryColor} />
         </G>
         <Path fill={color} d="m11.025 16.408 5.739-5.739c-.608-.197-1.37-.579-2.11-1.319s-1.123-1.502-1.32-2.11l-5.767 5.767a1.4 1.4 0 0 0-.344.56c-.314.973-1.032 3.23-1.369 4.507l4.555-1.303a1.43 1.43 0 0 0 .616-.363m7.45-7.45a2.425 2.425 0 1 0-3.429-3.43l-.753.753c.015.129.045.31.11.525.138.466.432 1.1 1.063 1.731s1.266.926 1.731 1.064c.216.065.397.095.525.11zm-6.637 8.263c-.309.31-.692.535-1.112.656l-4.88 1.395c-.258.074-.629.1-.927-.142-.327-.265-.347-.664-.278-.957.288-1.21 1.147-3.903 1.488-4.96.125-.387.34-.734.625-1.02l7.479-7.478a3.575 3.575 0 0 1 5.056 5.056z" />
         </>
@@ -64,7 +65,7 @@ function renderPencilNativeVariant(params: VariantRenderParams): ReactNode {
     case "color":
       return (
         <>
-        <Path fill="black" d="m17.966 9.669.082 1.147h-.013l-.022.002-.07.002q-.09.001-.237-.008a4 4 0 0 1-.787-.135c-.64-.171-1.47-.542-2.258-1.33-.79-.79-1.16-1.619-1.33-2.26a4 4 0 0 1-.136-.786 3 3 0 0 1-.008-.236l.002-.071.002-.022v-.013l1.146.082h.001v.03q-.001.048.005.149c.01.133.034.332.098.571.127.476.408 1.117 1.033 1.742s1.266.906 1.742 1.033a3 3 0 0 0 .72.103z" />
+        <Path fill="#000000" d="m17.966 9.669.082 1.147h-.013l-.022.002-.07.002q-.09.001-.237-.008a4 4 0 0 1-.787-.135c-.64-.171-1.47-.542-2.258-1.33-.79-.79-1.16-1.619-1.33-2.26a4 4 0 0 1-.136-.786 3 3 0 0 1-.008-.236l.002-.071.002-.022v-.013l1.146.082h.001v.03q-.001.048.005.149c.01.133.034.332.098.571.127.476.408 1.117 1.033 1.742s1.266.906 1.742 1.033a3 3 0 0 0 .72.103z" />
         <Path fill="#FF6040" fillRule="evenodd" d="M10.726 17.877c.42-.12.803-.346 1.112-.655L19.29 9.77a3.575 3.575 0 1 0-5.056-5.056l-7.48 7.479a2.5 2.5 0 0 0-.624 1.02c-.34 1.056-1.2 3.749-1.488 4.96-.07.292-.049.69.278.956.298.242.67.216.927.142zm7.75-12.349a2.425 2.425 0 0 1 0 3.43l-1.712 1.711-5.74 5.74a1.4 1.4 0 0 1-.614.362l-4.556 1.303c.337-1.277 1.055-3.535 1.37-4.508.067-.21.184-.4.343-.559l5.768-5.767 1.711-1.712a2.425 2.425 0 0 1 3.43 0" clipRule="evenodd" />
         </>
       );
@@ -83,7 +84,37 @@ export function PencilIcon({
 }: SlaticoNativeIconProps): ReactElement {
   const rawId = useId();
   const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
-  const resolvedSecondaryColor = secondaryColor ?? color;
+  const resolvedSize =
+    typeof size === "number"
+      ? Number.isFinite(size) && size > 0
+        ? size
+        : 24
+      : typeof size === "string" &&
+          size.trim().length > 0 &&
+          (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
+        ? size.trim()
+        : 24;
+  const resolvedColor =
+    typeof color === "string" &&
+    color.trim().length > 0 &&
+    color.trim() !== "currentColor"
+      ? color.trim()
+      : "#09090B";
+  const resolvedSecondaryColor =
+    typeof secondaryColor === "string" &&
+    secondaryColor.trim().length > 0 &&
+    secondaryColor.trim() !== "currentColor"
+      ? secondaryColor.trim()
+      : resolvedColor;
+  const parsedSecOpacity =
+    typeof secondaryOpacity === "number"
+      ? secondaryOpacity
+      : typeof secondaryOpacity === "string" && secondaryOpacity.trim().length > 0
+        ? Number(secondaryOpacity)
+        : 0.22;
+  const resolvedSecondaryOpacity = Number.isFinite(parsedSecOpacity)
+    ? Math.min(1, Math.max(0, parsedSecOpacity))
+    : 0.22;
   const resolvedA11yLabel = accessibilityLabel ?? title;
   const a11yProps = resolvedA11yLabel
     ? { accessible: true, accessibilityRole: "image" as const, accessibilityLabel: resolvedA11yLabel }
@@ -92,17 +123,17 @@ export function PencilIcon({
   return (
     <Svg
       viewBox="0 0 24 24"
-      width={size}
-      height={size}
+      width={resolvedSize}
+      height={resolvedSize}
       fill="none"
       {...a11yProps}
       {...rest}
     >
       {renderPencilNativeVariant({
         variant,
-        color,
+        color: resolvedColor,
         resolvedSecondaryColor,
-        secondaryOpacity,
+        secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}
     </Svg>

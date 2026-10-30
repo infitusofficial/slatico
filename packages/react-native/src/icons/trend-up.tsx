@@ -34,6 +34,7 @@ function renderTrendUpNativeVariant(params: VariantRenderParams): ReactNode {
         </>
       );
     case "regular":
+    default:
       return (
         <>
         <Path fill={color} d="M20 6.25q.064 0 .125.01l.019.004.06.017q.04.01.08.025.043.019.083.044.024.011.046.025l.015.01a.8.8 0 0 1 .19.19.7.7 0 0 1 .117.285 1 1 0 0 1 .015.14v5a.75.75 0 0 1-1.5 0V8.83l-6.1 6.196a.75.75 0 0 1-1.069 0l-2.543-2.582-5.004 5.082a.75.75 0 0 1-1.068-1.052l5.538-5.625a.75.75 0 0 1 1.07 0l2.541 2.582L18.21 7.75H15a.75.75 0 0 1 0-1.5z" />
@@ -62,7 +63,7 @@ function renderTrendUpNativeVariant(params: VariantRenderParams): ReactNode {
       return (
         <>
         <Path fill="#FF6040" d="M19.466 6.474a.75.75 0 0 1 1.068 1.052l-7.385 7.5a.75.75 0 0 1-1.068 0l-2.543-2.582-5.004 5.082a.75.75 0 0 1-1.068-1.052l5.538-5.625a.75.75 0 0 1 1.07 0l2.541 2.582z" />
-        <Path fill="black" d="M19.25 12V7.75H15a.75.75 0 0 1 0-1.5h5a.75.75 0 0 1 .75.75v5a.75.75 0 0 1-1.5 0" />
+        <Path fill="#000000" d="M19.25 12V7.75H15a.75.75 0 0 1 0-1.5h5a.75.75 0 0 1 .75.75v5a.75.75 0 0 1-1.5 0" />
         </>
       );
   }
@@ -80,7 +81,37 @@ export function TrendUpIcon({
 }: SlaticoNativeIconProps): ReactElement {
   const rawId = useId();
   const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
-  const resolvedSecondaryColor = secondaryColor ?? color;
+  const resolvedSize =
+    typeof size === "number"
+      ? Number.isFinite(size) && size > 0
+        ? size
+        : 24
+      : typeof size === "string" &&
+          size.trim().length > 0 &&
+          (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
+        ? size.trim()
+        : 24;
+  const resolvedColor =
+    typeof color === "string" &&
+    color.trim().length > 0 &&
+    color.trim() !== "currentColor"
+      ? color.trim()
+      : "#09090B";
+  const resolvedSecondaryColor =
+    typeof secondaryColor === "string" &&
+    secondaryColor.trim().length > 0 &&
+    secondaryColor.trim() !== "currentColor"
+      ? secondaryColor.trim()
+      : resolvedColor;
+  const parsedSecOpacity =
+    typeof secondaryOpacity === "number"
+      ? secondaryOpacity
+      : typeof secondaryOpacity === "string" && secondaryOpacity.trim().length > 0
+        ? Number(secondaryOpacity)
+        : 0.22;
+  const resolvedSecondaryOpacity = Number.isFinite(parsedSecOpacity)
+    ? Math.min(1, Math.max(0, parsedSecOpacity))
+    : 0.22;
   const resolvedA11yLabel = accessibilityLabel ?? title;
   const a11yProps = resolvedA11yLabel
     ? { accessible: true, accessibilityRole: "image" as const, accessibilityLabel: resolvedA11yLabel }
@@ -89,17 +120,17 @@ export function TrendUpIcon({
   return (
     <Svg
       viewBox="0 0 24 24"
-      width={size}
-      height={size}
+      width={resolvedSize}
+      height={resolvedSize}
       fill="none"
       {...a11yProps}
       {...rest}
     >
       {renderTrendUpNativeVariant({
         variant,
-        color,
+        color: resolvedColor,
         resolvedSecondaryColor,
-        secondaryOpacity,
+        secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}
     </Svg>

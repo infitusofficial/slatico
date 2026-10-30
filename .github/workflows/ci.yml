@@ -52,6 +52,11 @@ jobs:
       - name: Run unit tests
         run: pnpm test
 
+      - name: Verify React Native Metro bundling & New Architecture Codegen
+        run: |
+          pnpm --filter @slatico/react-native-example bundle:all
+          pnpm --filter @slatico/react-native-example codegen
+
       - name: Build technical website
         run: pnpm build:website
 
@@ -146,6 +151,17 @@ jobs:
           test -s library/build/outputs/aar/library-release.aar
           test -s sample/build/outputs/apk/debug/sample-debug.apk
 
+      - name: Verify React Native Android Metro Bundle, Native Linking (react-native-svg) & Debug APK
+        run: |
+          pnpm --filter @slatico/core build
+          pnpm --filter @slatico/react-native build
+          pnpm --filter @slatico/react-native-example bundle:android
+          pnpm --filter @slatico/react-native-example codegen
+          cd examples/react-native/android
+          chmod +x gradlew
+          ./gradlew :react-native-svg:assembleRelease :app:testDebugUnitTest :app:assembleDebug --stacktrace
+          test -s app/build/outputs/apk/debug/app-debug.apk
+
   swift:
     name: Validate, Build & Test Apple Swift Package (SlaticoIcons)
     runs-on: macos-15-intel
@@ -196,4 +212,27 @@ jobs:
             -scheme SlaticoIconsExample \
             -destination "generic/platform=iOS Simulator" \
             CODE_SIGNING_ALLOWED=NO
+
+      - name: Verify React Native iOS Metro Bundle, CocoaPods & iOS Simulator App Compilation
+        run: |
+          pnpm --filter @slatico/core build
+          pnpm --filter @slatico/react-native build
+          pnpm --filter @slatico/react-native-example bundle:ios
+          pnpm --filter @slatico/react-native-example codegen
+          cd examples/react-native/ios
+          ruby setup_ios_project.rb
+          RCT_IGNORE_PODS_DEPRECATION=1 pod install
+          xcodebuild build \
+            -workspace SlaticoReactNativeExample.xcworkspace \
+            -scheme RNSVG \
+            -destination "generic/platform=iOS Simulator" \
+            CODE_SIGNING_ALLOWED=NO \
+            COMPILER_INDEX_STORE_ENABLE=NO
+          xcodebuild build \
+            -workspace SlaticoReactNativeExample.xcworkspace \
+            -scheme SlaticoReactNativeExample \
+            -destination "generic/platform=iOS Simulator" \
+            CODE_SIGNING_ALLOWED=NO \
+            COMPILER_INDEX_STORE_ENABLE=NO
+
 

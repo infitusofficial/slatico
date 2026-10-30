@@ -34,6 +34,7 @@ function renderLockNativeVariant(params: VariantRenderParams): ReactNode {
         </>
       );
     case "regular":
+    default:
       return (
         <>
         <Path fill={color} d="M12 2.425A4.575 4.575 0 0 1 16.575 7v1.425H18A2.575 2.575 0 0 1 20.575 11v8A2.575 2.575 0 0 1 18 21.575H6A2.575 2.575 0 0 1 3.425 19v-8A2.575 2.575 0 0 1 6 8.425h1.425V7A4.575 4.575 0 0 1 12 2.425m-6 7.15c-.787 0-1.425.638-1.425 1.425v8c0 .787.638 1.425 1.425 1.425h12c.787 0 1.425-.638 1.425-1.425v-8c0-.787-.638-1.425-1.425-1.425zM12 14a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-10.425A3.425 3.425 0 0 0 8.575 7v1.425h6.85V7A3.425 3.425 0 0 0 12 3.575" />
@@ -55,8 +56,8 @@ function renderLockNativeVariant(params: VariantRenderParams): ReactNode {
       return (
         <>
         <G fill={resolvedSecondaryColor} opacity={secondaryOpacity}>
-          <Path fillRule="evenodd" d="M18 9.575c.787 0 1.425.638 1.425 1.425v8c0 .787-.638 1.425-1.425 1.425H6A1.425 1.425 0 0 1 4.575 19v-8c0-.787.638-1.425 1.425-1.425zM13 15a1 1 0 1 1-2 0 1 1 0 0 1 2 0" clipRule="evenodd" />
-          <Path d="M15.425 8.425h-6.85V7a3.425 3.425 0 1 1 6.85 0z" />
+          <Path fillRule="evenodd" d="M18 9.575c.787 0 1.425.638 1.425 1.425v8c0 .787-.638 1.425-1.425 1.425H6A1.425 1.425 0 0 1 4.575 19v-8c0-.787.638-1.425 1.425-1.425zM13 15a1 1 0 1 1-2 0 1 1 0 0 1 2 0" clipRule="evenodd" fill={resolvedSecondaryColor} />
+          <Path d="M15.425 8.425h-6.85V7a3.425 3.425 0 1 1 6.85 0z" fill={resolvedSecondaryColor} />
         </G>
         <Path fill={color} fillRule="evenodd" d="M16.575 7v1.425H18A2.575 2.575 0 0 1 20.575 11v8A2.575 2.575 0 0 1 18 21.575H6A2.575 2.575 0 0 1 3.425 19v-8A2.575 2.575 0 0 1 6 8.425h1.425V7a4.575 4.575 0 0 1 9.15 0m-1.15 1.425h-6.85V7a3.425 3.425 0 1 1 6.85 0zm4 2.575c0-.787-.638-1.425-1.425-1.425H6c-.787 0-1.425.638-1.425 1.425v8c0 .787.638 1.425 1.425 1.425h12c.787 0 1.425-.638 1.425-1.425z" clipRule="evenodd" />
         <Path fill={color} fillRule="evenodd" d="M13 15a1 1 0 1 1-2 0 1 1 0 0 1 2 0" clipRule="evenodd" />
@@ -65,8 +66,8 @@ function renderLockNativeVariant(params: VariantRenderParams): ReactNode {
     case "color":
       return (
         <>
-        <Path fill="black" d="M15.425 7a3.425 3.425 0 1 0-6.85 0v2h-1.15V7a4.575 4.575 0 0 1 9.15 0v2h-1.15z" />
-        <Path fill="black" d="M13 15a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+        <Path fill="#000000" d="M15.425 7a3.425 3.425 0 1 0-6.85 0v2h-1.15V7a4.575 4.575 0 0 1 9.15 0v2h-1.15z" />
+        <Path fill="#000000" d="M13 15a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
         <Path fill="#FF6040" d="M19.425 11c0-.787-.638-1.425-1.425-1.425H6c-.787 0-1.425.638-1.425 1.425v8c0 .787.638 1.425 1.425 1.425h12c.787 0 1.425-.638 1.425-1.425zm1.15 8A2.575 2.575 0 0 1 18 21.575H6A2.575 2.575 0 0 1 3.425 19v-8A2.575 2.575 0 0 1 6 8.425h12A2.575 2.575 0 0 1 20.575 11z" />
         </>
       );
@@ -85,7 +86,37 @@ export function LockIcon({
 }: SlaticoNativeIconProps): ReactElement {
   const rawId = useId();
   const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
-  const resolvedSecondaryColor = secondaryColor ?? color;
+  const resolvedSize =
+    typeof size === "number"
+      ? Number.isFinite(size) && size > 0
+        ? size
+        : 24
+      : typeof size === "string" &&
+          size.trim().length > 0 &&
+          (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
+        ? size.trim()
+        : 24;
+  const resolvedColor =
+    typeof color === "string" &&
+    color.trim().length > 0 &&
+    color.trim() !== "currentColor"
+      ? color.trim()
+      : "#09090B";
+  const resolvedSecondaryColor =
+    typeof secondaryColor === "string" &&
+    secondaryColor.trim().length > 0 &&
+    secondaryColor.trim() !== "currentColor"
+      ? secondaryColor.trim()
+      : resolvedColor;
+  const parsedSecOpacity =
+    typeof secondaryOpacity === "number"
+      ? secondaryOpacity
+      : typeof secondaryOpacity === "string" && secondaryOpacity.trim().length > 0
+        ? Number(secondaryOpacity)
+        : 0.22;
+  const resolvedSecondaryOpacity = Number.isFinite(parsedSecOpacity)
+    ? Math.min(1, Math.max(0, parsedSecOpacity))
+    : 0.22;
   const resolvedA11yLabel = accessibilityLabel ?? title;
   const a11yProps = resolvedA11yLabel
     ? { accessible: true, accessibilityRole: "image" as const, accessibilityLabel: resolvedA11yLabel }
@@ -94,17 +125,17 @@ export function LockIcon({
   return (
     <Svg
       viewBox="0 0 24 24"
-      width={size}
-      height={size}
+      width={resolvedSize}
+      height={resolvedSize}
       fill="none"
       {...a11yProps}
       {...rest}
     >
       {renderLockNativeVariant({
         variant,
-        color,
+        color: resolvedColor,
         resolvedSecondaryColor,
-        secondaryOpacity,
+        secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}
     </Svg>

@@ -254,6 +254,9 @@ function formatReactNativeAttrExpression(attrName: string, val: string): string 
   if (val.startsWith("var(--slatico-secondary-opacity")) {
     return "{secondaryOpacity}";
   }
+  if (attrName === "fill" && val.trim().toLowerCase() === "black") {
+    return JSON.stringify("#000000");
+  }
   if (
     attrName === "id" ||
     attrName === "fill" ||
@@ -268,10 +271,17 @@ function formatReactNativeAttrExpression(attrName: string, val: string): string 
   return JSON.stringify(val);
 }
 
+interface InheritedRnGroupAttrs {
+  readonly fill?: string | undefined;
+  readonly fillRule?: string | undefined;
+  readonly clipRule?: string | undefined;
+}
+
 function serializeOrderedNodesToReactNativeJsx(
   nodes: readonly OrderedXmlNode[],
   indentLevel: number,
-  usedRnComponents: Set<string>
+  usedRnComponents: Set<string>,
+  inheritedGroupAttrs: InheritedRnGroupAttrs = {}
 ): string {
   const indent = " ".repeat(indentLevel);
   const lines: string[] = [];
@@ -290,7 +300,7 @@ function serializeOrderedNodesToReactNativeJsx(
     usedRnComponents.add(rnComponent);
 
     const rawAttrs = node[":@"] ?? {};
-    const attrPairs: string[] = [];
+    const attrMap = new Map<string, string>();
     for (const [rawKey, val] of Object.entries(rawAttrs)) {
       if (!rawKey.startsWith("@_")) {
         continue;
@@ -298,17 +308,48 @@ function serializeOrderedNodesToReactNativeJsx(
       const attrName = toReactAttrName(rawKey.slice(2));
       const strVal = String(val);
       const formattedVal = formatReactNativeAttrExpression(attrName, strVal);
-      attrPairs.push(`${attrName}=${formattedVal}`);
+      attrMap.set(attrName, formattedVal);
     }
 
+    if (rnComponent === "Path") {
+      if (!attrMap.has("fill") && inheritedGroupAttrs.fill !== undefined) {
+        attrMap.set("fill", inheritedGroupAttrs.fill);
+      }
+      if (!attrMap.has("fillRule") && inheritedGroupAttrs.fillRule !== undefined) {
+        attrMap.set("fillRule", inheritedGroupAttrs.fillRule);
+      }
+      if (!attrMap.has("clipRule") && inheritedGroupAttrs.clipRule !== undefined) {
+        attrMap.set("clipRule", inheritedGroupAttrs.clipRule);
+      }
+    }
+
+    const attrPairs = Array.from(attrMap.entries()).map(
+      ([k, v]) => `${k}=${v}`
+    );
     const attrString = attrPairs.length > 0 ? ` ${attrPairs.join(" ")}` : "";
     const children = (node[tagName] as OrderedXmlNode[] | undefined) ?? [];
+
+    const nextInherited: InheritedRnGroupAttrs =
+      rnComponent === "G"
+        ? {
+            fill: attrMap.get("fill") ?? inheritedGroupAttrs.fill,
+            fillRule: attrMap.get("fillRule") ?? inheritedGroupAttrs.fillRule,
+            clipRule: attrMap.get("clipRule") ?? inheritedGroupAttrs.clipRule
+          }
+        : inheritedGroupAttrs;
 
     if (children.length === 0) {
       lines.push(`${indent}<${rnComponent}${attrString} />`);
     } else {
       lines.push(`${indent}<${rnComponent}${attrString}>`);
-      lines.push(serializeOrderedNodesToReactNativeJsx(children, indentLevel + 2, usedRnComponents));
+      lines.push(
+        serializeOrderedNodesToReactNativeJsx(
+          children,
+          indentLevel + 2,
+          usedRnComponents,
+          nextInherited
+        )
+      );
       lines.push(`${indent}</${rnComponent}>`);
     }
   }
@@ -679,7 +720,11 @@ export function generateReactNativeIconModule(family: DiscoveredIconFamily): str
     }
     const children = (svgNode.svg as OrderedXmlNode[] | undefined) ?? [];
     const jsxBody = serializeOrderedNodesToReactNativeJsx(children, 8, usedRnComponents);
-    switchCases.push(`    case "${style}":\n      return (\n        <>\n${jsxBody}\n        </>\n      );`);
+    const caseHeader =
+      style === "regular"
+        ? `    case "regular":\n    default:`
+        : `    case "${style}":`;
+    switchCases.push(`${caseHeader}\n      return (\n        <>\n${jsxBody}\n        </>\n      );`);
   }
 
   const sortedRnImports = Array.from(usedRnComponents).sort((a, b) => a.localeCompare(b));
@@ -732,7 +777,37 @@ export function ${baseComponentName}({
 }: SlaticoNativeIconProps): ReactElement {
   const rawId = useId();
   const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
-  const resolvedSecondaryColor = secondaryColor ?? color;
+  const resolvedSize =
+    typeof size === "number"
+      ? Number.isFinite(size) && size > 0
+        ? size
+        : 24
+      : typeof size === "string" &&
+          size.trim().length > 0 &&
+          (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
+        ? size.trim()
+        : 24;
+  const resolvedColor =
+    typeof color === "string" &&
+    color.trim().length > 0 &&
+    color.trim() !== "currentColor"
+      ? color.trim()
+      : "#09090B";
+  const resolvedSecondaryColor =
+    typeof secondaryColor === "string" &&
+    secondaryColor.trim().length > 0 &&
+    secondaryColor.trim() !== "currentColor"
+      ? secondaryColor.trim()
+      : resolvedColor;
+  const parsedSecOpacity =
+    typeof secondaryOpacity === "number"
+      ? secondaryOpacity
+      : typeof secondaryOpacity === "string" && secondaryOpacity.trim().length > 0
+        ? Number(secondaryOpacity)
+        : 0.22;
+  const resolvedSecondaryOpacity = Number.isFinite(parsedSecOpacity)
+    ? Math.min(1, Math.max(0, parsedSecOpacity))
+    : 0.22;
   const resolvedA11yLabel = accessibilityLabel ?? title;
   const a11yProps = resolvedA11yLabel
     ? { accessible: true, accessibilityRole: "image" as const, accessibilityLabel: resolvedA11yLabel }
@@ -741,17 +816,17 @@ export function ${baseComponentName}({
   return (
     <Svg
       viewBox="0 0 24 24"
-      width={size}
-      height={size}
+      width={resolvedSize}
+      height={resolvedSize}
       fill="none"
       {...a11yProps}
       {...rest}
     >
       {render${family.pascalName}NativeVariant({
         variant,
-        color,
+        color: resolvedColor,
         resolvedSecondaryColor,
-        secondaryOpacity,
+        secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}
     </Svg>

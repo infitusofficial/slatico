@@ -38,6 +38,7 @@ function renderSlidersHorizontalNativeVariant(params: VariantRenderParams): Reac
         </>
       );
     case "regular":
+    default:
       return (
         <>
         <Path fill={color} fillRule="evenodd" d="M8.5 15.425a3.076 3.076 0 0 1 3.007 2.431q.033-.005.068-.006h9.85a.575.575 0 0 1 0 1.15h-9.85l-.04-.005a3.075 3.075 0 0 1-6.07 0l-.04.005h-2.85a.575.575 0 0 1 0-1.15h2.85q.034.002.067.006A3.08 3.08 0 0 1 8.5 15.425m0 1.15a1.925 1.925 0 1 0 0 3.85 1.925 1.925 0 0 0 0-3.85" clipRule="evenodd" />
@@ -68,21 +69,21 @@ function renderSlidersHorizontalNativeVariant(params: VariantRenderParams): Reac
         <Path fill={color} d="M15.5 15.575A3.076 3.076 0 0 0 18.535 13l.04.001h2.85a.575.575 0 0 0 0-1.15h-2.85l-.068.004a3.076 3.076 0 0 0-6.014 0l-.068-.004h-9.85a.575.575 0 0 0 0 1.15h9.85l.04-.001a3.076 3.076 0 0 0 3.035 2.576m0-5a1.925 1.925 0 1 1 0 3.85 1.925 1.925 0 0 1 0-3.85" />
         <Path fill={color} d="M8.5 15.425a3.076 3.076 0 0 0-3.007 2.429l-.068-.004h-2.85a.575.575 0 0 0 0 1.15h2.85l.04-.001a3.076 3.076 0 0 0 6.07 0l.04.001h9.85a.575.575 0 0 0 0-1.15h-9.85l-.068.004a3.076 3.076 0 0 0-3.007-2.43m0 1.15a1.925 1.925 0 1 1 0 3.85 1.925 1.925 0 0 1 0-3.85" />
         <G fill={resolvedSecondaryColor} opacity={secondaryOpacity}>
-          <Path d="M8.5 4.575a1.925 1.925 0 1 1 0 3.85 1.925 1.925 0 0 1 0-3.85" />
-          <Path d="M15.5 10.575a1.925 1.925 0 1 1 0 3.85 1.925 1.925 0 0 1 0-3.85" />
-          <Path d="M8.5 16.575a1.925 1.925 0 1 1 0 3.85 1.925 1.925 0 0 1 0-3.85" />
+          <Path d="M8.5 4.575a1.925 1.925 0 1 1 0 3.85 1.925 1.925 0 0 1 0-3.85" fill={resolvedSecondaryColor} />
+          <Path d="M15.5 10.575a1.925 1.925 0 1 1 0 3.85 1.925 1.925 0 0 1 0-3.85" fill={resolvedSecondaryColor} />
+          <Path d="M8.5 16.575a1.925 1.925 0 1 1 0 3.85 1.925 1.925 0 0 1 0-3.85" fill={resolvedSecondaryColor} />
         </G>
         </>
       );
     case "color":
       return (
         <>
-        <Path fill="black" d="M5.425 5.85a.576.576 0 0 1 0 1.15h-2.85a.575.575 0 0 1 0-1.15z" />
-        <Path fill="black" d="M21.425 5.85a.576.576 0 0 1 0 1.15h-9.85a.575.575 0 0 1 0-1.15z" />
-        <Path fill="black" d="M12.425 11.85a.575.575 0 0 1 0 1.15h-9.85a.575.575 0 0 1 0-1.15z" />
-        <Path fill="black" d="M21.425 11.85a.575.575 0 0 1 0 1.15h-2.85a.575.575 0 0 1 0-1.15z" />
-        <Path fill="black" d="M5.425 17.85a.575.575 0 0 1 0 1.15h-2.85a.575.575 0 0 1 0-1.15z" />
-        <Path fill="black" d="M21.425 17.85a.575.575 0 0 1 0 1.15h-9.85a.575.575 0 0 1 0-1.15z" />
+        <Path fill="#000000" d="M5.425 5.85a.576.576 0 0 1 0 1.15h-2.85a.575.575 0 0 1 0-1.15z" />
+        <Path fill="#000000" d="M21.425 5.85a.576.576 0 0 1 0 1.15h-9.85a.575.575 0 0 1 0-1.15z" />
+        <Path fill="#000000" d="M12.425 11.85a.575.575 0 0 1 0 1.15h-9.85a.575.575 0 0 1 0-1.15z" />
+        <Path fill="#000000" d="M21.425 11.85a.575.575 0 0 1 0 1.15h-2.85a.575.575 0 0 1 0-1.15z" />
+        <Path fill="#000000" d="M5.425 17.85a.575.575 0 0 1 0 1.15h-2.85a.575.575 0 0 1 0-1.15z" />
+        <Path fill="#000000" d="M21.425 17.85a.575.575 0 0 1 0 1.15h-9.85a.575.575 0 0 1 0-1.15z" />
         <Path fill="#FF6040" d="M10.425 6.5a1.925 1.925 0 1 0-3.85 0 1.925 1.925 0 0 0 3.85 0m1.15 0a3.075 3.075 0 1 1-6.15 0 3.075 3.075 0 0 1 6.15 0" />
         <Path fill="#FF6040" d="M17.425 12.5a1.925 1.925 0 1 0-3.85 0 1.925 1.925 0 0 0 3.85 0m1.15 0a3.075 3.075 0 1 1-6.15 0 3.075 3.075 0 0 1 6.15 0" />
         <Path fill="#FF6040" d="M10.425 18.5a1.925 1.925 0 1 0-3.85 0 1.925 1.925 0 0 0 3.85 0m1.15 0a3.075 3.075 0 1 1-6.15 0 3.075 3.075 0 0 1 6.15 0" />
@@ -103,7 +104,37 @@ export function SlidersHorizontalIcon({
 }: SlaticoNativeIconProps): ReactElement {
   const rawId = useId();
   const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
-  const resolvedSecondaryColor = secondaryColor ?? color;
+  const resolvedSize =
+    typeof size === "number"
+      ? Number.isFinite(size) && size > 0
+        ? size
+        : 24
+      : typeof size === "string" &&
+          size.trim().length > 0 &&
+          (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
+        ? size.trim()
+        : 24;
+  const resolvedColor =
+    typeof color === "string" &&
+    color.trim().length > 0 &&
+    color.trim() !== "currentColor"
+      ? color.trim()
+      : "#09090B";
+  const resolvedSecondaryColor =
+    typeof secondaryColor === "string" &&
+    secondaryColor.trim().length > 0 &&
+    secondaryColor.trim() !== "currentColor"
+      ? secondaryColor.trim()
+      : resolvedColor;
+  const parsedSecOpacity =
+    typeof secondaryOpacity === "number"
+      ? secondaryOpacity
+      : typeof secondaryOpacity === "string" && secondaryOpacity.trim().length > 0
+        ? Number(secondaryOpacity)
+        : 0.22;
+  const resolvedSecondaryOpacity = Number.isFinite(parsedSecOpacity)
+    ? Math.min(1, Math.max(0, parsedSecOpacity))
+    : 0.22;
   const resolvedA11yLabel = accessibilityLabel ?? title;
   const a11yProps = resolvedA11yLabel
     ? { accessible: true, accessibilityRole: "image" as const, accessibilityLabel: resolvedA11yLabel }
@@ -112,17 +143,17 @@ export function SlidersHorizontalIcon({
   return (
     <Svg
       viewBox="0 0 24 24"
-      width={size}
-      height={size}
+      width={resolvedSize}
+      height={resolvedSize}
       fill="none"
       {...a11yProps}
       {...rest}
     >
       {renderSlidersHorizontalNativeVariant({
         variant,
-        color,
+        color: resolvedColor,
         resolvedSecondaryColor,
-        secondaryOpacity,
+        secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}
     </Svg>

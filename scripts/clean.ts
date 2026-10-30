@@ -9,6 +9,8 @@ const TARGETS = [
   "packages/web/dist",
   "packages/font/dist",
   "packages/react-native/dist",
+  "examples/react-native/dist",
+  "examples/react-native/.metro-cache",
   "apps/website/.next",
   "apps/website/out"
 ];

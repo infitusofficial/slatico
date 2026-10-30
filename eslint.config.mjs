@@ -11,8 +11,12 @@ export default tseslint.config(
       "**/out/**",
       "**/build/**",
       "**/.dart_tool/**",
+      "**/.gradle/**",
+      "**/.metro-cache/**",
+      "**/Pods/**",
       "**/coverage/**",
-      "**/*.d.ts"
+      "**/*.d.ts",
+      "**/*.cjs"
     ]
   },
   js.configs.recommended,

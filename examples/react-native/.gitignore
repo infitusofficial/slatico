@@ -1,0 +1,15 @@
+node_modules/
+dist/
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+ios/Pods/
+ios/Podfile.lock
+ios/build/
+ios/.xcode.env.local
+ios/SlaticoReactNativeExample.xcodeproj/
+ios/SlaticoReactNativeExample.xcworkspace/
+ios/*.xcworkspace/xcuserdata/
+ios/*.xcodeproj/xcuserdata/
+.metro-cache/
