@@ -29,7 +29,8 @@
     "typecheck": "tsc --noEmit && pnpm --filter \"@slatico/*\" typecheck",
     "test": "vitest run",
     "test:watch": "vitest",
-    "clean": "tsx scripts/clean.ts"
+    "clean": "tsx scripts/clean.ts",
+    "verify:clean": "pnpm clean && pnpm icons:validate && pnpm icons:generate && pnpm build:packages && pnpm lint && pnpm typecheck && pnpm test && pnpm build:website"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

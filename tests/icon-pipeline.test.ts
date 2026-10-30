@@ -417,4 +417,44 @@ describe("@slatico/react components & real consumer package verification", () =>
     );
     expect(renderedFromBuiltDist).toContain("--slatico-secondary-color:#EC4899");
   });
+
+  it("verifies all 7 workspace library packages emit dist TypeScript declarations and CI enforces clean build order", async () => {
+    const repoRoot = process.cwd();
+    const workspacePackages = [
+      "core",
+      "svg",
+      "font",
+      "react",
+      "vue",
+      "web",
+      "react-native"
+    ];
+
+    for (const pkg of workspacePackages) {
+      const pkgDir = path.join(repoRoot, "packages", pkg);
+      const pkgJson = JSON.parse(
+        await fs.readFile(path.join(pkgDir, "package.json"), "utf8")
+      ) as { types: string };
+      expect(pkgJson.types).toBe("./dist/index.d.ts");
+
+      const dtsStat = await fs.stat(path.join(pkgDir, "dist", "index.d.ts"));
+      const dctsStat = await fs.stat(path.join(pkgDir, "dist", "index.d.cts"));
+      expect(dtsStat.isFile()).toBe(true);
+      expect(dctsStat.isFile()).toBe(true);
+    }
+
+    const ciWorkflow = await fs.readFile(
+      path.join(repoRoot, ".github", "workflows", "ci.yml"),
+      "utf8"
+    );
+    const cleanIdx = ciWorkflow.indexOf("run: pnpm clean");
+    const buildPackagesIdx = ciWorkflow.indexOf("run: pnpm build:packages");
+    const typecheckIdx = ciWorkflow.indexOf("run: pnpm typecheck");
+    const testIdx = ciWorkflow.indexOf("run: pnpm test");
+
+    expect(cleanIdx).toBeGreaterThan(-1);
+    expect(buildPackagesIdx).toBeGreaterThan(cleanIdx);
+    expect(typecheckIdx).toBeGreaterThan(buildPackagesIdx);
+    expect(testIdx).toBeGreaterThan(buildPackagesIdx);
+  });
 });

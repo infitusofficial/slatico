@@ -17,25 +17,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: "22"
+          node-version: "24"
           cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Clean workspace build artifacts
+        run: pnpm clean
 
       - name: Validate SVG icon sources
         run: pnpm icons:validate
 
       - name: Generate icon catalog and components
         run: pnpm icons:generate
+
+      - name: Build workspace packages (dependency-ordered declarations & bundles)
+        run: pnpm build:packages
 
       - name: Run linter
         run: pnpm lint
@@ -46,23 +52,23 @@ jobs:
       - name: Run unit tests
         run: pnpm test
 
-      - name: Build workspace packages and website
-        run: pnpm build
+      - name: Build technical website
+        run: pnpm build:website
 
   flutter:
     name: Validate & Test Flutter Package (slatico_icons)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: "22"
+          node-version: "24"
           cache: "pnpm"
 
       - name: Install Node dependencies and generate Flutter artifacts
@@ -107,15 +113,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: "22"
+          node-version: "24"
           cache: "pnpm"
 
       - name: Install Node dependencies and generate Android VectorDrawables & Kotlin sources
@@ -124,13 +130,13 @@ jobs:
           pnpm icons:generate
 
       - name: Setup JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           distribution: "temurin"
           java-version: "17"
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
 
       - name: Build Android Library AAR, Run Unit Tests, Compile Sample App & Verify POM Metadata
         working-directory: packages/android
