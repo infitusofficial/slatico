@@ -110,9 +110,10 @@ export const PLATFORM_ROADMAP: readonly PlatformRoadmapItem[] = [
     id: "swift",
     name: "Swift Package",
     packageIdentifier: "SlaticoIcons",
-    ecosystem: "SwiftUI / iOS & macOS",
-    status: "Interface Prepared (Planned)",
-    description: "Native Swift Package with asset catalogs and type-safe SwiftUI views."
+    ecosystem: "SwiftUI / UIKit / AppKit",
+    status: "Implemented (Verified Locally)",
+    description:
+      "Native Swift Package supporting SwiftUI, UIKit, and AppKit across iOS 15+ and macOS 12+ with 161 vector variants and Duotone/Color support."
   }
 ] as const;
 

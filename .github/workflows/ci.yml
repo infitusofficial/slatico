@@ -145,3 +145,55 @@ jobs:
           ./gradlew :library:assembleRelease :library:testDebugUnitTest :sample:assembleDebug :library:generatePomFileForReleasePublication --stacktrace
           test -s library/build/outputs/aar/library-release.aar
           test -s sample/build/outputs/apk/debug/sample-debug.apk
+
+  swift:
+    name: Validate, Build & Test Apple Swift Package (SlaticoIcons)
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: "pnpm"
+
+      - name: Install Node dependencies and generate Swift package artifacts
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm icons:generate
+
+      - name: Verify Swift and Xcode toolchain versions
+        run: |
+          swift --version
+          xcodebuild -version
+
+      - name: Validate Swift Package.swift manifest
+        working-directory: packages/swift
+        run: swift package dump-package > /dev/null
+
+      - name: Build Swift package targets on macOS (SwiftUI + AppKit)
+        working-directory: packages/swift
+        run: swift build -v
+
+      - name: Run XCTest suite on macOS (161 CGPaths, Bundle.module SVGs, AppKit & SwiftUI)
+        working-directory: packages/swift
+        run: swift test -v
+
+      - name: Cross-compile Swift package for iOS Simulator (SwiftUI + UIKit)
+        working-directory: packages/swift
+        run: |
+          xcodebuild -list
+          xcodebuild build \
+            -scheme SlaticoIcons \
+            -destination "generic/platform=iOS Simulator" \
+            CODE_SIGNING_ALLOWED=NO
+          xcodebuild build \
+            -scheme SlaticoIconsExample \
+            -destination "generic/platform=iOS Simulator" \
+            CODE_SIGNING_ALLOWED=NO
+

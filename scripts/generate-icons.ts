@@ -9,6 +9,7 @@ import {
 } from "./font-compiler.js";
 import { generateAndroidPackageArtifacts } from "./generate-android.js";
 import { generateFlutterPackageArtifacts } from "./generate-flutter.js";
+import { generateSwiftPackageArtifacts } from "./generate-swift.js";
 import {
   buildCatalogMetadata,
   discoverAndValidateIcons,
@@ -840,11 +841,12 @@ export async function generateAllIconArtifacts(): Promise<void> {
 
   await generateFlutterPackageArtifacts(REPO_ROOT, result.families, fontManifest);
   await generateAndroidPackageArtifacts(REPO_ROOT, result.families);
+  await generateSwiftPackageArtifacts(REPO_ROOT, result.families);
 
   console.log(
     `[Slatico Pipeline] Generated ${result.families.length} icon families (${
       result.families.length * SLATICO_STYLES.length
-    } style variants) across @slatico/core, @slatico/svg, @slatico/font, @slatico/react, @slatico/vue, @slatico/web, @slatico/react-native, slatico_icons (Flutter), and com.infitus.slatico (Android).`
+    } style variants) across @slatico/core, @slatico/svg, @slatico/font, @slatico/react, @slatico/vue, @slatico/web, @slatico/react-native, slatico_icons (Flutter), com.infitus.slatico (Android), and SlaticoIcons (Swift).`
   );
 }
 
