@@ -3,6 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "description": "Official Vue 3 icon components for Slatico with full support for all 7 styles, SSR, and individual icon tree-shaking",
+  "keywords": [
+    "slatico",
+    "icons",
+    "vue",
+    "vue3",
+    "nuxt",
+    "svg",
+    "duotone",
+    "design-system"
+  ],
+  "homepage": "https://github.com/infitusofficial/slatico",
+  "bugs": {
+    "url": "https://github.com/infitusofficial/slatico/issues"
+  },
   "license": "MIT",
   "author": "Infitus Creative Studio",
   "repository": {
@@ -42,7 +56,10 @@
     "access": "public"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "peerDependencies": {
     "vue": ">=3.3.0"

@@ -60,7 +60,7 @@ String resolveColorSvgMarkup({
       .replaceAll('__SLATICO_SECONDARY_COLOR__', secondaryHex);
 }
 
-/// Universal Flutter widget for rendering any of the 23 Slatico icons across all 7 styles:
+/// Universal Flutter widget for rendering any of the 27 Slatico icons across all 7 styles:
 ///
 /// - **Monochrome Styles (`thin`, `light`, `regular`, `bold`, `fill`):**
 ///   Rendered via Flutter's native [Icon] widget using bundled TTF fonts (`SlaticoIcons`).
@@ -68,8 +68,9 @@ String resolveColorSvgMarkup({
 ///   Rendered via `flutter_svg` preserving independent primary [color], [secondaryColor],
 ///   and [secondaryOpacity] layers.
 /// - **Color (`SlaticoStyle.color`):**
-///   Rendered via `flutter_svg` (`SvgPicture.asset`) preserving all intrinsic multicolor
-///   fills and gradients without destructive color filters.
+///   Rendered via `flutter_svg` preserving intrinsic multicolor fills (`#FF6040` primary
+///   and `#000000` secondary by default), or customized dynamically when [color] and/or
+///   [secondaryColor] are provided.
 class SlaticoIcon extends StatelessWidget {
   /// Creates a [SlaticoIcon] widget.
   const SlaticoIcon({
@@ -93,11 +94,13 @@ class SlaticoIcon extends StatelessWidget {
   /// [IconThemeData.size], or `24.0`.
   final double? size;
 
-  /// Primary foreground color for monochrome (`thin`, `light`, `regular`, `bold`, `fill`)
-  /// and `duotone` styles. Ignored for `SlaticoStyle.color` so multicolor artwork is preserved.
+  /// Primary foreground color for monochrome (`thin`, `light`, `regular`, `bold`, `fill`),
+  /// `duotone`, and `color` styles. When omitted in `SlaticoStyle.color`, the authored
+  /// `#FF6040` brand primary fill is preserved.
   final Color? color;
 
-  /// Secondary tone color for `SlaticoStyle.duotone`. Defaults to [color] when omitted.
+  /// Secondary tone color for `SlaticoStyle.duotone` and `SlaticoStyle.color`.
+  /// Defaults to [color] for `duotone`, and `#000000` for `color` when omitted.
   final Color? secondaryColor;
 
   /// Opacity (`0.0` to `1.0`) for the secondary layer in `SlaticoStyle.duotone`.

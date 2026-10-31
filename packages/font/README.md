@@ -1,53 +1,73 @@
 # `@slatico/font`
 
-Production-ready icon font package for **Slatico by Infitus Creative Studio** — supporting traditional HTML websites, PHP, WordPress, Laravel, and any environment where developers prefer CSS-based icon fonts.
+Production-ready monochrome icon fonts (`WOFF2`, `WOFF`, and `TTF`), CSS stylesheet, and deterministic Unicode Private Use Area (`U+E001`–`U+E01C`) codepoint metadata for **Slatico by Infitus Creative Studio**.
 
-## Supported Monochrome Font Styles (5 Styles × 23 Icons = 115 Glyphs)
+## Included Styles (`135` Glyphs Total)
 
-| Style | Font Family | Font Files (`dist/fonts/`) | CSS Class Pattern |
+Monochrome vector styles compiled into dedicated font families (`27` icons per style):
+
+| Style | Font Family Name | CSS Class Pattern | Files (`WOFF2`, `WOFF`, `TTF`) |
 | :--- | :--- | :--- | :--- |
-| **Thin** (`1px`) | `Slatico Thin` | `slatico-thin.{woff2,woff,ttf}` | `.slatico.slatico-<name>-thin` |
-| **Light** (`1.5px`) | `Slatico Light` | `slatico-light.{woff2,woff,ttf}` | `.slatico.slatico-<name>-light` |
-| **Regular** (`2px`) | `Slatico Regular` | `slatico-regular.{woff2,woff,ttf}` | `.slatico.slatico-<name>-regular` |
-| **Bold** (`3px`) | `Slatico Bold` | `slatico-bold.{woff2,woff,ttf}` | `.slatico.slatico-<name>-bold` |
-| **Fill** (solid) | `Slatico Fill` | `slatico-fill.{woff2,woff,ttf}` | `.slatico.slatico-<name>-fill` |
+| `thin` | `Slatico Thin` | `slatico slatico-<name>-thin` | `slatico-thin.{woff2,woff,ttf}` |
+| `light` | `Slatico Light` | `slatico slatico-<name>-light` | `slatico-light.{woff2,woff,ttf}` |
+| `regular` | `Slatico Regular` | `slatico slatico-<name>-regular` | `slatico-regular.{woff2,woff,ttf}` |
+| `bold` | `Slatico Bold` | `slatico slatico-<name>-bold` | `slatico-bold.{woff2,woff,ttf}` |
+| `fill` | `Slatico Fill` | `slatico slatico-<name>-fill` | `slatico-fill.{woff2,woff,ttf}` |
 
-> **Why Duotone and Color use SVG instead of Icon Fonts:**
-> `Duotone` relies on independent two-tone or opacity-layered vector paths (`--slatico-secondary-color`, `--slatico-secondary-opacity`), and `Color` relies on multi-stop gradients and distinct multi-color vector fills. Flattening them into ordinary single-layer monochrome fonts would destroy their visual fidelity. Use `@slatico/svg`, `@slatico/react`, `@slatico/vue`, `@slatico/web`, or `@slatico/react-native` for `Duotone` and `Color` styles.
+> **Architectural Note:** `duotone` and `color` styles use multi-layer opacity and dual-color fills that cannot be represented in single-color glyph tables. For `duotone` and `color` icons, use `@slatico/svg`, `@slatico/react`, `@slatico/vue`, or `@slatico/web`.
+
+## Installation
+
+```bash
+npm install @slatico/font
+# or
+pnpm add @slatico/font
+# or
+yarn add @slatico/font
+```
 
 ## HTML & CSS Usage
 
-```html
-<link rel="stylesheet" href="node_modules/@slatico/font/dist/slatico.min.css">
+Import `@slatico/font/slatico.css` in your bundler entry or link it in HTML:
 
-<!-- Decorative icons -->
-<i class="slatico slatico-house-regular" aria-hidden="true"></i>
-<i class="slatico slatico-bell-bold" aria-hidden="true"></i>
-<i class="slatico slatico-user-fill" aria-hidden="true"></i>
-
-<!-- Custom sizing & color via standard CSS -->
-<i class="slatico slatico-shield-check-fill" style="font-size: 32px; color: #10B981;" aria-hidden="true"></i>
+```ts
+import "@slatico/font/slatico.css";
 ```
 
-## TypeScript & Node.js Metadata API
+Render any monochrome icon using the `slatico` base class and `slatico-<name>-<style>` modifier:
+
+```html
+<!-- Decorative icons (hidden from screen readers) -->
+<i class="slatico slatico-bell-regular" aria-hidden="true"></i>
+<i class="slatico slatico-shield-check-bold" style="font-size: 28px; color: #FF6040;" aria-hidden="true"></i>
+<i class="slatico slatico-arrow-up-right-fill" aria-hidden="true"></i>
+
+<!-- Semantic accessible icon -->
+<i class="slatico slatico-wallet-regular" role="img" aria-label="Account Wallet"></i>
+```
+
+## Programmatic TypeScript Helpers
 
 ```ts
 import {
-  FONT_COMPATIBLE_STYLES,
   FONT_CODEPOINTS,
-  FONT_GLYPHS,
   getFontClassName,
   getFontGlyph,
   getFontHtmlSnippet
 } from "@slatico/font";
 
-const glyph = getFontGlyph("house", "regular");
-// => { iconName: "house", style: "regular", className: "slatico-house-regular", codepointHex: "0xE008", ... }
+const className = getFontClassName("bell", "regular");
+// -> "slatico slatico-bell-regular"
 
-const html = getFontHtmlSnippet("bell", "bold");
-// => '<i class="slatico slatico-bell-bold" aria-hidden="true"></i>'
+const html = getFontHtmlSnippet("bell", "bold", {
+  title: "Notifications"
+});
+// -> '<i class="slatico slatico-bell-bold" role="img" aria-label="Notifications"></i>'
+
+const glyph = getFontGlyph("house", "fill");
+// -> { iconName: "house", style: "fill", codepoint: 57357, codepointHex: "E00D", ... }
 ```
 
 ## License
 
-MIT © Infitus Creative Studio
+MIT © Infitus Creative Studio (`infitusofficial`)

@@ -314,7 +314,7 @@ import { ${componentName} } from "@slatico/vue/icons/${name}";
       const programmaticComment = `\n\n<!-- Programmatic SVG (@slatico/svg): -->\n<!-- import { renderSvgMarkup } from "@slatico/svg"; -->\n<!-- const html = renderSvgMarkup("${name}", "${style}", { ${svgOpts.join(", ")} }); -->`;
       const fontSnippet =
         style !== "duotone" && style !== "color"
-          ? `\n\n<!-- Or via Slatico Webfont (@slatico/font/slatico.css): -->\n<i class="slatico slatico-${style}-${name}" style="font-size: ${size}px; color: ${resolvedPrimary};" aria-hidden="true"></i>`
+          ? `\n\n<!-- Or via Slatico Webfont (@slatico/font/slatico.css): -->\n<i class="slatico slatico-${name}-${style}" style="font-size: ${size}px; color: ${resolvedPrimary};" aria-hidden="true"></i>`
           : "";
       return `<!-- Standalone 24x24 Inline SVG: -->\n${standaloneSvg}${programmaticComment}${fontSnippet}`;
     }

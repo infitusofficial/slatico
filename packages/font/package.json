@@ -3,6 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "description": "Production-ready WOFF2, WOFF, and TTF monochrome icon fonts, CSS stylesheets, and Unicode PUA metadata for Slatico (Thin, Light, Regular, Bold, Fill)",
+  "keywords": [
+    "slatico",
+    "icons",
+    "icon-font",
+    "webfont",
+    "woff2",
+    "css-icons"
+  ],
+  "homepage": "https://github.com/infitusofficial/slatico",
+  "bugs": {
+    "url": "https://github.com/infitusofficial/slatico/issues"
+  },
   "license": "MIT",
   "author": "Infitus Creative Studio",
   "repository": {
@@ -44,7 +56,8 @@
     "dist",
     "codepoints.json",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "dependencies": {
     "@slatico/core": "workspace:*"

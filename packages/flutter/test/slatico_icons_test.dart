@@ -104,7 +104,7 @@ void main() {
     );
 
     test(
-      'loads all 5 TTF font files and all 46 Duotone & Color SVG assets via Flutter rootBundle',
+      'loads all 5 TTF font files and all 54 Duotone & Color SVG assets via Flutter rootBundle',
       () async {
         const List<String> fontFiles = <String>[
           'packages/slatico_icons/assets/fonts/slatico-thin.ttf',

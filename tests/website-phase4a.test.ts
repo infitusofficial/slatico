@@ -528,7 +528,7 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
       secondaryColor: "#FF6040"
     });
     expect(htmlRegularSnippet).toContain("renderSvgMarkup");
-    expect(htmlRegularSnippet).toContain("slatico slatico-regular-bell");
+    expect(htmlRegularSnippet).toContain("slatico slatico-bell-regular");
 
     // Verify UIKit & AppKit snippets with customizable Color style
     const uikitColorSnippet = generatePlatformCodeSnippet("uikit", {
@@ -618,5 +618,30 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     const sitemapXml = readFileSync(path.join(outDir, "sitemap.xml"), "utf8");
     expect(sitemapXml).toContain("/icons/bell");
     expect(sitemapXml).toContain("/docs/swift");
+  });
+
+  it("verifies Phase 4B release readiness files across all 10 packages", () => {
+    const pkgDirs = [
+      "core",
+      "svg",
+      "font",
+      "react",
+      "vue",
+      "web",
+      "react-native",
+      "flutter",
+      "android",
+      "swift"
+    ];
+
+    for (const pkg of pkgDirs) {
+      const baseDir = path.join(ROOT_DIR, "packages", pkg);
+      expect(existsSync(path.join(baseDir, "README.md")), `Missing README.md in packages/${pkg}`).toBe(true);
+      expect(existsSync(path.join(baseDir, "LICENSE")), `Missing LICENSE in packages/${pkg}`).toBe(true);
+      expect(existsSync(path.join(baseDir, "CHANGELOG.md")), `Missing CHANGELOG.md in packages/${pkg}`).toBe(true);
+
+      const readme = readFileSync(path.join(baseDir, "README.md"), "utf8");
+      expect(readme.toLowerCase()).not.toContain("sparkle");
+    }
   });
 });

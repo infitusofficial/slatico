@@ -3,6 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "description": "Official React Native SVG icon components for Slatico across all 7 styles with individual icon tree-shaking",
+  "keywords": [
+    "slatico",
+    "icons",
+    "react-native",
+    "expo",
+    "react-native-svg",
+    "mobile"
+  ],
+  "homepage": "https://github.com/infitusofficial/slatico",
+  "bugs": {
+    "url": "https://github.com/infitusofficial/slatico/issues"
+  },
   "license": "MIT",
   "author": "Infitus Creative Studio",
   "repository": {
@@ -51,7 +63,10 @@
     "access": "public"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "peerDependencies": {
     "react": ">=18.0.0",

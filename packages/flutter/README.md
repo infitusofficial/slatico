@@ -1,28 +1,20 @@
 # `slatico_icons`
 
-Official Flutter icon package for **Slatico by Infitus Creative Studio** — a modern, original, open-source icon system crafted on a unified `24x24` optical grid across **7 official styles**.
+Official Flutter icon package for **Slatico by Infitus Creative Studio** — a modern 7-style vector icon system engineered on a unified `24×24` optical grid.
 
-- **Brand:** Slatico by Infitus Creative Studio
-- **Repository:** [github.com/infitusofficial/slatico](https://github.com/infitusofficial/slatico)
-- **Package Name:** `slatico_icons`
-- **License:** MIT
-- **Tier 1 Collection:** `23` original icon families × `7` styles (`161` variants: `115` monochrome `IconData` constants + `46` vector SVG assets)
+## Architecture Overview
 
----
+`slatico_icons` provides **27 Tier 1 icon families** across all **7 official Slatico styles** (`189` total variants) using a hybrid rendering architecture tailored for Flutter:
 
-## Seven Official Styles & Rendering Architecture
-
-| Style | Enum Value | Rendering Engine in Flutter | Construction |
+| Style | Rendering Engine | Flutter API | Count |
 | :--- | :--- | :--- | :--- |
-| **Thin** | `SlaticoStyle.thin` | Bundled TTF (`Slatico Thin`) via `Icon` or `SlaticoIcon` | `1.0px` stroke |
-| **Light** | `SlaticoStyle.light` | Bundled TTF (`Slatico Light`) via `Icon` or `SlaticoIcon` | `1.5px` stroke |
-| **Regular** | `SlaticoStyle.regular` | Bundled TTF (`Slatico Regular`) via `Icon` or `SlaticoIcon` | `2.0px` stroke |
-| **Bold** | `SlaticoStyle.bold` | Bundled TTF (`Slatico Bold`) via `Icon` or `SlaticoIcon` | `3.0px` stroke |
-| **Fill** | `SlaticoStyle.fill` | Bundled TTF (`Slatico Fill`) via `Icon` or `SlaticoIcon` | Solid silhouette with negative spaces |
-| **Duotone** | `SlaticoStyle.duotone` | Vector SVG (`flutter_svg`) via `SlaticoIcon` | Two-tone / opacity-layered vectors |
-| **Color** | `SlaticoStyle.color` | Vector SVG (`flutter_svg`) via `SlaticoIcon` | Intrinsic multicolor fills & gradients |
-
----
+| **Thin** (`thin`) | Native TTF Font (`Slatico Thin`) | `Icon(SlaticoIcons.<name>Thin)` or `SlaticoIcon` | 27 |
+| **Light** (`light`) | Native TTF Font (`Slatico Light`) | `Icon(SlaticoIcons.<name>Light)` or `SlaticoIcon` | 27 |
+| **Regular** (`regular`) | Native TTF Font (`Slatico Regular`) | `Icon(SlaticoIcons.<name>Regular)` or `SlaticoIcon` | 27 |
+| **Bold** (`bold`) | Native TTF Font (`Slatico Bold`) | `Icon(SlaticoIcons.<name>Bold)` or `SlaticoIcon` | 27 |
+| **Fill** (`fill`) | Native TTF Font (`Slatico Fill`) | `Icon(SlaticoIcons.<name>Fill)` or `SlaticoIcon` | 27 |
+| **Duotone** (`duotone`) | Two-Layer Vector SVG (`flutter_svg`) | `SlaticoIcon(name: ..., style: SlaticoStyle.duotone)` | 27 |
+| **Color** (`color`) | Dual-Tone Brand Vector SVG (`flutter_svg`) | `SlaticoIcon(name: ..., style: SlaticoStyle.color)` | 27 |
 
 ## Installation
 
@@ -33,13 +25,15 @@ dependencies:
   slatico_icons: ^0.1.0
 ```
 
----
+Or install via the Flutter CLI:
 
-## Usage
+```bash
+flutter pub add slatico_icons
+```
 
-### 1. Monochrome Styles (`Thin`, `Light`, `Regular`, `Bold`, `Fill`) with Flutter's `Icon` Widget
+## Quick Start
 
-All 115 monochrome variants (`23` families × `5` styles) are exposed as tree-shakeable `static const IconData` constants on `SlaticoIcons`:
+### 1. Native `IconData` (Monochrome Styles: Thin, Light, Regular, Bold, Fill)
 
 ```dart
 import 'package:flutter/material.dart';
@@ -52,57 +46,64 @@ class MonochromeExample extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Row(
       children: [
-        Icon(SlaticoIcons.houseThin, size: 24, color: Colors.black87),
-        Icon(SlaticoIcons.houseLight, size: 24, color: Colors.black87),
-        Icon(SlaticoIcons.houseRegular, size: 24, color: Colors.blue),
-        Icon(SlaticoIcons.bellBold, size: 24, color: Colors.indigo),
-        Icon(SlaticoIcons.userFill, size: 24, color: Colors.teal),
+        Icon(SlaticoIcons.houseRegular, size: 24),
+        Icon(SlaticoIcons.bellThin, size: 24),
+        Icon(SlaticoIcons.shieldCheckBold, size: 24, color: Color(0xFF010520)),
+        Icon(SlaticoIcons.arrowUpRightFill, size: 24, color: Color(0xFFFF6040)),
       ],
     );
   }
 }
 ```
 
-### 2. Universal `SlaticoIcon` Widget (All 7 Styles Including `Duotone` & `Color`)
-
-Use `SlaticoIcon` to render any style — especially `SlaticoStyle.duotone` (with customizable primary `color`, `secondaryColor`, and `secondaryOpacity`) and `SlaticoStyle.color` (preserving intrinsic multicolor artwork):
+### 2. Unified `SlaticoIcon` Widget (All 7 Styles Including Duotone & Color)
 
 ```dart
 import 'package:flutter/material.dart';
 import 'package:slatico_icons/slatico_icons.dart';
 
-class SevenStyleExample extends StatelessWidget {
-  const SevenStyleExample({super.key});
+class AllStylesExample extends StatelessWidget {
+  const AllStylesExample({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Wrap(
-      spacing: 16,
+    return const Row(
       children: [
-        // Duotone with independent primary & secondary colors
+        // 1. Monochrome (automatically delegates to native Flutter Icon + TTF)
         SlaticoIcon(
-          name: SlaticoIconName.house,
-          style: SlaticoStyle.duotone,
+          name: SlaticoIconName.bell,
+          style: SlaticoStyle.regular,
           size: 24,
-          color: Colors.black,
-          secondaryColor: Colors.blue,
-          secondaryOpacity: 0.25,
+          color: Color(0xFF010520),
         ),
 
-        // Multicolor vector variant (intrinsic colors preserved automatically)
-        SlaticoIcon(
-          name: SlaticoIconName.house,
-          style: SlaticoStyle.color,
-          size: 32,
-          semanticLabel: 'Home dashboard',
-        ),
-
-        // Monochrome style via SlaticoIcon
+        // 2. Duotone with independent primary color, secondaryColor, and secondaryOpacity
         SlaticoIcon(
           name: SlaticoIconName.shieldCheck,
-          style: SlaticoStyle.fill,
-          size: 24,
-          color: Colors.green,
+          style: SlaticoStyle.duotone,
+          size: 28,
+          color: Color(0xFF010520),
+          secondaryColor: Color(0xFFFF6040),
+          secondaryOpacity: 0.25,
+          semanticLabel: 'Verified Security',
+        ),
+
+        // 3. Color with default brand palette (#FF6040 primary + #000000 secondary)
+        SlaticoIcon(
+          name: SlaticoIconName.wallet,
+          style: SlaticoStyle.color,
+          size: 28,
+          semanticLabel: 'Wallet',
+        ),
+
+        // 4. Color with custom primary `color` and `secondaryColor`
+        SlaticoIcon(
+          name: SlaticoIconName.bell,
+          style: SlaticoStyle.color,
+          size: 28,
+          color: Color(0xFFFF6040),
+          secondaryColor: Color(0xFF010520),
+          semanticLabel: 'Notifications',
         ),
       ],
     );
@@ -110,36 +111,39 @@ class SevenStyleExample extends StatelessWidget {
 }
 ```
 
-### 3. Subtree Theming with `SlaticoIconTheme`
+### 3. Subtree Defaults with `SlaticoIconTheme`
 
 ```dart
 SlaticoIconTheme(
   data: const SlaticoIconThemeData(
     style: SlaticoStyle.duotone,
-    size: 28,
-    color: Color(0xFF1E293B),
-    secondaryColor: Color(0xFF6366F1),
-    secondaryOpacity: 0.3,
+    size: 24,
+    color: Color(0xFF010520),
+    secondaryColor: Color(0xFFFF6040),
+    secondaryOpacity: 0.22,
   ),
   child: const Row(
     children: [
       SlaticoIcon(name: SlaticoIconName.bell),
-      SlaticoIcon(name: SlaticoIconName.wallet),
-      SlaticoIcon(name: SlaticoIconName.lock),
+      SlaticoIcon(name: SlaticoIconName.layoutDashboard),
+      SlaticoIcon(name: SlaticoIconName.arrowUpRight),
     ],
   ),
 )
 ```
 
----
+## `SlaticoIcon` Parameters
 
-## Accessibility
-
-- By default (`semanticLabel == null`), `SlaticoIcon` marks icons as decorative (`excludeFromSemantics: true`) so screen readers do not announce redundant glyph descriptions next to text labels.
-- When an icon conveys standalone meaning, provide `semanticLabel: 'Notifications'` on `SlaticoIcon` or `Icon`.
-
----
+| Parameter | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `name` | `SlaticoIconName` | required | Enumerated Slatico icon family (`SlaticoIconName.bell`, `SlaticoIconName.arrowUpRight`, etc.). |
+| `style` | `SlaticoStyle?` | `SlaticoStyle.regular` | Style variant (`thin`, `light`, `regular`, `bold`, `fill`, `duotone`, `color`). |
+| `size` | `double?` | `24.0` | Logical pixel width and height. |
+| `color` | `Color?` | `IconTheme.of(context).color` (`#FF6040` in `color`) | Primary color for monochrome, `duotone`, and `color` styles. |
+| `secondaryColor` | `Color?` | `color` (`#000000` in `color`) | Secondary tone color for `duotone` and `color` styles. |
+| `secondaryOpacity` | `double?` | `0.2` (authored SVG opacity) | Opacity (`0.0`–`1.0`) for the secondary layer in `SlaticoStyle.duotone`. |
+| `semanticLabel` | `String?` | `null` | Screen reader label (TalkBack / VoiceOver). When `null`, icon is excluded from semantics. |
 
 ## License
 
-MIT © Infitus Creative Studio
+MIT © Infitus Creative Studio (`infitusofficial`)

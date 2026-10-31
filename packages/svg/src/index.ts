@@ -51,7 +51,7 @@ export function scopeSvgIds(svgFragment: string, instanceScope: string): string 
 
 /**
  * Returns the canonical sprite <symbol> ID for a given icon name and style.
- * Example: getSpriteSymbolId("sparkle", "duotone") -> "slatico-duotone-sparkle"
+ * Example: getSpriteSymbolId("bell", "duotone") -> "slatico-duotone-bell"
  */
 export function getSpriteSymbolId(
   name: SlaticoIconName,

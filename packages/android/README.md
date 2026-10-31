@@ -1,31 +1,14 @@
-# Slatico Icons for Android (`com.infitus.slatico:slatico-android`)
+# Slatico Android SDK (`com.infitus.slatico:slatico-android`)
 
-Official Android native `VectorDrawable` and Jetpack Compose icon library for **Slatico by Infitus Creative Studio**.
+Official Android `VectorDrawable` XML and Jetpack Compose icon library for **Slatico by Infitus Creative Studio**.
 
-- **23 Tier 1 Production Icon Families**
-- **7 Architectural Styles per Icon (`161` Native `VectorDrawable` XML Resources):**
-  - `Thin` (1px optical stroke geometry)
-  - `Light` (1.5px optical stroke geometry)
-  - `Regular` (2px optical stroke geometry)
-  - `Bold` (3px optical stroke geometry)
-  - `Fill` (Solid silhouette with preserved negative spaces via `evenOdd` fill type)
-  - `Duotone` (Two-layer primary + translucent secondary depth, supporting both native XML drawables and dynamic two-color Jetpack Compose customization)
-  - `Color` (Full-color semantic multi-tone vectors)
-
----
-
-## Requirements
-
-- **Minimum Android SDK:** `API 24` (Android 7.0 Nougat) — natively supports `android:fillType="evenOdd"` for crisp compound cutouts and inline `VectorDrawable` attributes without build-time PNG rasterization.
-- **Compile SDK:** `API 35`
-- **Kotlin:** `2.0+`
-- **Jetpack Compose:** BOM `2024.12.01` / Compose UI `1.7+`
+Includes all **27 Tier 1 icon families** across all **7 official styles** (`Thin`, `Light`, `Regular`, `Bold`, `Fill`, `Duotone`, and `Color`), totaling **189 native Android vector drawables** plus typed Jetpack Compose composables.
 
 ---
 
 ## Installation
 
-Add the dependency in your module's `build.gradle.kts`:
+### Gradle (Kotlin DSL — `build.gradle.kts`)
 
 ```kotlin
 dependencies {
@@ -33,63 +16,57 @@ dependencies {
 }
 ```
 
+### Local Monorepo Composite Build
+
+```kotlin
+// settings.gradle.kts
+includeBuild("../slatico/packages/android")
+```
+
 ---
 
-## 1. Android XML Layout Usage
+## Usage in Android XML Views
 
-All 161 icons are packaged as standard Android `VectorDrawable` XML resources using the naming convention `@drawable/slatico_<icon_snake_name>_<style>`:
+All 189 icons are packaged as native Android `VectorDrawable` XML resources using the naming convention:
+
+```text
+@drawable/slatico_<snake_case_name>_<style>
+```
+
+Examples:
+- `@drawable/slatico_bell_regular`
+- `@drawable/slatico_shield_check_duotone`
+- `@drawable/slatico_wallet_color`
+- `@drawable/slatico_arrow_up_right_bold`
 
 ```xml
-<!-- Monochrome (Thin, Light, Regular, Bold, Fill) with tint -->
+<!-- Monochrome icon tinted via app:tint -->
 <ImageView
     android:layout_width="24dp"
     android:layout_height="24dp"
-    android:src="@drawable/slatico_house_regular"
-    android:tint="@color/primary"
-    android:contentDescription="@string/home" />
+    android:src="@drawable/slatico_bell_regular"
+    android:contentDescription="@string/notifications"
+    app:tint="#010520" />
 
-<!-- Duotone (retains built-in 22% secondary layer alpha) -->
+<!-- Duotone icon (secondary layer preserves built-in 20% alpha) -->
 <ImageView
     android:layout_width="24dp"
     android:layout_height="24dp"
     android:src="@drawable/slatico_shield_check_duotone"
-    android:tint="@color/primary"
-    android:contentDescription="@string/verified" />
+    android:contentDescription="@null"
+    app:tint="#010520" />
 
-<!-- Color (renders intrinsic multi-tone palette — omit android:tint) -->
+<!-- Color icon (do not set app:tint so intrinsic #FF6040 + #000000 fills are preserved) -->
 <ImageView
-    android:layout_width="24dp"
-    android:layout_height="24dp"
+    android:layout_width="28dp"
+    android:layout_height="28dp"
     android:src="@drawable/slatico_wallet_color"
     android:contentDescription="@string/wallet" />
 ```
 
 ---
 
-## 2. Jetpack Compose Usage
-
-### Direct `painterResource` Usage
-
-```kotlin
-import androidx.compose.foundation.Image
-import androidx.compose.material3.Icon
-import androidx.compose.ui.res.painterResource
-import com.infitus.slatico.R
-
-// Monochrome / Fill / single-tint Duotone
-Icon(
-    painter = painterResource(R.drawable.slatico_house_regular),
-    contentDescription = "Home"
-)
-
-// Multicolor artwork
-Image(
-    painter = painterResource(R.drawable.slatico_house_color),
-    contentDescription = "Home"
-)
-```
-
-### Unified `SlaticoIcon` Composable (All 7 Styles)
+## Usage in Jetpack Compose
 
 ```kotlin
 import androidx.compose.ui.graphics.Color
@@ -98,54 +75,75 @@ import com.infitus.slatico.SlaticoIcon
 import com.infitus.slatico.SlaticoIconName
 import com.infitus.slatico.SlaticoStyle
 
-// 1. Monochrome styles (THIN, LIGHT, REGULAR, BOLD, FILL)
+// 1. Monochrome icon (uses LocalContentColor.current by default)
 SlaticoIcon(
-    name = SlaticoIconName.HOUSE,
+    name = SlaticoIconName.BELL,
     style = SlaticoStyle.REGULAR,
     size = 24.dp,
-    color = Color(0xFF2563EB),
-    contentDescription = "Home"
+    color = Color(0xFF010520),
+    contentDescription = "Notifications"
 )
 
-// 2. Duotone with independent primary & secondary colors
+// 2. Duotone icon with independent primary color, secondaryColor, and secondaryAlpha
 SlaticoIcon(
     name = SlaticoIconName.SHIELD_CHECK,
     style = SlaticoStyle.DUOTONE,
     size = 28.dp,
-    color = Color(0xFF4F46E5),
-    secondaryColor = Color(0xFF06B6D4),
-    secondaryAlpha = 0.28f,
+    color = Color(0xFF010520),
+    secondaryColor = Color(0xFFFF6040),
+    secondaryAlpha = 0.25f,
     contentDescription = "Security Verified"
 )
 
-// 3. Color style (preserves intrinsic multi-tone palette automatically)
+// 3. Color icon with default brand palette (#FF6040 primary + #000000 secondary)
 SlaticoIcon(
     name = SlaticoIconName.WALLET,
     style = SlaticoStyle.COLOR,
-    size = 32.dp,
+    size = 28.dp,
     contentDescription = "Wallet"
+)
+
+// 4. Color icon with two custom colors (`color` + `secondaryColor`)
+SlaticoIcon(
+    name = SlaticoIconName.BELL,
+    style = SlaticoStyle.COLOR,
+    size = 28.dp,
+    color = Color(0xFFFF6040),
+    secondaryColor = Color(0xFF010520),
+    contentDescription = "Alerts"
 )
 ```
 
----
-
-## 3. Programmatic Kotlin `@DrawableRes` Lookup
+### App-Wide Styling with `SlaticoIconTheme`
 
 ```kotlin
-import com.infitus.slatico.SlaticoDrawables
-import com.infitus.slatico.SlaticoIconName
-import com.infitus.slatico.SlaticoStyle
+import com.infitus.slatico.SlaticoIconTheme
 
-// Direct typed property access:
-val houseRegularRes: Int = SlaticoDrawables.houseRegular
-
-// Dynamic lookup by enum or kebab-case string:
-val dynamicRes: Int = SlaticoDrawables.of(SlaticoIconName.CREDIT_CARD, SlaticoStyle.DUOTONE)
-val bySlugRes: Int? = SlaticoDrawables.fromKebabName("trend-up", SlaticoStyle.BOLD)
+SlaticoIconTheme(
+    style = SlaticoStyle.DUOTONE,
+    size = 24.dp,
+    color = Color(0xFF010520),
+    secondaryColor = Color(0xFFFF6040),
+    secondaryAlpha = 0.22f
+) {
+    SlaticoIcon(name = SlaticoIconName.HOUSE)
+    SlaticoIcon(name = SlaticoIconName.ARROW_UP_RIGHT)
+}
 ```
 
----
+## `SlaticoIcon` Composable Parameters
+
+| Parameter | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `name` | `SlaticoIconName` | required | Enumerated icon family (`SlaticoIconName.BELL`, `SlaticoIconName.ARROW_UP_RIGHT`, etc.). |
+| `modifier` | `Modifier` | `Modifier` | Compose layout/semantics modifier. |
+| `style` | `SlaticoStyle` | `LocalSlaticoIconTheme.current.style` (`REGULAR`) | Visual style variant (`THIN`, `LIGHT`, `REGULAR`, `BOLD`, `FILL`, `DUOTONE`, `COLOR`). |
+| `size` | `Dp` | `LocalSlaticoIconTheme.current.size` (`24.dp`) | Width and height of the icon. |
+| `color` | `Color` | `LocalSlaticoIconTheme.current.color` (`Color.Unspecified`) | Primary color for monochrome, `DUOTONE`, and `COLOR` styles. |
+| `secondaryColor` | `Color` | `LocalSlaticoIconTheme.current.secondaryColor` (`Color.Unspecified`) | Secondary tone color for `DUOTONE` and `COLOR` styles. |
+| `secondaryAlpha` | `Float` | `LocalSlaticoIconTheme.current.secondaryAlpha` (`0.22f`) | Secondary layer alpha (`0f..1f`) for `DUOTONE` icons. |
+| `contentDescription` | `String?` | `null` | Accessibility TalkBack description (`null` marks the icon decorative). |
 
 ## License
 
-MIT © Infitus Creative Studio
+MIT © Infitus Creative Studio (`infitusofficial`)

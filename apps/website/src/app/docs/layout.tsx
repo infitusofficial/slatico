@@ -4,6 +4,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SITE_CONFIG } from "../../config/site";
 
+const CORE_CONCEPT_LINKS = [
+  { label: "Installation", href: "/docs#installation" },
+  { label: "Seven Icon Styles", href: "/docs#seven-styles" },
+  { label: "Customization & Colors", href: "/docs#customization" },
+  { label: "Accessibility", href: "/docs#accessibility" },
+  { label: "Import Optimization & Tree Shaking", href: "/docs#tree-shaking" },
+  { label: "Troubleshooting", href: "/docs#troubleshooting" },
+  { label: "License (MIT)", href: "/license" }
+] as const;
+
 export default function DocsLayout({
   children
 }: {
@@ -30,14 +40,67 @@ export default function DocsLayout({
         to consume packages via workspace or local path today.
       </div>
 
+      {/* Mobile-Friendly Quick Navigation (<lg) */}
+      <nav
+        aria-label="Mobile documentation navigation"
+        className="mb-6 rounded-[24px] squircle border border-border bg-surface p-3.5 lg:hidden"
+      >
+        <div className="mb-2 text-[11px] font-semibold text-muted-foreground uppercase">
+          Documentation Guides
+        </div>
+        <div className="flex flex-wrap gap-1.5">
+          <Link
+            href="/docs"
+            aria-current={pathname === "/docs" ? "page" : undefined}
+            className={`rounded-[14px] squircle px-3 py-1.5 text-xs font-medium transition-colors ${
+              pathname === "/docs"
+                ? "bg-primary text-primary-foreground font-semibold"
+                : "border border-border bg-surface-subtle text-foreground hover:border-primary"
+            }`}
+          >
+            Overview
+          </Link>
+          {SITE_CONFIG.docsGuides.map((guide) => {
+            const active = pathname === guide.href;
+            return (
+              <Link
+                key={guide.slug}
+                href={guide.href}
+                aria-current={active ? "page" : undefined}
+                className={`rounded-[14px] squircle px-3 py-1.5 text-xs font-medium transition-colors ${
+                  active
+                    ? "bg-primary text-primary-foreground font-semibold"
+                    : "border border-border bg-surface-subtle text-foreground hover:border-primary"
+                }`}
+              >
+                {guide.shortTitle}
+              </Link>
+            );
+          })}
+        </div>
+        <div className="mt-3 border-t border-border pt-2.5">
+          <div className="flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
+            {CORE_CONCEPT_LINKS.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="hover:text-primary hover:underline"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </nav>
+
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
-        {/* Sidebar Navigation */}
-        <aside className="min-w-0 lg:col-span-3">
+        {/* Desktop Sidebar Navigation */}
+        <aside className="hidden min-w-0 lg:col-span-3 lg:block">
           <nav
             aria-label="Documentation guides"
-            className="sticky top-24 rounded-[28px] squircle border border-border bg-surface p-4"
+            className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto rounded-[28px] squircle border border-border bg-surface p-4"
           >
-            <div className="mb-3 px-2 text-xs font-semibold text-muted-foreground uppercase">
+            <div className="mb-2 px-2 text-xs font-semibold text-muted-foreground uppercase">
               Getting Started
             </div>
             <ul className="space-y-1 text-sm">
@@ -54,6 +117,16 @@ export default function DocsLayout({
                   Overview &amp; Architecture
                 </Link>
               </li>
+              {CORE_CONCEPT_LINKS.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="block rounded-[16px] squircle px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
 
             <div className="mt-5 mb-2 px-2 text-xs font-semibold text-muted-foreground uppercase">

@@ -3,6 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "description": "Lightweight, framework-independent native Custom Elements (<slatico-icon>) for Slatico across all 7 styles",
+  "keywords": [
+    "slatico",
+    "icons",
+    "web-components",
+    "custom-elements",
+    "shadow-dom",
+    "svg"
+  ],
+  "homepage": "https://github.com/infitusofficial/slatico",
+  "bugs": {
+    "url": "https://github.com/infitusofficial/slatico/issues"
+  },
   "license": "MIT",
   "author": "Infitus Creative Studio",
   "repository": {
@@ -42,7 +54,10 @@
     "access": "public"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "dependencies": {
     "@slatico/core": "workspace:*"

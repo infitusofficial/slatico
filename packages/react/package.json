@@ -3,6 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "description": "Official React icon components for Slatico with full support for all 7 styles and individual icon tree-shaking",
+  "keywords": [
+    "slatico",
+    "icons",
+    "react",
+    "nextjs",
+    "svg",
+    "duotone",
+    "design-system"
+  ],
+  "homepage": "https://github.com/infitusofficial/slatico",
+  "bugs": {
+    "url": "https://github.com/infitusofficial/slatico/issues"
+  },
   "license": "MIT",
   "author": "Infitus Creative Studio",
   "repository": {
@@ -42,7 +55,10 @@
     "access": "public"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "peerDependencies": {
     "react": ">=18.0.0"

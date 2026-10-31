@@ -78,7 +78,7 @@ describe("SlaticoIcons Apple Native Package (Phase 3C)", () => {
     expect(totalFiles).toBe(189);
   });
 
-  it("generates deterministic Swift enum and vector catalog for all 23 families and 161 variants without demo leaks", async () => {
+  it("generates deterministic Swift enum and vector catalog for all 27 families and 189 variants without demo leaks", async () => {
     const iconNameSwift = await fs.readFile(
       path.join(GENERATED_DIR, "SlaticoIconName.generated.swift"),
       "utf8"
