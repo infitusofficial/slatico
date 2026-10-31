@@ -42,10 +42,10 @@ No packages have been published to npm or native registries yet. Below is the tr
 | **Vue 3 Components** | `@slatico/vue` (`packages/vue`) | **Implemented** | Typed Vue 3 components with SSR-safe instance-scoped SVG IDs (`useId`), Duotone props, and subpath imports (`@slatico/vue/icons/*`). |
 | **Native Web Components** | `@slatico/web` (`packages/web`) | **Implemented** | Framework-independent `<slatico-icon>` Shadow DOM Custom Element with selective icon registration (`@slatico/web/icons/*`). |
 | **React Native Components** | `@slatico/react-native` (`packages/react-native`) | **Implemented** | Native `react-native-svg` components supporting all 7 styles, Duotone props, multicolor gradients, and subpath imports (`@slatico/react-native/icons/*`). |
-| **Web Icon Font** | `@slatico/font` (`packages/font`) | **Implemented** | WOFF2, WOFF, and TTF monochrome icon fonts, `slatico.css` / `slatico.min.css`, JSON glyph manifest, and stable Unicode PUA mappings across Thin, Light, Regular, Bold, and Fill (`5 × 23 = 115` glyphs). |
-| **Flutter Package** | `slatico_icons` (`packages/flutter`) | **Implemented** | Pub.dev-ready Dart/Flutter package with `115` monochrome `IconData` constants (`SlaticoIcons`), `46` Duotone & Color SVG assets, `SlaticoIcon` widget, `SlaticoIconTheme`, tests, and showcase example app. |
-| **Android Native** | `com.infitus.slatico:slatico-android` (`packages/android`) | **Implemented** | Native Android Library (`minSdk = 24`) with `161` `VectorDrawable` XML resources across all 7 styles, Kotlin `@DrawableRes` lookup (`SlaticoDrawables`), Jetpack Compose `SlaticoIcon` with dynamic two-color Duotone support, and sample showcase app. |
-| **Apple Native (Swift)** | `SlaticoIcons` (`packages/swift`) | **Implemented** | Native Swift Package (`iOS 15+`, `macOS 12+`, `Mac Catalyst 15+`) supporting SwiftUI (`SlaticoIcon`), UIKit (`UIImage.slatico`), and AppKit (`NSImage.slatico`) with `161` `CGPath` vector definitions, bundled `.svg` resources, showcase target, and XCTest suite. |
+| **Web Icon Font** | `@slatico/font` (`packages/font`) | **Implemented** | WOFF2, WOFF, and TTF monochrome icon fonts, `slatico.css` / `slatico.min.css`, JSON glyph manifest, and stable Unicode PUA mappings across Thin, Light, Regular, Bold, and Fill (`5 × 27 = 135` glyphs). |
+| **Flutter Package** | `slatico_icons` (`packages/flutter`) | **Implemented** | Pub.dev-ready Dart/Flutter package with `135` monochrome `IconData` constants (`SlaticoIcons`), `54` Duotone & Color SVG assets, `SlaticoIcon` widget, `SlaticoIconTheme`, tests, and showcase example app. |
+| **Android Native** | `com.infitus.slatico:slatico-android` (`packages/android`) | **Implemented** | Native Android Library (`minSdk = 24`) with `189` `VectorDrawable` XML resources across all 7 styles, Kotlin `@DrawableRes` lookup (`SlaticoDrawables`), Jetpack Compose `SlaticoIcon` with dynamic two-color Duotone and Color support, and sample showcase app. |
+| **Apple Native (Swift)** | `SlaticoIcons` (`packages/swift`) | **Implemented** | Native Swift Package (`iOS 15+`, `macOS 12+`, `Mac Catalyst 15+`) supporting SwiftUI (`SlaticoIcon`), UIKit (`UIImage.slatico`), and AppKit (`NSImage.slatico`) with `189` `CGPath` vector definitions, bundled `.svg` resources, showcase target, and XCTest suite. |
 | **Technical Website** | `@slatico/website` (`apps/website`) | **Implemented** | Next.js 16 App Router + React 19 + TypeScript + Tailwind CSS v4 technical landing page, live 7-style matrix, `<slatico-icon>` & SVG sprite showcase, and interactive `@slatico/font` showcase. |
 
 ---
@@ -137,11 +137,11 @@ pnpm dev:website
 
 ---
 
-## Tier 1 Production Icon Collection (23 Families · 161 Variants)
+## Tier 1 Production Icon Collection (27 Families · 189 Variants)
 
-Our first production release (**Tier 1**) integrates **23 original icon families**, each crafted across all **7 official styles** (`23 × 7 = 161` production SVG variants):
+Our first production release (**Tier 1**) integrates **27 original icon families**, each crafted across all **7 official styles** (`27 × 7 = 189` production SVG variants):
 
-`bell`, `cloud`, `cloud-check`, `credit-card`, `envelope`, `envelope-open`, `gear`, `house`, `layout-dashboard`, `lock`, `lock-open`, `magnifying-glass`, `minus`, `pencil`, `plus`, `shield`, `shield-check`, `sliders-horizontal`, `trash`, `trash-x`, `trend-up`, `user`, `wallet`.
+`arrow-down`, `arrow-up`, `arrow-up-left`, `arrow-up-right`, `bell`, `cloud`, `cloud-check`, `credit-card`, `envelope`, `envelope-open`, `gear`, `house`, `layout-dashboard`, `lock`, `lock-open`, `magnifying-glass`, `minus`, `pencil`, `plus`, `shield`, `shield-check`, `sliders-horizontal`, `trash`, `trash-x`, `trend-up`, `user`, `wallet`.
 
 ### Multi-Tier Catalog Architecture (Tier 1 / Tier 2 / Tier 3)
 

@@ -198,6 +198,8 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
 
   it("centralizes site config and supports page metadata overrides with global og-image fallback", () => {
     expect(SITE_CONFIG.brandName).toBe("Slatico");
+    expect(SITE_CONFIG.siteUrl).toBe("https://slatico.dev");
+    expect(SITE_CONFIG.links.website).toBe("https://slatico.dev");
     expect(SITE_CONFIG.assets.logo).toBe("/brand/logo.svg");
     expect(SITE_CONFIG.assets.logoDark).toBe("/brand/logo-dark.svg");
     expect(SITE_CONFIG.assets.ogImage.url).toBe("/brand/og-image.png");
@@ -205,9 +207,10 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     expect(SITE_CONFIG.metrics.totalVariants).toBe(189);
     expect(DOCS_GUIDES.length).toBe(7);
 
-    // Default fallback to global og-image.png
+    // Default fallback to global og-image.png resolved under https://slatico.dev
     const defaultImages = homeMetadata.openGraph?.images as Array<{ url: string }>;
-    expect(defaultImages?.[0]?.url).toBe("/brand/og-image.png");
+    expect(defaultImages?.[0]?.url).toBe("https://slatico.dev/brand/og-image.png");
+    expect(homeMetadata.alternates?.canonical).toBe("https://slatico.dev");
 
     // Custom override support
     const overridden = buildPageMetadata({
@@ -221,7 +224,8 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
       }
     });
     const overriddenImages = overridden.openGraph?.images as Array<{ url: string }>;
-    expect(overriddenImages?.[0]?.url).toBe("/brand/custom-og.png");
+    expect(overriddenImages?.[0]?.url).toBe("https://slatico.dev/brand/custom-og.png");
+    expect(overridden.alternates?.canonical).toBe("https://slatico.dev/icons/bell");
 
     expect(iconsExplorerMetadata.title).toContain("Icon Explorer");
     expect(docsOverviewMetadata.title).toContain("Documentation");
@@ -455,7 +459,7 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
         secondaryColor: "#059669",
         secondaryOpacity: 0.3
       })
-    ).toContain("SlaticoIconName.bell");
+    ).toContain("name: SlaticoIconName.bell");
 
     expect(
       generatePlatformCodeSnippet("jetpack-compose", {
@@ -565,9 +569,15 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
 
     expect(() => JSON.stringify([org, site, code, crumbs])).not.toThrow();
     expect(org["@type"]).toBe("Organization");
+    expect(org.logo).toBe("https://slatico.dev/brand/logo.svg");
     expect(site["@type"]).toBe("WebSite");
+    expect(site.url).toBe("https://slatico.dev");
     expect(code["@type"]).toBe("SoftwareSourceCode");
+    expect(code.url).toBe("https://slatico.dev");
     expect(crumbs["@type"]).toBe("BreadcrumbList");
+    const items = crumbs.itemListElement as Array<{ item: string }>;
+    expect(items[0]?.item).toBe("https://slatico.dev");
+    expect(items[1]?.item).toBe("https://slatico.dev/icons");
   });
 
   it("verifies static export HTML output when apps/website/out is present", () => {
@@ -600,6 +610,8 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
       "robots.txt",
       "favicon.ico",
       "site.webmanifest",
+      "_headers",
+      "_redirects",
       "brand/logo.svg",
       "brand/logo-dark.svg",
       "brand/icon.svg",
@@ -616,8 +628,20 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     }
 
     const sitemapXml = readFileSync(path.join(outDir, "sitemap.xml"), "utf8");
-    expect(sitemapXml).toContain("/icons/bell");
-    expect(sitemapXml).toContain("/docs/swift");
+    expect(sitemapXml).toContain("<loc>https://slatico.dev</loc>");
+    expect(sitemapXml).toContain("<loc>https://slatico.dev/icons</loc>");
+    expect(sitemapXml).toContain("<loc>https://slatico.dev/docs</loc>");
+    expect(sitemapXml).toContain("<loc>https://slatico.dev/docs/swift</loc>");
+    for (const iconName of ICON_NAMES) {
+      expect(sitemapXml).toContain(`<loc>https://slatico.dev/icons/${iconName}</loc>`);
+    }
+    expect(sitemapXml).not.toContain("slatico.infitus.dev");
+    expect(sitemapXml).not.toContain("localhost:3000");
+
+    const robotsTxt = readFileSync(path.join(outDir, "robots.txt"), "utf8");
+    expect(robotsTxt).toContain("Sitemap: https://slatico.dev/sitemap.xml");
+    expect(robotsTxt).not.toContain("slatico.infitus.dev");
+    expect(robotsTxt).not.toContain("localhost:3000");
   });
 
   it("verifies Phase 4B release readiness files across all 10 packages", () => {

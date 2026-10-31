@@ -23,7 +23,7 @@ export function buildWebSiteJsonLd(): Record<string, unknown> {
     "@type": "WebSite",
     name: SITE_CONFIG.fullName,
     alternateName: SITE_CONFIG.brandName,
-    url: SITE_CONFIG.siteUrl,
+    url: resolveCanonicalUrl("/"),
     description: SITE_CONFIG.description,
     inLanguage: SITE_CONFIG.language,
     publisher: {
@@ -48,6 +48,7 @@ export function buildSoftwareSourceCodeJsonLd(): Record<string, unknown> {
     "@type": "SoftwareSourceCode",
     name: SITE_CONFIG.brandName,
     description: SITE_CONFIG.description,
+    url: resolveCanonicalUrl("/"),
     version: SITE_CONFIG.version,
     codeRepository: SITE_CONFIG.links.github,
     license: SITE_CONFIG.links.licenseBlob,

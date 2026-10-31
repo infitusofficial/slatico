@@ -89,6 +89,11 @@ export const DOCS_GUIDES: readonly DocsGuideNavItem[] = [
   }
 ] as const;
 
+const RAW_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+const RESOLVED_SITE_URL = (
+  RAW_SITE_URL && RAW_SITE_URL.length > 0 ? RAW_SITE_URL : "https://slatico.dev"
+).replace(/\/+$/, "");
+
 export const SITE_CONFIG = {
   brandName: "Slatico",
   fullName: "Slatico by Infitus Creative Studio",
@@ -104,7 +109,7 @@ export const SITE_CONFIG = {
   title: "Slatico — Multi-Platform Open-Source Icon System by Infitus Creative Studio",
   description:
     `Explore ${ICON_CATALOG.totalIcons} original icon families and ${ICON_CATALOG.totalVariants} production vector variants across Thin, Light, Regular, Bold, Fill, Duotone, and Color styles for React, Vue, Web Components, React Native, Flutter, Android, and Apple Swift.`,
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "https://slatico.infitus.dev",
+  siteUrl: RESOLVED_SITE_URL,
   locale: "en_US",
   language: "en",
   license: "MIT",
@@ -117,6 +122,7 @@ export const SITE_CONFIG = {
       "Packages are verified in the open-source Slatico monorepo CI pipeline and prepared for upcoming public registry publishing (npm, pub.dev, Maven Central, and Swift Package Index)."
   },
   links: {
+    website: RESOLVED_SITE_URL,
     github: "https://github.com/infitusofficial/slatico",
     githubIssues: "https://github.com/infitusofficial/slatico/issues",
     githubDiscussions: "https://github.com/infitusofficial/slatico/issues",

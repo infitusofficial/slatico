@@ -26,6 +26,9 @@ export interface PageSeoConfig {
 }
 
 export function resolveCanonicalUrl(canonicalPath: string): string {
+  if (/^https?:\/\//i.test(canonicalPath)) {
+    return canonicalPath;
+  }
   const base = SITE_CONFIG.siteUrl.replace(/\/+$/, "");
   const cleanPath = canonicalPath.startsWith("/") ? canonicalPath : `/${canonicalPath}`;
   return cleanPath === "/" ? base : `${base}${cleanPath}`;
@@ -33,15 +36,21 @@ export function resolveCanonicalUrl(canonicalPath: string): string {
 
 export function buildPageMetadata(config: PageSeoConfig): Metadata {
   const canonicalUrl = resolveCanonicalUrl(config.canonicalPath);
+  const resolvedOgImageUrl = resolveCanonicalUrl(
+    config.ogImage?.url ?? SITE_CONFIG.assets.ogImage.url
+  );
   const resolvedOgImage = config.ogImage?.url
     ? {
-        url: config.ogImage.url,
+        url: resolvedOgImageUrl,
         width: config.ogImage.width ?? SITE_CONFIG.assets.ogImage.width,
         height: config.ogImage.height ?? SITE_CONFIG.assets.ogImage.height,
         alt: config.ogImage.alt ?? config.ogTitle ?? config.title,
         type: config.ogImage.type ?? SITE_CONFIG.assets.ogImage.type
       }
-    : SITE_CONFIG.assets.ogImage;
+    : {
+        ...SITE_CONFIG.assets.ogImage,
+        url: resolvedOgImageUrl
+      };
 
   const ogTitle = config.ogTitle ?? config.title;
   const ogDescription = config.ogDescription ?? config.description;

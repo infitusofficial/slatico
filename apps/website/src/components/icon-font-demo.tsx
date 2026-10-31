@@ -81,7 +81,7 @@ ${getFontHtmlSnippet(selectedIcon, selectedStyle)}
           <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
             Live CSS icon font glyphs rendered directly from{" "}
             <code className="break-all font-mono text-foreground">@slatico/font/slatico.css</code>{" "}
-            with stable Unicode Private Use Area (<code className="font-mono text-foreground">U+E001–U+E017</code>) codepoints.
+            with stable Unicode Private Use Area (<code className="font-mono text-foreground">U+E001–U+E01B</code>) codepoints.
           </p>
         </div>
 

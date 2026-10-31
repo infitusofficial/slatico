@@ -1,6 +1,6 @@
 # `@slatico/font`
 
-Production-ready monochrome icon fonts (`WOFF2`, `WOFF`, and `TTF`), CSS stylesheet, and deterministic Unicode Private Use Area (`U+E001`–`U+E01C`) codepoint metadata for **Slatico by Infitus Creative Studio**.
+Production-ready monochrome icon fonts (`WOFF2`, `WOFF`, and `TTF`), CSS stylesheet, and deterministic Unicode Private Use Area (`U+E001`–`U+E01B`) codepoint metadata for **Slatico by Infitus Creative Studio**.
 
 ## Included Styles (`135` Glyphs Total)
 

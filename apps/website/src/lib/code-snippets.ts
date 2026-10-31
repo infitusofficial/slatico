@@ -391,7 +391,7 @@ export function NativeIconExample() {
 
     case "flutter": {
       const args: string[] = [
-        `SlaticoIconName.${camelName}`,
+        `name: SlaticoIconName.${camelName}`,
         `style: SlaticoStyle.${style}`,
         `size: ${size}`
       ];

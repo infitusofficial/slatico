@@ -1,0 +1,7 @@
+# Cloudflare Pages path-level redirects
+# Note: Hostname-level redirects (www.slatico.dev -> https://slatico.dev) must be configured
+# via a Cloudflare Zone-Level Redirect Rule (http.host eq "www.slatico.dev") to preserve paths
+# and query strings without causing a path-wildcard loop on the apex domain.
+/home / 301
+/explore /icons 301
+/documentation /docs 301

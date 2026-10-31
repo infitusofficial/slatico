@@ -77,7 +77,7 @@ pnpm --filter @slatico/react-native publish --access public --no-git-checks
 ## 4. Flutter (`pub.dev`) Checklist (`slatico_icons`)
 
 ### Manual Account Setup Required
-1. Authenticate with `dart pub login` using the verified Google account associated with the publisher domain (e.g. `infitus.dev`).
+1. Authenticate with `dart pub login` using the verified Google account associated with the publisher domain (`slatico.dev`).
 
 ### Pre-Publish Dry-Run & Publish Commands
 ```bash
@@ -132,3 +132,77 @@ cd packages/swift
 swift build
 swift test
 ```
+
+---
+
+## 7. Cloudflare Pages Production Deployment (`https://slatico.dev`)
+
+### Monorepo Build Settings
+Connect the `infitusofficial/slatico` GitHub repository in **Cloudflare Dashboard → Workers & Pages → Create → Pages → Connect to Git** with the following exact settings:
+
+| Setting | Value |
+| :--- | :--- |
+| **Project name** | `slatico` |
+| **Production branch** | `main` |
+| **Framework preset** | `None` (Static Next.js Export in Monorepo) |
+| **Root directory** | `/` (Repository root) |
+| **Build command** | `pnpm install --frozen-lockfile && pnpm build:website` |
+| **Build output directory** | `apps/website/out` |
+
+### Environment Variables (Production & Preview)
+Configure the following build environment variables in **Cloudflare Pages → Settings → Environment variables**:
+
+| Variable | Value | Purpose |
+| :--- | :--- | :--- |
+| `NEXT_PUBLIC_SITE_URL` | `https://slatico.dev` | Canonical origin for metadata, Open Graph, JSON-LD, `sitemap.xml`, and `robots.txt` |
+| `NODE_VERSION` | `24` | Matches repository `.node-version` and GitHub Actions CI (`Node 24`) |
+| `ENABLE_COREPACK` | `true` | Enables Corepack to resolve the repository `packageManager` (`pnpm@12.16.1` / `pnpm@10.16.1+`) from root `package.json` |
+
+> **Note:** `pnpm build:website` automatically invokes `scripts/ensure-website-deps.ts` before running Next.js static export (`output: "export"`), ensuring `@slatico/core`, `@slatico/font`, `@slatico/svg`, `@slatico/react`, and `@slatico/web` are built even on a fresh Cloudflare Pages clone where `packages/*/dist` is not checked into git.
+
+### Custom Domain, DNS & Redirect Rules (`slatico.dev`)
+1. In **Cloudflare Pages → Custom domains → Set up a custom domain**:
+   - Add **`slatico.dev`** (Cloudflare automatically creates a proxied `CNAME` record for `@` pointing to `<project>.pages.dev` and provisions an Universal SSL/TLS certificate).
+   - Add **`www.slatico.dev`** (Cloudflare creates a proxied `CNAME` record for `www` pointing to `<project>.pages.dev`).
+2. In **Cloudflare Zone (`slatico.dev`) → SSL/TLS**:
+   - Set **SSL/TLS encryption mode** to **Full (strict)**.
+   - Enable **Always Use HTTPS** under **SSL/TLS → Edge Certificates**.
+3. Redirect `www.slatico.dev` to apex `https://slatico.dev` (with path & query preservation):
+   - **Important:** Cloudflare Pages `_redirects` only evaluates relative URL paths (`source` starting with `/`) across all bound custom domains and must **not** be used for hostname (`www` → apex) redirects.
+   - Configure a **Cloudflare Zone-Level Redirect Rule** in **Cloudflare Dashboard → Zone (`slatico.dev`) → Rules → Redirect Rules → Create rule**:
+     - **Rule name:** `Redirect www.slatico.dev to apex https://slatico.dev`
+     - **When incoming requests match (Custom filter expression):**
+       ```text
+       (http.host eq "www.slatico.dev")
+       ```
+     - **Then — Type:** `Dynamic`
+     - **Expression:**
+       ```text
+       concat("https://slatico.dev", http.request.uri.path)
+       ```
+     - **Status code:** `301` (Permanent Redirect)
+     - **Preserve query string:** `Enabled` (`true`)
+
+---
+
+## 8. Search Engine Indexing Preparation (`slatico.dev`)
+
+Once `https://slatico.dev` is live on Cloudflare Pages:
+
+### Google Search Console
+1. Open [Google Search Console](https://search.google.com/search-console) and click **Add property**.
+2. Select **Domain** property type and enter `slatico.dev`.
+3. Copy the provided DNS `TXT` verification token (`google-site-verification=...`) and add it as a `TXT` record on `@` (`slatico.dev`) in **Cloudflare DNS**.
+4. After ownership verification succeeds, navigate to **Sitemaps** and submit:
+   ```text
+   https://slatico.dev/sitemap.xml
+   ```
+5. Use **URL Inspection** to request indexing for `https://slatico.dev/`, `https://slatico.dev/icons`, and `https://slatico.dev/docs`.
+
+### Bing Webmaster Tools
+1. Open [Bing Webmaster Tools](https://www.bing.com/webmasters).
+2. Choose **Import from Google Search Console** (fastest automatic verification) or add `https://slatico.dev` manually via Cloudflare DNS `TXT` / `CNAME` verification.
+3. Navigate to **Sitemaps → Submit sitemap** and submit:
+   ```text
+   https://slatico.dev/sitemap.xml
+   ```
