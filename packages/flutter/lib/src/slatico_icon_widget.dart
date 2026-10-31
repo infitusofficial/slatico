@@ -50,12 +50,10 @@ String resolveColorSvgMarkup({
   Color? secondaryColor,
 }) {
   final String template = slaticoColorSvgTemplates[name]!;
-  final String primaryHex = primaryColor != null
-      ? formatColorToSvgHex(primaryColor)
-      : '#FF6040';
-  final String secondaryHex = secondaryColor != null
-      ? formatColorToSvgHex(secondaryColor)
-      : '#000000';
+  final String primaryHex =
+      primaryColor != null ? formatColorToSvgHex(primaryColor) : '#FF6040';
+  final String secondaryHex =
+      secondaryColor != null ? formatColorToSvgHex(secondaryColor) : '#000000';
 
   return template
       .replaceAll('__SLATICO_PRIMARY_COLOR__', primaryHex)
