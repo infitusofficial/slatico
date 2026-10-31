@@ -1,4 +1,4 @@
-# Slatico Android SDK (`com.infitus.slatico:slatico-android`)
+# Slatico Android SDK (`dev.slatico:slatico-android`)
 
 Official Android `VectorDrawable` XML and Jetpack Compose icon library for **Slatico by Infitus Creative Studio**.
 
@@ -12,7 +12,7 @@ Includes all **27 Tier 1 icon families** across all **7 official styles** (`Thin
 
 ```kotlin
 dependencies {
-    implementation("com.infitus.slatico:slatico-android:0.1.0")
+    implementation("dev.slatico:slatico-android:0.1.0")
 }
 ```
 

@@ -44,7 +44,7 @@ No packages have been published to npm or native registries yet. Below is the tr
 | **React Native Components** | `@slatico/react-native` (`packages/react-native`) | **Implemented** | Native `react-native-svg` components supporting all 7 styles, Duotone props, multicolor gradients, and subpath imports (`@slatico/react-native/icons/*`). |
 | **Web Icon Font** | `@slatico/font` (`packages/font`) | **Implemented** | WOFF2, WOFF, and TTF monochrome icon fonts, `slatico.css` / `slatico.min.css`, JSON glyph manifest, and stable Unicode PUA mappings across Thin, Light, Regular, Bold, and Fill (`5 × 27 = 135` glyphs). |
 | **Flutter Package** | `slatico_icons` (`packages/flutter`) | **Implemented** | Pub.dev-ready Dart/Flutter package with `135` monochrome `IconData` constants (`SlaticoIcons`), `54` Duotone & Color SVG assets, `SlaticoIcon` widget, `SlaticoIconTheme`, tests, and showcase example app. |
-| **Android Native** | `com.infitus.slatico:slatico-android` (`packages/android`) | **Implemented** | Native Android Library (`minSdk = 24`) with `189` `VectorDrawable` XML resources across all 7 styles, Kotlin `@DrawableRes` lookup (`SlaticoDrawables`), Jetpack Compose `SlaticoIcon` with dynamic two-color Duotone and Color support, and sample showcase app. |
+| **Android Native** | `dev.slatico:slatico-android` (`packages/android`) | **Implemented** | Native Android Library (`minSdk = 24`) with `189` `VectorDrawable` XML resources across all 7 styles, Kotlin `@DrawableRes` lookup (`SlaticoDrawables`), Jetpack Compose `SlaticoIcon` with dynamic two-color Duotone and Color support, and sample showcase app. |
 | **Apple Native (Swift)** | `SlaticoIcons` (`packages/swift`) | **Implemented** | Native Swift Package (`iOS 15+`, `macOS 12+`, `Mac Catalyst 15+`) supporting SwiftUI (`SlaticoIcon`), UIKit (`UIImage.slatico`), and AppKit (`NSImage.slatico`) with `189` `CGPath` vector definitions, bundled `.svg` resources, showcase target, and XCTest suite. |
 | **Technical Website** | `@slatico/website` (`apps/website`) | **Implemented** | Next.js 16 App Router + React 19 + TypeScript + Tailwind CSS v4 technical landing page, live 7-style matrix, `<slatico-icon>` & SVG sprite showcase, and interactive `@slatico/font` showcase. |
 
@@ -74,7 +74,7 @@ slatico/
 │   ├── font/                # @slatico/font — WOFF2/WOFF/TTF monochrome icon fonts & CSS
 │   ├── react-native/        # @slatico/react-native — Native react-native-svg components
 │   ├── flutter/             # slatico_icons — Dart/Flutter package (TTF IconData + flutter_svg)
-│   ├── android/             # com.infitus.slatico — Android VectorDrawables & Jetpack Compose
+│   ├── android/             # dev.slatico:slatico-android — Android VectorDrawables & Jetpack Compose
 │   └── swift/               # SlaticoIcons — Swift Package for SwiftUI, UIKit & AppKit
 ├── scripts/                 # Node.js + TypeScript SVG validation, codegen, and clean scripts
 ├── tests/                   # Vitest unit & pipeline verification suite

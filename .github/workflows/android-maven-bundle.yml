@@ -1,0 +1,104 @@
+name: Android Maven Release Bundle
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bundle:
+    name: Build & Sign Android Maven Central Bundle (dev.slatico:slatico-android:0.1.0)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v6
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Ensure Android SDK 35 & Build-Tools 35.0.0
+        run: |
+          yes | "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+          "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" "platforms;android-35" "build-tools;35.0.0"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Verify PGP signing secret is configured
+        env:
+          HAS_SIGNING_KEY: ${{ secrets.SIGNING_KEY != '' }}
+        run: |
+          if [ "${HAS_SIGNING_KEY}" != "true" ]; then
+            echo "::error::Required GitHub Actions secret SIGNING_KEY is not set. Configure SIGNING_KEY (and SIGNING_PASSWORD / optional SIGNING_KEY_ID) in Repository Settings -> Secrets and variables -> Actions."
+            exit 1
+          fi
+
+      - name: Build & Sign Central Portal Maven Bundle
+        working-directory: packages/android
+        env:
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+          SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
+        run: |
+          chmod +x gradlew
+          ./gradlew :library:packageCentralPortalBundle --no-daemon --stacktrace
+
+      - name: Verify Signed ZIP Bundle & All Five Required .asc Signatures
+        working-directory: packages/android
+        run: |
+          BUNDLE_ZIP="library/build/distributions/slatico-android-0.1.0-central-portal-bundle.zip"
+          if [ ! -s "${BUNDLE_ZIP}" ]; then
+            echo "::error::Expected bundle ZIP not found or empty at ${BUNDLE_ZIP}"
+            exit 1
+          fi
+
+          echo "Contents of ${BUNDLE_ZIP}:"
+          ZIP_ENTRIES="$(unzip -Z1 "${BUNDLE_ZIP}")"
+          echo "${ZIP_ENTRIES}"
+
+          BASE_PATH="dev/slatico/slatico-android/0.1.0/slatico-android-0.1.0"
+          REQUIRED_SIGNATURES=(
+            "${BASE_PATH}.aar.asc"
+            "${BASE_PATH}-sources.jar.asc"
+            "${BASE_PATH}-javadoc.jar.asc"
+            "${BASE_PATH}.pom.asc"
+            "${BASE_PATH}.module.asc"
+          )
+
+          for sig in "${REQUIRED_SIGNATURES[@]}"; do
+            if ! echo "${ZIP_ENTRIES}" | grep -Fxq "${sig}"; then
+              echo "::error::Missing required PGP signature inside ZIP bundle: ${sig}"
+              exit 1
+            fi
+          done
+
+          REQUIRED_ARTIFACTS=(
+            "${BASE_PATH}.aar"
+            "${BASE_PATH}-sources.jar"
+            "${BASE_PATH}-javadoc.jar"
+            "${BASE_PATH}.pom"
+            "${BASE_PATH}.module"
+          )
+
+          for art in "${REQUIRED_ARTIFACTS[@]}"; do
+            for ext in "" ".md5" ".sha1" ".sha256" ".sha512"; do
+              if ! echo "${ZIP_ENTRIES}" | grep -Fxq "${art}${ext}"; then
+                echo "::error::Missing required Maven artifact or checksum inside ZIP bundle: ${art}${ext}"
+                exit 1
+              fi
+            done
+          done
+
+          echo "Verified all 5 primary artifacts, 20 checksums, and 5 PGP .asc signatures (30 entries) in ${BUNDLE_ZIP}."
+
+      - name: Upload Signed Central Portal Bundle ZIP
+        uses: actions/upload-artifact@v7
+        with:
+          name: slatico-android-0.1.0-central-portal-bundle
+          path: packages/android/library/build/distributions/slatico-android-0.1.0-central-portal-bundle.zip
+          if-no-files-found: error
+          retention-days: 30

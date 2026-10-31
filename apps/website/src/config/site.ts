@@ -72,7 +72,7 @@ export const DOCS_GUIDES: readonly DocsGuideNavItem[] = [
     title: "Android Native (Jetpack Compose & XML)",
     shortTitle: "Android",
     href: "/docs/android",
-    packageName: "com.infitus.slatico:slatico-android",
+    packageName: "dev.slatico:slatico-android",
     ecosystem: "Jetpack Compose & Android View XML",
     summary:
       `${ICON_CATALOG.totalVariants} native Android VectorDrawable resources and Jetpack Compose SlaticoIcon composables with runtime tinting.`

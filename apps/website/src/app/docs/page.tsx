@@ -83,7 +83,7 @@ yarn add @slatico/react-native react-native-svg`}
 flutter pub add slatico_icons
 
 # Android (build.gradle.kts)
-implementation("com.infitus.slatico:slatico-android:0.1.0")
+implementation("dev.slatico:slatico-android:0.1.0")
 
 # Apple Swift Package Manager (Package.swift local monorepo path or Git release)
 .package(path: "../slatico/packages/swift")`}

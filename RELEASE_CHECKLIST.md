@@ -18,7 +18,7 @@ Because the JavaScript/TypeScript packages depend on `@slatico/core`, packages m
 6. **`@slatico/web`** (npm — depends on `@slatico/core`)
 7. **`@slatico/react-native`** (npm — depends on `@slatico/core`)
 8. **`slatico_icons`** (pub.dev — standalone Flutter package with bundled TTF fonts and SVG assets)
-9. **`com.infitus.slatico:slatico-android`** (Maven Central — standalone Android AAR with 189 `VectorDrawable` resources and Jetpack Compose APIs)
+9. **`dev.slatico:slatico-android`** (Maven Central — standalone Android AAR with 189 `VectorDrawable` resources and Jetpack Compose APIs)
 10. **`SlaticoIcons`** (GitHub Release Tag / Swift Package Index — standalone Swift Package with 189 `CGPath` vector specs and 189 bundled SVG resources)
 
 ---
@@ -103,23 +103,38 @@ dart pub publish --dry-run
 
 ---
 
-## 5. Android Maven Central Checklist (`com.infitus.slatico:slatico-android`)
+## 5. Android Maven Central Checklist (`dev.slatico:slatico-android`)
 
-### Manual Account Setup Required
-1. Register the **`com.infitus`** (or **`com.infitus.slatico`**) namespace on the **Sonatype Maven Central Portal** (`https://central.sonatype.com`) and verify DNS TXT ownership.
-2. Generate a Sonatype Central Portal User Token (`SONATYPE_USERNAME` / `SONATYPE_PASSWORD`).
-3. Generate and publish an ASCII-armored **PGP signing key** (`SIGNING_KEY_ID`, `SIGNING_PASSWORD`, `SIGNING_SECRET_KEY_RING_FILE` or in-memory key) to `keys.openpgp.org` / `keyserver.ubuntu.com`.
+### Verified Namespace & Central Portal Setup
+- **Verified Maven Central Namespace:** **`dev.slatico`** (already verified on the Sonatype Central Publisher Portal at `https://central.sonatype.com`).
+- **Maven Coordinates:** `dev.slatico:slatico-android:0.1.0`
+- **Kotlin Package Namespace:** `com.infitus.slatico` (preserved for source compatibility).
+- **Configured Gradle Artifact Metadata (`packages/android/library/build.gradle.kts`):**
+  - **Group ID:** `dev.slatico`
+  - **Artifact ID:** `slatico-android`
+  - **Version:** `0.1.0`
+  - **Artifacts Included:** Release `.aar`, `-sources.jar` (`withSourcesJar()`), `-javadoc.jar` (`withJavadocJar()`), `.pom`, `.module`, `.md5` / `.sha1` / `.sha256` / `.sha512` checksums, and `.asc` PGP signatures.
 
-### Configured Gradle Artifact Metadata (`packages/android/library/build.gradle.kts`)
-- **Group ID:** `com.infitus.slatico`
-- **Artifact ID:** `slatico-android`
-- **Version:** `0.1.0`
-- **Artifacts Included:** Release `.aar`, `-sources.jar` (`withSourcesJar()`), `-javadoc.jar` (`withJavadocJar()`), and complete Maven Central POM (`name`, `description`, `url`, `licenses`, `developers`, `scm`).
+### Local Credential & PGP Setup (`~/.gradle/gradle.properties` — Never Commit)
+1. Generate a **Sonatype Central Portal User Token** at `https://central.sonatype.com/account` → **Generate User Token**.
+2. Generate and publish an ASCII-armored **PGP signing key** to a public keyserver (`keys.openpgp.org` or `keyserver.ubuntu.com`).
+3. Add credentials to your user-level `~/.gradle/gradle.properties` (outside the repository) or export as environment variables:
+   ```properties
+   mavenCentralUsername=<YOUR_CENTRAL_PORTAL_TOKEN_USERNAME>
+   mavenCentralPassword=<YOUR_CENTRAL_PORTAL_TOKEN_PASSWORD>
+   signingKeyId=<8_CHAR_PGP_KEY_ID>
+   signingPassword=<PGP_KEY_PASSPHRASE>
+   signingKey=<ASCII_ARMORED_PRIVATE_KEY>
+   ```
 
-### Local Verification Commands
+### Local Build, Bundle & Validation Upload Commands (`USER_MANAGED`)
 ```bash
 cd packages/android
-./gradlew :library:testDebugUnitTest :library:generatePomFileForReleasePublication :library:assembleRelease
+# 1. Run unit tests, generate POM, and package the Central Portal staging bundle (.zip):
+./gradlew :library:testDebugUnitTest :library:packageCentralPortalBundle
+
+# 2. Submit signed bundle to Sonatype Central Portal for validation (USER_MANAGED — does not auto-publish):
+./gradlew :library:uploadCentralPortalBundle
 ```
 
 ---

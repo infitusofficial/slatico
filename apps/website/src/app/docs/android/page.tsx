@@ -22,13 +22,13 @@ export default function AndroidDocsPage() {
 
       <div>
         <span className="font-mono text-xs font-semibold text-primary">
-          com.infitus.slatico:slatico-android · v{SITE_CONFIG.version}
+          dev.slatico:slatico-android · v{SITE_CONFIG.version}
         </span>
         <h1 className="mt-1 text-3xl font-bold text-foreground">
           Android Native (Jetpack Compose &amp; VectorDrawable XML)
         </h1>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          <code className="font-mono text-primary">com.infitus.slatico:slatico-android</code> packages all{" "}
+          <code className="font-mono text-primary">dev.slatico:slatico-android</code> packages all{" "}
           <strong>{SITE_CONFIG.metrics.totalVariants} native Android VectorDrawable XML resources</strong> ({SITE_CONFIG.metrics.totalFamilies} families across all {SITE_CONFIG.metrics.totalStyles} styles) along with a Jetpack Compose{" "}
           <code className="font-mono text-primary">SlaticoIcon</code> composable supporting runtime Duotone and dual-color <code className="font-mono text-primary">COLOR</code> path customization.
         </p>
@@ -44,7 +44,7 @@ export default function AndroidDocsPage() {
           language="kotlin"
           code={`// Maven Central dependency:
 dependencies {
-    implementation("com.infitus.slatico:slatico-android:0.1.0")
+    implementation("dev.slatico:slatico-android:0.1.0")
 }
 
 // Or local monorepo composite build in settings.gradle.kts:

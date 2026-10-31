@@ -97,10 +97,20 @@ describe("com.infitus.slatico Android Native Library (Phase 3B)", () => {
     const gradlewSh = await fs.readFile(path.join(ANDROID_ROOT, "gradlew"), "utf8");
     expect(gradlewSh.includes("\r\n")).toBe(false);
 
+    const gradleProps = await fs.readFile(
+      path.join(ANDROID_ROOT, "gradle.properties"),
+      "utf8"
+    );
+    expect(gradleProps).toContain("GROUP=dev.slatico");
+    expect(gradleProps).toContain("POM_ARTIFACT_ID=slatico-android");
+    expect(gradleProps).toContain("VERSION_NAME=0.1.0");
+    expect(gradleProps).toContain("POM_URL=https://slatico.dev");
+
     const libGradle = await fs.readFile(
       path.join(ANDROID_ROOT, "library", "build.gradle.kts"),
       "utf8"
     );
+    expect(libGradle).toContain('group = findProperty("GROUP")?.toString() ?: "dev.slatico"');
     expect(libGradle).toContain('namespace = "com.infitus.slatico"');
     expect(libGradle).toContain("minSdk = 24");
     expect(libGradle).toContain("compileSdk = 35");
@@ -108,6 +118,11 @@ describe("com.infitus.slatico Android Native Library (Phase 3B)", () => {
     expect(libGradle).toContain("isIncludeAndroidResources = true");
     expect(libGradle).toContain("maven-publish");
     expect(libGradle).toContain("isRequired = hasSigningCredentials");
+    expect(libGradle).toContain("packageCentralPortalBundle");
+    expect(libGradle).toContain("uploadCentralPortalBundle");
+    expect(libGradle).toContain("publishingType=USER_MANAGED");
+    expect(libGradle).not.toContain("oss.sonatype.org");
+    expect(libGradle).not.toContain("s01.oss.sonatype.org");
 
     const ciYaml = await fs.readFile(
       path.join(REPO_ROOT, ".github", "workflows", "ci.yml"),

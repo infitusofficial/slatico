@@ -75,14 +75,14 @@ export const CODE_SNIPPET_PLATFORM_META: Readonly<
     label: "Android XML",
     shortLabel: "Android XML",
     language: "xml",
-    packageName: "com.infitus.slatico:slatico-android"
+    packageName: "dev.slatico:slatico-android"
   },
   "jetpack-compose": {
     id: "jetpack-compose",
     label: "Jetpack Compose",
     shortLabel: "Compose",
     language: "kotlin",
-    packageName: "com.infitus.slatico:slatico-android"
+    packageName: "dev.slatico:slatico-android"
   },
   swiftui: {
     id: "swiftui",
