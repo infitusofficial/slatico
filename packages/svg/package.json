@@ -1,7 +1,6 @@
 {
   "name": "@slatico/svg",
   "version": "0.1.0",
-  "private": true,
   "description": "Optimized raw SVG files, variant SVG sprites, and programmatic SVG helpers for Slatico icons across all 7 styles",
   "keywords": [
     "slatico",
@@ -11,7 +10,7 @@
     "duotone",
     "design-system"
   ],
-  "homepage": "https://github.com/infitusofficial/slatico",
+  "homepage": "https://slatico.dev",
   "bugs": {
     "url": "https://github.com/infitusofficial/slatico/issues"
   },

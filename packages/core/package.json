@@ -1,7 +1,6 @@
 {
   "name": "@slatico/core",
   "version": "0.1.0",
-  "private": true,
   "description": "Core metadata, types, style specifications, and icon catalog for Slatico",
   "keywords": [
     "slatico",
@@ -11,7 +10,7 @@
     "icon-catalog",
     "typescript"
   ],
-  "homepage": "https://github.com/infitusofficial/slatico",
+  "homepage": "https://slatico.dev",
   "bugs": {
     "url": "https://github.com/infitusofficial/slatico/issues"
   },

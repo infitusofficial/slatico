@@ -1,7 +1,6 @@
 {
   "name": "@slatico/web",
   "version": "0.1.0",
-  "private": true,
   "description": "Lightweight, framework-independent native Custom Elements (<slatico-icon>) for Slatico across all 7 styles",
   "keywords": [
     "slatico",
@@ -11,7 +10,7 @@
     "shadow-dom",
     "svg"
   ],
-  "homepage": "https://github.com/infitusofficial/slatico",
+  "homepage": "https://slatico.dev",
   "bugs": {
     "url": "https://github.com/infitusofficial/slatico/issues"
   },

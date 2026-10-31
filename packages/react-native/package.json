@@ -1,7 +1,6 @@
 {
   "name": "@slatico/react-native",
   "version": "0.1.0",
-  "private": true,
   "description": "Official React Native SVG icon components for Slatico across all 7 styles with individual icon tree-shaking",
   "keywords": [
     "slatico",
@@ -11,7 +10,7 @@
     "react-native-svg",
     "mobile"
   ],
-  "homepage": "https://github.com/infitusofficial/slatico",
+  "homepage": "https://slatico.dev",
   "bugs": {
     "url": "https://github.com/infitusofficial/slatico/issues"
   },

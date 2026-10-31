@@ -45,32 +45,44 @@ This single command executes:
 
 ## 3. npm Registry Checklist (`@slatico/*`)
 
-### Completed Registry Setup
+### Completed Registry & Manifest Setup
 - **Organization Scope:** The **`@slatico`** organization scope has already been created on `npmjs.com`.
-- **Package Configuration:** All 7 packages (`@slatico/core`, `@slatico/svg`, `@slatico/font`, `@slatico/react`, `@slatico/vue`, `@slatico/web`, `@slatico/react-native`) are configured with `"publishConfig": { "access": "public" }`, complete `exports` maps, `files` whitelists, and `"private": true` safety guards.
+- **Package Configuration:** All 7 publishable packages (`@slatico/core`, `@slatico/svg`, `@slatico/font`, `@slatico/react`, `@slatico/vue`, `@slatico/web`, `@slatico/react-native`) are configured with `"version": "0.1.0"`, `"homepage": "https://slatico.dev"`, `"publishConfig": { "access": "public" }`, complete `exports` maps, and strict `files` whitelists (`"private"` removed for public release).
+- **Private Workspace Safeguards:** The monorepo root (`package.json`), website (`apps/website/package.json`), and example project (`examples/react-native/package.json`) retain `"private": true`.
 
-### Pending Manual Steps at Publish Time
-1. Authenticate locally via `npm login` (with 2FA enabled) or configure an `NPM_TOKEN` automation secret if publishing via CI.
-2. All 7 npm packages currently keep `"private": true` in `package.json` as an intentional safety guard against accidental publishing during monorepo development. When ready to publish `v0.1.0`:
-   - Remove `"private": true` (or set `"private": false`) in:
-     - `packages/core/package.json`
-     - `packages/svg/package.json`
-     - `packages/font/package.json`
-     - `packages/react/package.json`
-     - `packages/vue/package.json`
-     - `packages/web/package.json`
-     - `packages/react-native/package.json`
-3. Use `pnpm publish` (which automatically rewrites `"@slatico/core": "workspace:*"` to `"@slatico/core": "0.1.0"` in the published tarball):
-
-```bash
-pnpm --filter @slatico/core publish --access public --no-git-checks
-pnpm --filter @slatico/svg publish --access public --no-git-checks
-pnpm --filter @slatico/font publish --access public --no-git-checks
-pnpm --filter @slatico/react publish --access public --no-git-checks
-pnpm --filter @slatico/vue publish --access public --no-git-checks
-pnpm --filter @slatico/web publish --access public --no-git-checks
-pnpm --filter @slatico/react-native publish --access public --no-git-checks
-```
+### Step-by-Step First Public Release (`v0.1.0`)
+1. Authenticate interactively on your local machine with an npm account that has publish access to the `@slatico` organization and 2FA enabled:
+   ```bash
+   npm login
+   npm whoami
+   npm org ls slatico
+   ```
+2. Publish **Wave 1 (`@slatico/core`)** first using `pnpm publish` (which rewrites `"@slatico/core": "workspace:*"` to `"0.1.0"` in dependent tarballs):
+   ```bash
+   pnpm --filter @slatico/core publish --access public --no-git-checks
+   ```
+3. Verify `@slatico/core@0.1.0` is live on `registry.npmjs.org` before publishing dependent packages:
+   ```bash
+   npm view @slatico/core@0.1.0 version dist.tarball
+   ```
+4. Publish **Wave 2** (all 6 packages that depend only on `@slatico/core@0.1.0`):
+   ```bash
+   pnpm --filter @slatico/svg publish --access public --no-git-checks
+   pnpm --filter @slatico/font publish --access public --no-git-checks
+   pnpm --filter @slatico/react publish --access public --no-git-checks
+   pnpm --filter @slatico/vue publish --access public --no-git-checks
+   pnpm --filter @slatico/web publish --access public --no-git-checks
+   pnpm --filter @slatico/react-native publish --access public --no-git-checks
+   ```
+5. Verify each published package on the registry:
+   ```bash
+   npm view @slatico/svg@0.1.0 version
+   npm view @slatico/font@0.1.0 version
+   npm view @slatico/react@0.1.0 version
+   npm view @slatico/vue@0.1.0 version
+   npm view @slatico/web@0.1.0 version
+   npm view @slatico/react-native@0.1.0 version
+   ```
 
 ---
 

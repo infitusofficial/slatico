@@ -1,7 +1,6 @@
 {
   "name": "@slatico/font",
   "version": "0.1.0",
-  "private": true,
   "description": "Production-ready WOFF2, WOFF, and TTF monochrome icon fonts, CSS stylesheets, and Unicode PUA metadata for Slatico (Thin, Light, Regular, Bold, Fill)",
   "keywords": [
     "slatico",
@@ -11,7 +10,7 @@
     "woff2",
     "css-icons"
   ],
-  "homepage": "https://github.com/infitusofficial/slatico",
+  "homepage": "https://slatico.dev",
   "bugs": {
     "url": "https://github.com/infitusofficial/slatico/issues"
   },
