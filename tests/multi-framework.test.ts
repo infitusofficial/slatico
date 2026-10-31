@@ -349,9 +349,9 @@ import { registerSlaticoIcons, buildSlaticoWebElementMarkup } from "@slatico/web
 import { bellIconDef } from "@slatico/web/icons/bell";
 
 assert.equal(SLATICO_STYLES.length, 7);
-assert.equal(ICON_NAMES.length, 23);
-assert.equal(ICON_CATALOG.totalIcons, 23);
-assert.equal(ICON_CATALOG.totalVariants, 161);
+assert.equal(ICON_NAMES.length, 27);
+assert.equal(ICON_CATALOG.totalIcons, 27);
+assert.equal(ICON_CATALOG.totalVariants, 189);
 
 const svgAsset = getSvgAsset("bell", "thin");
 assert.ok(svgAsset.svg.includes('fill="currentColor"'));

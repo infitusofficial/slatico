@@ -54,7 +54,7 @@ export default function AboutPage() {
               Deterministic Codegen
             </h2>
             <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
-              A single automated compiler validates all 161 SVG masters and emits React, Vue, Web Components, React Native, Flutter, Android, and Swift packages.
+              A single automated compiler validates all {SITE_CONFIG.metrics.totalVariants} SVG masters and emits React, Vue, Web Components, React Native, Flutter, Android, and Swift packages.
             </p>
           </div>
         </div>

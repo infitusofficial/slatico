@@ -94,8 +94,8 @@ describe("Phase 3D: @slatico/react-native Package Audit, Exports & Tree-Shaking"
     }
   });
 
-  it("exports unified and style-specific components for all 23 icon families (184 total component exports) and matches direct subpath modules", () => {
-    expect(ICON_NAMES.length).toBe(23);
+  it("exports unified and style-specific components for all 27 icon families (216 total component exports) and matches direct subpath modules", () => {
+    expect(ICON_NAMES.length).toBe(27);
     expect(SLATICO_STYLES.length).toBe(7);
 
     expect(SubpathBellIcon).toBe(RnIcons.BellIcon);
@@ -117,12 +117,12 @@ describe("Phase 3D: @slatico/react-native Package Audit, Exports & Tree-Shaking"
       }
     }
 
-    expect(verifiedComponentExports).toBe(23 * 8);
+    expect(verifiedComponentExports).toBe(27 * 8);
   });
 });
 
-describe("Phase 3D: @slatico/react-native Visual & Functional Verification (161 Variants)", () => {
-  it("renders all 161 icon variants with 24x24 viewBox proportions, zero CSS variables, and exact parity between unified and style-specific components", () => {
+describe("Phase 3D: @slatico/react-native Visual & Functional Verification (189 Variants)", () => {
+  it("renders all 189 icon variants with 24x24 viewBox proportions, zero CSS variables, and exact parity between unified and style-specific components", () => {
     let renderedCount = 0;
 
     for (const iconName of ICON_NAMES) {
@@ -155,7 +155,7 @@ describe("Phase 3D: @slatico/react-native Visual & Functional Verification (161 
       }
     }
 
-    expect(renderedCount).toBe(161);
+    expect(renderedCount).toBe(189);
   });
 
   it("maintains visually distinct SVG path geometry across Thin, Light, Regular, and Bold for all 23 icon families", () => {
@@ -330,7 +330,7 @@ describe("Phase 3D: @slatico/react-native Visual & Functional Verification (161 
     expect(fallbackNaNOpacity).toContain('opacity="0.22"');
   });
 
-  it("renders the examples/react-native verification gallery application in Light, Dark, and 161-variant matrix modes", async () => {
+  it("renders the examples/react-native verification gallery application in Light, Dark, and 189-variant matrix modes", async () => {
     const lightAppMarkup = renderToStaticMarkup(
       createElement(SlaticoReactNativeExampleApp, {
         initialStyle: "duotone",
@@ -340,15 +340,15 @@ describe("Phase 3D: @slatico/react-native Visual & Functional Verification (161 
     );
 
     expect(lightAppMarkup).toContain("Slatico React Native");
-    expect(lightAppMarkup).toContain("23 families × 7 styles = 161 native vector variants");
+    expect(lightAppMarkup).toContain("27 families × 7 styles = 189 native vector variants");
     expect(lightAppMarkup).toContain("7-Style Comparison (house)");
 
-    // Verify all 23 icon family slugs are rendered in the gallery
+    // Verify all 27 icon family slugs are rendered in the gallery
     for (const iconName of ICON_NAMES) {
       expect(lightAppMarkup).toContain(iconName);
     }
 
-    // Verify Dark theme + full 161-variant matrix mode renders all 161 variants simultaneously
+    // Verify Dark theme + full 189-variant matrix mode renders all 189 variants simultaneously
     const darkMatrixMarkup = renderToStaticMarkup(
       createElement(SlaticoReactNativeExampleApp, {
         initialStyle: "color",
@@ -356,10 +356,10 @@ describe("Phase 3D: @slatico/react-native Visual & Functional Verification (161 
         showAll161MatrixByDefault: true
       })
     );
-    expect(darkMatrixMarkup).toContain("Complete 161-Variant Matrix (23 × 7)");
+    expect(darkMatrixMarkup).toContain("Complete 189-Variant Matrix (27 × 7)");
     const svgCount = (darkMatrixMarkup.match(/<svg /g) ?? []).length;
-    // 161 matrix icons + 2 header badge icons + 3 subpath verification icons = 166 <svg> trees
-    expect(svgCount).toBeGreaterThanOrEqual(161);
+    // 189 matrix icons + 2 header badge icons + 3 subpath verification icons = 194 <svg> trees
+    expect(svgCount).toBeGreaterThanOrEqual(189);
 
     // Verify native Android and iOS project files exist for CI compilation
     const repoRoot = process.cwd();

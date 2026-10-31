@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SITE_CONFIG } from "../../../config/site";
 import { buildDocsGuideMetadata } from "../../../config/metadata";
 import { buildBreadcrumbJsonLd } from "../../../lib/structured-data";
 import { DocsCodeBlock } from "../../../components/docs/docs-code-block";
@@ -27,7 +28,7 @@ export default function AndroidDocsPage() {
           Android Native Integration Guide (Compose &amp; XML)
         </h1>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
-          The Slatico Android library (<code className="font-mono">packages/android/library</code>) compiles all 161 icons into native Android <code className="font-mono">VectorDrawable</code> XML resources (<code className="font-mono">R.drawable.slatico_&lt;name&gt;_&lt;style&gt;</code>) alongside a Jetpack Compose <code className="font-mono">SlaticoIcon</code> composable supporting runtime <code className="font-mono">DUOTONE</code> and <code className="font-mono">COLOR</code> dual-layer tinting.
+          The Slatico Android library (<code className="font-mono">packages/android/library</code>) compiles all {SITE_CONFIG.metrics.totalVariants} icons into native Android <code className="font-mono">VectorDrawable</code> XML resources (<code className="font-mono">R.drawable.slatico_&lt;name&gt;_&lt;style&gt;</code>) alongside a Jetpack Compose <code className="font-mono">SlaticoIcon</code> composable supporting runtime <code className="font-mono">DUOTONE</code> and <code className="font-mono">COLOR</code> dual-layer tinting.
         </p>
       </div>
 

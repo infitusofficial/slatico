@@ -8,14 +8,14 @@ import org.junit.Test
 
 class SlaticoAndroidTest {
     @Test
-    fun hasExactly23IconFamiliesAnd7Styles() {
-        assertEquals(23, SlaticoIconName.entries.size)
+    fun hasExactly27IconFamiliesAnd7Styles() {
+        assertEquals(27, SlaticoIconName.entries.size)
         assertEquals(7, SlaticoStyle.entries.size)
-        assertEquals(161, SlaticoDrawables.TOTAL_VARIANTS)
+        assertEquals(189, SlaticoDrawables.TOTAL_VARIANTS)
     }
 
     @Test
-    fun resolvesAll161DrawableResourceIds() {
+    fun resolvesAll189DrawableResourceIds() {
         val seenIds = mutableSetOf<Int>()
         for (icon in SlaticoIconName.entries) {
             for (style in SlaticoStyle.entries) {
@@ -24,7 +24,7 @@ class SlaticoAndroidTest {
                 seenIds.add(resId)
             }
         }
-        assertEquals(161, seenIds.size)
+        assertEquals(189, seenIds.size)
     }
 
     @Test

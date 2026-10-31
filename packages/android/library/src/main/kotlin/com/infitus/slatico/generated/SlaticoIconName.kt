@@ -2,7 +2,7 @@
 package com.infitus.slatico
 
 /**
- * Enumeration of all 23 production Slatico icon families.
+ * Enumeration of all 27 production Slatico icon families.
  */
 public enum class SlaticoIconName(
     /** Canonical kebab-case identifier matching `@slatico/core` and SVG filenames. */
@@ -10,6 +10,18 @@ public enum class SlaticoIconName(
     /** Android snake_case identifier used in `R.drawable.slatico_<snakeName>_<style>`. */
     public val snakeName: String,
 ) {
+    /** The `arrow-down` Tier 1 icon family. */
+    ARROW_DOWN("arrow-down", "arrow_down"),
+
+    /** The `arrow-up` Tier 1 icon family. */
+    ARROW_UP("arrow-up", "arrow_up"),
+
+    /** The `arrow-up-left` Tier 1 icon family. */
+    ARROW_UP_LEFT("arrow-up-left", "arrow_up_left"),
+
+    /** The `arrow-up-right` Tier 1 icon family. */
+    ARROW_UP_RIGHT("arrow-up-right", "arrow_up_right"),
+
     /** The `bell` Tier 1 icon family. */
     BELL("bell", "bell"),
 

@@ -57,13 +57,13 @@ describe("SlaticoIcons Apple Native Package (Phase 3C)", () => {
     expect(packageSwift).toContain('name: "SlaticoIconsTests"');
   });
 
-  it("bundles all 161 canonical SVG variants across 7 style subdirectories with valid 24x24 viewBox", async () => {
+  it("bundles all 189 canonical SVG variants across 7 style subdirectories with valid 24x24 viewBox", async () => {
     let totalFiles = 0;
 
     for (const style of SLATICO_STYLES) {
       const styleDir = path.join(RESOURCES_SVG_DIR, style);
       const entries = (await fs.readdir(styleDir)).sort();
-      expect(entries.length).toBe(23);
+      expect(entries.length).toBe(27);
 
       for (const iconName of ICON_NAMES) {
         const fileName = `${iconName}.svg`;
@@ -75,7 +75,7 @@ describe("SlaticoIcons Apple Native Package (Phase 3C)", () => {
       }
     }
 
-    expect(totalFiles).toBe(161);
+    expect(totalFiles).toBe(189);
   });
 
   it("generates deterministic Swift enum and vector catalog for all 23 families and 161 variants without demo leaks", async () => {
@@ -101,9 +101,9 @@ describe("SlaticoIcons Apple Native Package (Phase 3C)", () => {
       expect(catalogSwift).not.toContain(`.${demoName}:`);
     }
 
-    expect(catalogSwift).toContain("public static let familyCount: Int = 23");
+    expect(catalogSwift).toContain("public static let familyCount: Int = 27");
     expect(catalogSwift).toContain("public static let styleCount: Int = 7");
-    expect(catalogSwift).toContain("public static let totalVariants: Int = 161");
+    expect(catalogSwift).toContain("public static let totalVariants: Int = 189");
     expect(catalogSwift).toContain("role: .secondary");
     expect(catalogSwift).toContain("role: .fixedColor(");
 

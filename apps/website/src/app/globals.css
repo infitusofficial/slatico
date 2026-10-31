@@ -48,6 +48,9 @@
   --code-bg: color-mix(in srgb, var(--brand-dark) 96%, #000000);
   --code-fg: color-mix(in srgb, #ffffff 94%, var(--brand-primary));
   --code-border: color-mix(in srgb, #ffffff 12%, var(--brand-dark));
+
+  /* 5. Color Variant Theme-Aware Default Secondary Layer (Light -> Black) */
+  --slatico-color-secondary-default: #000000;
 }
 
 .dark {
@@ -82,6 +85,9 @@
   --code-bg: color-mix(in srgb, #000000 35%, var(--brand-dark));
   --code-fg: color-mix(in srgb, #ffffff 95%, var(--brand-primary));
   --code-border: color-mix(in srgb, #ffffff 14%, var(--brand-dark));
+
+  /* Color Variant Theme-Aware Default Secondary Layer (Dark -> White) */
+  --slatico-color-secondary-default: #FFFFFF;
 }
 
 @theme inline {

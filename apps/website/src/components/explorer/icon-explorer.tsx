@@ -16,6 +16,10 @@ import {
   type IconCategoryId
 } from "../../lib/catalog";
 import { SITE_CONFIG } from "../../config/site";
+import {
+  getColorVariantDefaultSecondaryHex,
+  useResolvedDarkTheme
+} from "../../lib/theme-color-defaults";
 import { DynamicSlaticoIcon } from "../dynamic-slatico-icon";
 import {
   IconDetailPanel,
@@ -51,6 +55,8 @@ export function IconExplorer({
   );
   const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
+  const isDarkTheme = useResolvedDarkTheme();
+  const defaultColorSecondary = getColorVariantDefaultSecondaryHex(isDarkTheme);
 
   // Hydrate initial state from URL search params on client mount
   useEffect(() => {
@@ -318,7 +324,7 @@ export function IconExplorer({
                     /^#[0-9A-Fa-f]{6}$/.test(customizer.secondaryColor)
                       ? customizer.secondaryColor
                       : customizer.style === "color"
-                        ? "#000000"
+                        ? defaultColorSecondary
                         : SITE_CONFIG.colors.primary
                   }
                   onChange={(e) =>
@@ -330,7 +336,7 @@ export function IconExplorer({
                   {/^#[0-9A-Fa-f]{6}$/.test(customizer.secondaryColor)
                     ? customizer.secondaryColor.toUpperCase()
                     : customizer.style === "color"
-                      ? "#000000"
+                      ? defaultColorSecondary
                       : SITE_CONFIG.colors.primary}
                 </span>
                 {customizer.secondaryColor !== "var(--primary)" &&

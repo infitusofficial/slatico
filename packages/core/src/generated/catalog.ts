@@ -3,7 +3,7 @@
 
 import type { SlaticoCatalog } from "../types.js";
 
-export const ICON_NAMES = ["bell", "cloud", "cloud-check", "credit-card", "envelope", "envelope-open", "gear", "house", "layout-dashboard", "lock", "lock-open", "magnifying-glass", "minus", "pencil", "plus", "shield", "shield-check", "sliders-horizontal", "trash", "trash-x", "trend-up", "user", "wallet"] as const;
+export const ICON_NAMES = ["arrow-down", "arrow-up", "arrow-up-left", "arrow-up-right", "bell", "cloud", "cloud-check", "credit-card", "envelope", "envelope-open", "gear", "house", "layout-dashboard", "lock", "lock-open", "magnifying-glass", "minus", "pencil", "plus", "shield", "shield-check", "sliders-horizontal", "trash", "trash-x", "trend-up", "user", "wallet"] as const;
 
 export type SlaticoIconName = (typeof ICON_NAMES)[number];
 
@@ -19,10 +19,14 @@ export const ICON_CATALOG: SlaticoCatalog = {
     "duotone",
     "color"
   ],
-  "totalIcons": 23,
-  "totalVariants": 161,
+  "totalIcons": 27,
+  "totalVariants": 189,
   "tiers": {
     "tier-1": [
+      "arrow-down",
+      "arrow-up",
+      "arrow-up-left",
+      "arrow-up-right",
       "bell",
       "cloud",
       "cloud-check",
@@ -51,6 +55,234 @@ export const ICON_CATALOG: SlaticoCatalog = {
     "tier-3": []
   },
   "icons": [
+    {
+      "name": "arrow-down",
+      "pascalName": "ArrowDown",
+      "tier": "tier-1",
+      "isDemo": false,
+      "styles": {
+        "thin": {
+          "style": "thin",
+          "relativePath": "icons/thin/arrow-down.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": true,
+          "isDemo": false
+        },
+        "light": {
+          "style": "light",
+          "relativePath": "icons/light/arrow-down.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": true,
+          "isDemo": false
+        },
+        "regular": {
+          "style": "regular",
+          "relativePath": "icons/regular/arrow-down.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": true,
+          "isDemo": false
+        },
+        "bold": {
+          "style": "bold",
+          "relativePath": "icons/bold/arrow-down.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": true,
+          "isDemo": false
+        },
+        "fill": {
+          "style": "fill",
+          "relativePath": "icons/fill/arrow-down.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": true,
+          "isDemo": false
+        },
+        "duotone": {
+          "style": "duotone",
+          "relativePath": "icons/duotone/arrow-down.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": false,
+          "isDemo": false
+        },
+        "color": {
+          "style": "color",
+          "relativePath": "icons/color/arrow-down.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": false,
+          "isDemo": false
+        }
+      }
+    },
+    {
+      "name": "arrow-up",
+      "pascalName": "ArrowUp",
+      "tier": "tier-1",
+      "isDemo": false,
+      "styles": {
+        "thin": {
+          "style": "thin",
+          "relativePath": "icons/thin/arrow-up.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": true,
+          "isDemo": false
+        },
+        "light": {
+          "style": "light",
+          "relativePath": "icons/light/arrow-up.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": true,
+          "isDemo": false
+        },
+        "regular": {
+          "style": "regular",
+          "relativePath": "icons/regular/arrow-up.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": true,
+          "isDemo": false
+        },
+        "bold": {
+          "style": "bold",
+          "relativePath": "icons/bold/arrow-up.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": true,
+          "isDemo": false
+        },
+        "fill": {
+          "style": "fill",
+          "relativePath": "icons/fill/arrow-up.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": true,
+          "isDemo": false
+        },
+        "duotone": {
+          "style": "duotone",
+          "relativePath": "icons/duotone/arrow-up.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": false,
+          "isDemo": false
+        },
+        "color": {
+          "style": "color",
+          "relativePath": "icons/color/arrow-up.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": false,
+          "isDemo": false
+        }
+      }
+    },
+    {
+      "name": "arrow-up-left",
+      "pascalName": "ArrowUpLeft",
+      "tier": "tier-1",
+      "isDemo": false,
+      "styles": {
+        "thin": {
+          "style": "thin",
+          "relativePath": "icons/thin/arrow-up-left.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": true,
+          "isDemo": false
+        },
+        "light": {
+          "style": "light",
+          "relativePath": "icons/light/arrow-up-left.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": true,
+          "isDemo": false
+        },
+        "regular": {
+          "style": "regular",
+          "relativePath": "icons/regular/arrow-up-left.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": true,
+          "isDemo": false
+        },
+        "bold": {
+          "style": "bold",
+          "relativePath": "icons/bold/arrow-up-left.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": true,
+          "isDemo": false
+        },
+        "fill": {
+          "style": "fill",
+          "relativePath": "icons/fill/arrow-up-left.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": true,
+          "isDemo": false
+        },
+        "duotone": {
+          "style": "duotone",
+          "relativePath": "icons/duotone/arrow-up-left.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": false,
+          "isDemo": false
+        },
+        "color": {
+          "style": "color",
+          "relativePath": "icons/color/arrow-up-left.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": false,
+          "isDemo": false
+        }
+      }
+    },
+    {
+      "name": "arrow-up-right",
+      "pascalName": "ArrowUpRight",
+      "tier": "tier-1",
+      "isDemo": false,
+      "styles": {
+        "thin": {
+          "style": "thin",
+          "relativePath": "icons/thin/arrow-up-right.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": true,
+          "isDemo": false
+        },
+        "light": {
+          "style": "light",
+          "relativePath": "icons/light/arrow-up-right.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": true,
+          "isDemo": false
+        },
+        "regular": {
+          "style": "regular",
+          "relativePath": "icons/regular/arrow-up-right.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": true,
+          "isDemo": false
+        },
+        "bold": {
+          "style": "bold",
+          "relativePath": "icons/bold/arrow-up-right.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": true,
+          "isDemo": false
+        },
+        "fill": {
+          "style": "fill",
+          "relativePath": "icons/fill/arrow-up-right.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": true,
+          "isDemo": false
+        },
+        "duotone": {
+          "style": "duotone",
+          "relativePath": "icons/duotone/arrow-up-right.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": false,
+          "isDemo": false
+        },
+        "color": {
+          "style": "color",
+          "relativePath": "icons/color/arrow-up-right.svg",
+          "viewBox": "0 0 24 24",
+          "isMonochrome": false,
+          "isDemo": false
+        }
+      }
+    },
     {
       "name": "bell",
       "pascalName": "Bell",

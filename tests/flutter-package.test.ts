@@ -50,12 +50,12 @@ describe("Phase 3A: slatico_icons Flutter Package Generation & Verification", ()
     ]);
 
     expect(iconsDart).toContain("static const String fontPackage = 'slatico_icons';");
-    expect(iconsDart).toContain("static const int familyCount = 23;");
-    expect(iconsDart).toContain("static const int monochromeGlyphCount = 115;");
+    expect(iconsDart).toContain("static const int familyCount = 27;");
+    expect(iconsDart).toContain("static const int monochromeGlyphCount = 135;");
 
-    // Verify all 115 static const IconData declarations exist and match FONT_CODEPOINTS
+    // Verify all 135 static const IconData declarations exist and match FONT_CODEPOINTS
     const iconDataMatches = [...iconsDart.matchAll(/static const IconData (\w+) = IconData\(\s*(0x[0-9a-f]{4}),/g)];
-    expect(iconDataMatches.length).toBe(115);
+    expect(iconDataMatches.length).toBe(135);
 
     for (const iconName of ICON_NAMES) {
       const enumIdent = toSafeDartIdentifier(iconName);

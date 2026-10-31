@@ -1,8 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // Generated deterministically by scripts/generate-flutter.ts from master SVG sources.
 
-/// Enumeration of all 23 production Slatico icon families.
+/// Enumeration of all 27 production Slatico icon families.
 enum SlaticoIconName {
+  /// The `arrow-down` Tier 1 icon family.
+  arrowDown('arrow-down'),
+
+  /// The `arrow-up` Tier 1 icon family.
+  arrowUp('arrow-up'),
+
+  /// The `arrow-up-left` Tier 1 icon family.
+  arrowUpLeft('arrow-up-left'),
+
+  /// The `arrow-up-right` Tier 1 icon family.
+  arrowUpRight('arrow-up-right'),
+
   /// The `bell` Tier 1 icon family.
   bell('bell'),
 
@@ -105,6 +117,10 @@ enum SlaticoIconName {
 /// Default authored opacity for the secondary layer of each Duotone icon.
 const Map<SlaticoIconName, double> slaticoDuotoneDefaultOpacity =
     <SlaticoIconName, double>{
+  SlaticoIconName.arrowDown: 0.2,
+  SlaticoIconName.arrowUp: 0.2,
+  SlaticoIconName.arrowUpLeft: 0.2,
+  SlaticoIconName.arrowUpRight: 0.2,
   SlaticoIconName.bell: 0.2,
   SlaticoIconName.cloud: 0.2,
   SlaticoIconName.cloudCheck: 0.2,
@@ -134,6 +150,14 @@ const Map<SlaticoIconName, double> slaticoDuotoneDefaultOpacity =
 /// secondary color, and secondary opacity injection in `flutter_svg`.
 const Map<SlaticoIconName, String> slaticoDuotoneSvgTemplates =
     <SlaticoIconName, String>{
+  SlaticoIconName.arrowDown:
+      '<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="__SLATICO_PRIMARY_COLOR__" fill-rule="evenodd" d="m12 20.232-.575-.512-6.912-6.145h14.974l-6.912 6.145zm.397 1.185-.015.013a.575.575 0 0 1-.678.063l-.086-.063-.014-.013-8.986-7.987A.575.575 0 0 1 3 12.425h8.425V3a.575.575 0 0 1 1.15 0v9.425H21a.575.575 0 0 1 .382 1.005z" clip-rule="evenodd"/><path fill="__SLATICO_SECONDARY_COLOR__" d="m12 20.232-.575-.512-6.912-6.145h14.974l-6.912 6.145z" opacity="__SLATICO_SECONDARY_OPACITY__"/></svg>',
+  SlaticoIconName.arrowUp:
+      '<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="__SLATICO_PRIMARY_COLOR__" fill-rule="evenodd" d="m12 3.769-.575.51-6.912 6.146h14.974L12.575 4.28zm.397-1.185-.015-.014a.575.575 0 0 0-.678-.063l-.086.063-.014.013-8.986 7.987A.575.575 0 0 0 3 11.575h8.425V21a.575.575 0 0 0 1.15 0v-9.425H21a.575.575 0 0 0 .382-1.005z" clip-rule="evenodd"/><path fill="__SLATICO_SECONDARY_COLOR__" d="m12 3.769-.575.51-6.912 6.146h14.974L12.575 4.28z" opacity="__SLATICO_SECONDARY_OPACITY__"/></svg>',
+  SlaticoIconName.arrowUpLeft:
+      '<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="__SLATICO_SECONDARY_COLOR__" d="M3.211 4.064V16l6.164-5.772.877-.82 6.607-6.188H3.211z" opacity="__SLATICO_SECONDARY_OPACITY__"/><path fill="__SLATICO_PRIMARY_COLOR__" fill-rule="evenodd" d="M3.211 4.06v11.935l6.164-5.772.877-.82 6.607-6.188H3.211zm-1.21-1.453A.6.6 0 0 1 2.603 2h15.79a.606.606 0 0 1 .414 1.05l-7.699 7.21 10.715 10.715a.6.6 0 1 1-.848.849L10.233 11.08l-7.214 6.755A.605.605 0 0 1 2 17.393z" clip-rule="evenodd"/></svg>',
+  SlaticoIconName.arrowUpRight:
+      '<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="__SLATICO_SECONDARY_COLOR__" d="M20.79 4.064V16l-6.164-5.772-.877-.82L7.141 3.22H20.79z" opacity="__SLATICO_SECONDARY_OPACITY__"/><path fill="__SLATICO_PRIMARY_COLOR__" fill-rule="evenodd" d="M20.79 4.06v11.935l-6.164-5.772-.877-.82-6.608-6.188H20.79zM22 2.606A.604.604 0 0 0 21.397 2H5.606a.606.606 0 0 0-.414 1.05l7.7 7.21L2.175 20.975a.6.6 0 1 0 .849.849L13.768 11.08l7.214 6.755A.605.605 0 0 0 22 17.393z" clip-rule="evenodd"/></svg>',
   SlaticoIconName.bell:
       '<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="__SLATICO_PRIMARY_COLOR__" d="M9.644 18.575a2.426 2.426 0 0 0 4.712 0zm2.356-13a5.65 5.65 0 0 0-5.647 5.648v1.732a8.6 8.6 0 0 1-1.257 4.47h13.808a8.57 8.57 0 0 1-1.256-4.47v-1.732A5.65 5.65 0 0 0 12 5.575m0-2c-.633 0-1.17.413-1.355.985a6.8 6.8 0 0 1 2.71 0A1.425 1.425 0 0 0 12 3.575m3.53 15a3.576 3.576 0 0 1-7.06 0h-5.6l.906-1.245a7.43 7.43 0 0 0 1.427-4.375v-1.732A6.8 6.8 0 0 1 9.426 4.93a2.576 2.576 0 0 1 5.148 0 6.8 6.8 0 0 1 4.223 6.293v1.732c0 1.573.5 3.105 1.427 4.375l.907 1.245z"/><g fill="__SLATICO_SECONDARY_COLOR__" fill-rule="evenodd" clip-rule="evenodd" opacity="__SLATICO_SECONDARY_OPACITY__"><path d="M17.648 11.223a5.648 5.648 0 0 0-11.295 0v1.732a8.6 8.6 0 0 1-1.257 4.47h13.808a8.57 8.57 0 0 1-1.256-4.47z"/><path d="M12 20.425a2.426 2.426 0 0 1-2.356-1.85h4.712A2.426 2.426 0 0 1 12 20.425"/><path d="M13.356 4.56a6.8 6.8 0 0 0-2.712 0 1.425 1.425 0 0 1 2.711 0"/></g></svg>',
   SlaticoIconName.cloud:
@@ -186,6 +210,14 @@ const Map<SlaticoIconName, String> slaticoDuotoneSvgTemplates =
 /// and secondary color (#000000 default) injection in `flutter_svg`.
 const Map<SlaticoIconName, String> slaticoColorSvgTemplates =
     <SlaticoIconName, String>{
+  SlaticoIconName.arrowDown:
+      '<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="__SLATICO_SECONDARY_COLOR__" d="M11.425 3v18a.575.575 0 0 0 1.15 0V3a.575.575 0 0 0-1.15 0"/><path fill="__SLATICO_PRIMARY_COLOR__" d="M11.704 21.493a.575.575 0 0 0 .678-.063l9-8a.575.575 0 1 0-.764-.86L12 20.231l-8.618-7.66a.575.575 0 1 0-.764.859l9 8z"/></svg>',
+  SlaticoIconName.arrowUp:
+      '<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="__SLATICO_SECONDARY_COLOR__" d="M11.425 21V3a.575.575 0 0 1 1.15 0v18a.575.575 0 0 1-1.15 0"/><path fill="__SLATICO_PRIMARY_COLOR__" d="M11.704 2.507a.575.575 0 0 1 .678.063l9 8a.575.575 0 1 1-.764.86L12 3.769l-8.618 7.66a.575.575 0 1 1-.764-.859l9-8z"/></svg>',
+  SlaticoIconName.arrowUpLeft:
+      '<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="__SLATICO_SECONDARY_COLOR__" d="M3.406 2.594a.574.574 0 1 0-.812.812l18 18a.574.574 0 1 0 .812-.812z"/><path fill="__SLATICO_PRIMARY_COLOR__" d="M3.575 17V3.575H18a.575.575 0 0 0 0-1.15H3A.575.575 0 0 0 2.425 3v14a.575.575 0 0 0 1.15 0"/></svg>',
+  SlaticoIconName.arrowUpRight:
+      '<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="__SLATICO_SECONDARY_COLOR__" d="M20.594 2.594a.574.574 0 1 1 .812.812l-18 18a.574.574 0 1 1-.812-.812z"/><path fill="__SLATICO_PRIMARY_COLOR__" d="M20.425 17V3.575H6a.575.575 0 0 1 0-1.15h15c.318 0 .575.257.575.575v14a.575.575 0 0 1-1.15 0"/></svg>',
   SlaticoIconName.bell:
       '<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="__SLATICO_SECONDARY_COLOR__" d="M9.575 18a2.425 2.425 0 1 0 4.85 0h1.15a3.575 3.575 0 0 1-7.15 0z"/><path fill="__SLATICO_SECONDARY_COLOR__" d="M10.575 5a1.425 1.425 0 1 1 2.85 0h1.15a2.575 2.575 0 0 0-5.15 0z"/><path fill="__SLATICO_PRIMARY_COLOR__" d="M17.648 11.223a5.648 5.648 0 0 0-11.295 0v1.732a8.6 8.6 0 0 1-1.257 4.47h13.808a8.57 8.57 0 0 1-1.256-4.47zm1.149 1.732c0 1.573.5 3.105 1.427 4.375l.907 1.245H2.869l.907-1.245a7.43 7.43 0 0 0 1.427-4.375v-1.732a6.797 6.797 0 1 1 13.594 0z"/></svg>',
   SlaticoIconName.cloud:

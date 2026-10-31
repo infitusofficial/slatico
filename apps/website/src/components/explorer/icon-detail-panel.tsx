@@ -9,6 +9,11 @@ import {
 } from "@slatico/core";
 import type { EnrichedCatalogIcon } from "../../lib/catalog";
 import { SITE_CONFIG } from "../../config/site";
+import {
+  getColorVariantDefaultSecondaryHex,
+  resolveEffectiveSecondaryColor,
+  useResolvedDarkTheme
+} from "../../lib/theme-color-defaults";
 import { DynamicSlaticoIcon } from "../dynamic-slatico-icon";
 import {
   buildStandaloneSvg,
@@ -64,6 +69,7 @@ const SECONDARY_COLOR_PRESETS: ReadonlyArray<{ label: string; value: string }> =
   { label: "Brand Primary", value: SITE_CONFIG.colors.primary },
   { label: "Brand Dark", value: SITE_CONFIG.colors.dark },
   { label: "Black", value: "#000000" },
+  { label: "White", value: "#FFFFFF" },
   { label: "Indigo", value: "#4F46E5" },
   { label: "Emerald", value: "#059669" },
   { label: "Cyan", value: "#0891B2" }
@@ -88,6 +94,13 @@ export function IconDetailPanel({
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
   const [isExporting, setIsExporting] = useState(false);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const isDarkTheme = useResolvedDarkTheme();
+  const defaultColorSecondary = getColorVariantDefaultSecondaryHex(isDarkTheme);
+  const effectiveSecondaryColor = resolveEffectiveSecondaryColor(
+    customizer.style,
+    customizer.secondaryColor,
+    isDarkTheme
+  );
 
   useEffect(() => {
     setWebpSupported(isCanvasWebpSupported());
@@ -133,7 +146,7 @@ export function IconDetailPanel({
     const svg = buildStandaloneSvg(icon.name, customizer.style, {
       size: customizer.size,
       primaryColor: customizer.primaryColor,
-      secondaryColor: customizer.secondaryColor,
+      secondaryColor: effectiveSecondaryColor,
       secondaryOpacity: customizer.secondaryOpacity
     });
     await copyText(svg, `${icon.name} (${customizer.style}) SVG`);
@@ -143,7 +156,7 @@ export function IconDetailPanel({
     downloadStandaloneSvg(icon.name, customizer.style, {
       size: customizer.size,
       primaryColor: customizer.primaryColor,
-      secondaryColor: customizer.secondaryColor,
+      secondaryColor: effectiveSecondaryColor,
       secondaryOpacity: customizer.secondaryOpacity
     });
     showToast(`Downloaded slatico-${icon.name}-${customizer.style}.svg`);
@@ -155,7 +168,7 @@ export function IconDetailPanel({
       const res = await exportIconToPng(icon.name, customizer.style, {
         dimension: rasterSize,
         primaryColor: customizer.primaryColor,
-        secondaryColor: customizer.secondaryColor,
+        secondaryColor: effectiveSecondaryColor,
         secondaryOpacity: customizer.secondaryOpacity,
         backgroundColor: resolvedRasterBg
       });
@@ -173,7 +186,7 @@ export function IconDetailPanel({
       const res = await exportIconToWebp(icon.name, customizer.style, {
         dimension: rasterSize,
         primaryColor: customizer.primaryColor,
-        secondaryColor: customizer.secondaryColor,
+        secondaryColor: effectiveSecondaryColor,
         secondaryOpacity: customizer.secondaryOpacity,
         backgroundColor: resolvedRasterBg
       });
@@ -191,7 +204,7 @@ export function IconDetailPanel({
       const { downloadVectorPdf } = await import("../../lib/pdf-export");
       downloadVectorPdf(icon.name, customizer.style, {
         primaryColor: customizer.primaryColor,
-        secondaryColor: customizer.secondaryColor,
+        secondaryColor: effectiveSecondaryColor,
         secondaryOpacity: customizer.secondaryOpacity,
         backgroundColor: resolvedRasterBg
       });
@@ -209,7 +222,7 @@ export function IconDetailPanel({
     style: customizer.style,
     size: customizer.size,
     primaryColor: customizer.primaryColor,
-    secondaryColor: customizer.secondaryColor,
+    secondaryColor: effectiveSecondaryColor,
     secondaryOpacity: customizer.secondaryOpacity
   });
 
@@ -517,7 +530,7 @@ export function IconDetailPanel({
                   className="font-semibold text-foreground"
                 >
                   {customizer.style === "color"
-                    ? "Secondary Color (Default #000000)"
+                    ? `Secondary Color (Default ${defaultColorSecondary})`
                     : "Duotone Secondary Color"}
                 </label>
                 <div className="flex items-center gap-1.5">
@@ -529,7 +542,7 @@ export function IconDetailPanel({
                       /^#[0-9A-Fa-f]{6}$/.test(customizer.secondaryColor)
                         ? customizer.secondaryColor
                         : customizer.style === "color"
-                          ? "#000000"
+                          ? defaultColorSecondary
                           : SITE_CONFIG.colors.primary
                     }
                     onChange={(e) =>
@@ -568,7 +581,7 @@ export function IconDetailPanel({
                         backgroundColor:
                           preset.value === "var(--primary)"
                             ? customizer.style === "color"
-                              ? "#000000"
+                              ? defaultColorSecondary
                               : SITE_CONFIG.colors.primary
                             : preset.value
                       }}

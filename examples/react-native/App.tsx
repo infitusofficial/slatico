@@ -15,6 +15,10 @@ import {
   type SlaticoStyle
 } from "@slatico/core";
 import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  ArrowUpLeftIcon,
+  ArrowUpRightIcon,
   BellIcon,
   CloudCheckIcon,
   CloudIcon,
@@ -47,6 +51,10 @@ import { WalletDuotoneIcon } from "@slatico/react-native/icons/wallet";
 export const ICON_COMPONENTS: Readonly<
   Record<SlaticoIconName, ComponentType<SlaticoNativeIconProps>>
 > = {
+  "arrow-down": ArrowDownIcon,
+  "arrow-up": ArrowUpIcon,
+  "arrow-up-left": ArrowUpLeftIcon,
+  "arrow-up-right": ArrowUpRightIcon,
   bell: BellIcon,
   cloud: CloudIcon,
   "cloud-check": CloudCheckIcon,
@@ -170,7 +178,7 @@ export default function App(props: SlaticoShowcaseProps): ReactElement {
           <TextInput
             value={searchQuery}
             onChangeText={setSearchQuery}
-            placeholder="Filter 23 icon families by name..."
+            placeholder={`Filter ${ICON_NAMES.length} icon families by name...`}
             placeholderTextColor={textSecondary}
             style={[
               styles.searchInput,
@@ -396,7 +404,7 @@ export default function App(props: SlaticoShowcaseProps): ReactElement {
         {showAll161 ? (
           <View style={[styles.card, { backgroundColor: cardBg, borderColor }]}>
             <Text style={[styles.sectionTitle, { color: textPrimary }]}>
-              Complete 161-Variant Matrix ({filteredIconNames.length} × 7)
+              Complete {ICON_NAMES.length * SLATICO_STYLES.length}-Variant Matrix ({filteredIconNames.length} × 7)
             </Text>
             {filteredIconNames.map((iconName) => {
               const IconComponent = ICON_COMPONENTS[iconName];

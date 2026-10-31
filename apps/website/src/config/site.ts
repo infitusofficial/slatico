@@ -75,7 +75,7 @@ export const DOCS_GUIDES: readonly DocsGuideNavItem[] = [
     packageName: "com.infitus.slatico:slatico-android",
     ecosystem: "Jetpack Compose & Android View XML",
     summary:
-      "161 native Android VectorDrawable resources and Jetpack Compose SlaticoIcon composables with runtime tinting."
+      `${ICON_CATALOG.totalVariants} native Android VectorDrawable resources and Jetpack Compose SlaticoIcon composables with runtime tinting.`
   },
   {
     slug: "swift",
@@ -103,7 +103,7 @@ export const SITE_CONFIG = {
   tagline: "Precision-crafted multi-platform icon system across 7 architectural styles.",
   title: "Slatico — Multi-Platform Open-Source Icon System by Infitus Creative Studio",
   description:
-    "Explore 23 original icon families and 161 production vector variants across Thin, Light, Regular, Bold, Fill, Duotone, and Color styles for React, Vue, Web Components, React Native, Flutter, Android, and Apple Swift.",
+    `Explore ${ICON_CATALOG.totalIcons} original icon families and ${ICON_CATALOG.totalVariants} production vector variants across Thin, Light, Regular, Bold, Fill, Duotone, and Color styles for React, Vue, Web Components, React Native, Flutter, Android, and Apple Swift.`,
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "https://slatico.infitus.dev",
   locale: "en_US",
   language: "en",

@@ -6,9 +6,9 @@ import 'package:flutter/widgets.dart';
 import '../slatico_icon_data.dart';
 import 'slatico_catalog.g.dart';
 
-/// Static `IconData` constants and lookup tables for all 23 Tier 1 Slatico
+/// Static `IconData` constants and lookup tables for all 27 Tier 1 Slatico
 /// icon families across the 5 monochrome font styles (`thin`, `light`, `regular`, `bold`, `fill`,
-/// totaling 115 `IconData` constants).
+/// totaling 135 `IconData` constants).
 ///
 /// Note: `duotone` and `color` styles require multi-layer / multicolor vector rendering.
 /// Use the `SlaticoIcon` widget for `SlaticoStyle.duotone` and `SlaticoStyle.color`.
@@ -32,10 +32,150 @@ abstract final class SlaticoIcons {
   static const String fontFamilyFill = 'Slatico Fill';
 
   /// Total number of production icon families in Tier 1.
-  static const int familyCount = 23;
+  static const int familyCount = 27;
 
-  /// Total number of monochrome `IconData` constants (23 families × 5 styles).
-  static const int monochromeGlyphCount = 115;
+  /// Total number of monochrome `IconData` constants (27 families × 5 styles).
+  static const int monochromeGlyphCount = 135;
+
+  /// `arrow-down` icon in `thin` monochrome font style (`U+E018`).
+  static const IconData arrowDownThin = IconData(
+    0xe018,
+    fontFamily: fontFamilyThin,
+    fontPackage: fontPackage,
+  );
+
+  /// `arrow-down` icon in `light` monochrome font style (`U+E018`).
+  static const IconData arrowDownLight = IconData(
+    0xe018,
+    fontFamily: fontFamilyLight,
+    fontPackage: fontPackage,
+  );
+
+  /// `arrow-down` icon in `regular` monochrome font style (`U+E018`).
+  static const IconData arrowDownRegular = IconData(
+    0xe018,
+    fontFamily: fontFamilyRegular,
+    fontPackage: fontPackage,
+  );
+
+  /// `arrow-down` icon in `bold` monochrome font style (`U+E018`).
+  static const IconData arrowDownBold = IconData(
+    0xe018,
+    fontFamily: fontFamilyBold,
+    fontPackage: fontPackage,
+  );
+
+  /// `arrow-down` icon in `fill` monochrome font style (`U+E018`).
+  static const IconData arrowDownFill = IconData(
+    0xe018,
+    fontFamily: fontFamilyFill,
+    fontPackage: fontPackage,
+  );
+
+  /// `arrow-up` icon in `thin` monochrome font style (`U+E019`).
+  static const IconData arrowUpThin = IconData(
+    0xe019,
+    fontFamily: fontFamilyThin,
+    fontPackage: fontPackage,
+  );
+
+  /// `arrow-up` icon in `light` monochrome font style (`U+E019`).
+  static const IconData arrowUpLight = IconData(
+    0xe019,
+    fontFamily: fontFamilyLight,
+    fontPackage: fontPackage,
+  );
+
+  /// `arrow-up` icon in `regular` monochrome font style (`U+E019`).
+  static const IconData arrowUpRegular = IconData(
+    0xe019,
+    fontFamily: fontFamilyRegular,
+    fontPackage: fontPackage,
+  );
+
+  /// `arrow-up` icon in `bold` monochrome font style (`U+E019`).
+  static const IconData arrowUpBold = IconData(
+    0xe019,
+    fontFamily: fontFamilyBold,
+    fontPackage: fontPackage,
+  );
+
+  /// `arrow-up` icon in `fill` monochrome font style (`U+E019`).
+  static const IconData arrowUpFill = IconData(
+    0xe019,
+    fontFamily: fontFamilyFill,
+    fontPackage: fontPackage,
+  );
+
+  /// `arrow-up-left` icon in `thin` monochrome font style (`U+E01A`).
+  static const IconData arrowUpLeftThin = IconData(
+    0xe01a,
+    fontFamily: fontFamilyThin,
+    fontPackage: fontPackage,
+  );
+
+  /// `arrow-up-left` icon in `light` monochrome font style (`U+E01A`).
+  static const IconData arrowUpLeftLight = IconData(
+    0xe01a,
+    fontFamily: fontFamilyLight,
+    fontPackage: fontPackage,
+  );
+
+  /// `arrow-up-left` icon in `regular` monochrome font style (`U+E01A`).
+  static const IconData arrowUpLeftRegular = IconData(
+    0xe01a,
+    fontFamily: fontFamilyRegular,
+    fontPackage: fontPackage,
+  );
+
+  /// `arrow-up-left` icon in `bold` monochrome font style (`U+E01A`).
+  static const IconData arrowUpLeftBold = IconData(
+    0xe01a,
+    fontFamily: fontFamilyBold,
+    fontPackage: fontPackage,
+  );
+
+  /// `arrow-up-left` icon in `fill` monochrome font style (`U+E01A`).
+  static const IconData arrowUpLeftFill = IconData(
+    0xe01a,
+    fontFamily: fontFamilyFill,
+    fontPackage: fontPackage,
+  );
+
+  /// `arrow-up-right` icon in `thin` monochrome font style (`U+E01B`).
+  static const IconData arrowUpRightThin = IconData(
+    0xe01b,
+    fontFamily: fontFamilyThin,
+    fontPackage: fontPackage,
+  );
+
+  /// `arrow-up-right` icon in `light` monochrome font style (`U+E01B`).
+  static const IconData arrowUpRightLight = IconData(
+    0xe01b,
+    fontFamily: fontFamilyLight,
+    fontPackage: fontPackage,
+  );
+
+  /// `arrow-up-right` icon in `regular` monochrome font style (`U+E01B`).
+  static const IconData arrowUpRightRegular = IconData(
+    0xe01b,
+    fontFamily: fontFamilyRegular,
+    fontPackage: fontPackage,
+  );
+
+  /// `arrow-up-right` icon in `bold` monochrome font style (`U+E01B`).
+  static const IconData arrowUpRightBold = IconData(
+    0xe01b,
+    fontFamily: fontFamilyBold,
+    fontPackage: fontPackage,
+  );
+
+  /// `arrow-up-right` icon in `fill` monochrome font style (`U+E01B`).
+  static const IconData arrowUpRightFill = IconData(
+    0xe01b,
+    fontFamily: fontFamilyFill,
+    fontPackage: fontPackage,
+  );
 
   /// `bell` icon in `thin` monochrome font style (`U+E001`).
   static const IconData bellThin = IconData(
@@ -845,6 +985,10 @@ abstract final class SlaticoIcons {
   /// Lookup table for `thin` monochrome `IconData` by [SlaticoIconName].
   static const Map<SlaticoIconName, IconData> thinIcons =
       <SlaticoIconName, IconData>{
+    SlaticoIconName.arrowDown: arrowDownThin,
+    SlaticoIconName.arrowUp: arrowUpThin,
+    SlaticoIconName.arrowUpLeft: arrowUpLeftThin,
+    SlaticoIconName.arrowUpRight: arrowUpRightThin,
     SlaticoIconName.bell: bellThin,
     SlaticoIconName.cloud: cloudThin,
     SlaticoIconName.cloudCheck: cloudCheckThin,
@@ -873,6 +1017,10 @@ abstract final class SlaticoIcons {
   /// Lookup table for `light` monochrome `IconData` by [SlaticoIconName].
   static const Map<SlaticoIconName, IconData> lightIcons =
       <SlaticoIconName, IconData>{
+    SlaticoIconName.arrowDown: arrowDownLight,
+    SlaticoIconName.arrowUp: arrowUpLight,
+    SlaticoIconName.arrowUpLeft: arrowUpLeftLight,
+    SlaticoIconName.arrowUpRight: arrowUpRightLight,
     SlaticoIconName.bell: bellLight,
     SlaticoIconName.cloud: cloudLight,
     SlaticoIconName.cloudCheck: cloudCheckLight,
@@ -901,6 +1049,10 @@ abstract final class SlaticoIcons {
   /// Lookup table for `regular` monochrome `IconData` by [SlaticoIconName].
   static const Map<SlaticoIconName, IconData> regularIcons =
       <SlaticoIconName, IconData>{
+    SlaticoIconName.arrowDown: arrowDownRegular,
+    SlaticoIconName.arrowUp: arrowUpRegular,
+    SlaticoIconName.arrowUpLeft: arrowUpLeftRegular,
+    SlaticoIconName.arrowUpRight: arrowUpRightRegular,
     SlaticoIconName.bell: bellRegular,
     SlaticoIconName.cloud: cloudRegular,
     SlaticoIconName.cloudCheck: cloudCheckRegular,
@@ -929,6 +1081,10 @@ abstract final class SlaticoIcons {
   /// Lookup table for `bold` monochrome `IconData` by [SlaticoIconName].
   static const Map<SlaticoIconName, IconData> boldIcons =
       <SlaticoIconName, IconData>{
+    SlaticoIconName.arrowDown: arrowDownBold,
+    SlaticoIconName.arrowUp: arrowUpBold,
+    SlaticoIconName.arrowUpLeft: arrowUpLeftBold,
+    SlaticoIconName.arrowUpRight: arrowUpRightBold,
     SlaticoIconName.bell: bellBold,
     SlaticoIconName.cloud: cloudBold,
     SlaticoIconName.cloudCheck: cloudCheckBold,
@@ -957,6 +1113,10 @@ abstract final class SlaticoIcons {
   /// Lookup table for `fill` monochrome `IconData` by [SlaticoIconName].
   static const Map<SlaticoIconName, IconData> fillIcons =
       <SlaticoIconName, IconData>{
+    SlaticoIconName.arrowDown: arrowDownFill,
+    SlaticoIconName.arrowUp: arrowUpFill,
+    SlaticoIconName.arrowUpLeft: arrowUpLeftFill,
+    SlaticoIconName.arrowUpRight: arrowUpRightFill,
     SlaticoIconName.bell: bellFill,
     SlaticoIconName.cloud: cloudFill,
     SlaticoIconName.cloudCheck: cloudCheckFill,
@@ -982,8 +1142,28 @@ abstract final class SlaticoIcons {
     SlaticoIconName.wallet: walletFill,
   };
 
-  /// All 115 monochrome `IconData` constants keyed by `<icon-name>-<style>`.
+  /// All 135 monochrome `IconData` constants keyed by `<icon-name>-<style>`.
   static const Map<String, IconData> allMonochrome = <String, IconData>{
+    'arrow-down-thin': arrowDownThin,
+    'arrow-down-light': arrowDownLight,
+    'arrow-down-regular': arrowDownRegular,
+    'arrow-down-bold': arrowDownBold,
+    'arrow-down-fill': arrowDownFill,
+    'arrow-up-thin': arrowUpThin,
+    'arrow-up-light': arrowUpLight,
+    'arrow-up-regular': arrowUpRegular,
+    'arrow-up-bold': arrowUpBold,
+    'arrow-up-fill': arrowUpFill,
+    'arrow-up-left-thin': arrowUpLeftThin,
+    'arrow-up-left-light': arrowUpLeftLight,
+    'arrow-up-left-regular': arrowUpLeftRegular,
+    'arrow-up-left-bold': arrowUpLeftBold,
+    'arrow-up-left-fill': arrowUpLeftFill,
+    'arrow-up-right-thin': arrowUpRightThin,
+    'arrow-up-right-light': arrowUpRightLight,
+    'arrow-up-right-regular': arrowUpRightRegular,
+    'arrow-up-right-bold': arrowUpRightBold,
+    'arrow-up-right-fill': arrowUpRightFill,
     'bell-thin': bellThin,
     'bell-light': bellLight,
     'bell-regular': bellRegular,

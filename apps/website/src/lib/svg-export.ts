@@ -79,13 +79,18 @@ export function buildStandaloneSvg(
       colorPrimaryRaw && colorPrimaryRaw !== "currentColor"
         ? resolveCssColorToken(colorPrimaryRaw, "#FF6040")
         : "#FF6040";
+    const defaultColorSecondary =
+      typeof document !== "undefined" &&
+      document.documentElement.classList.contains("dark")
+        ? "#FFFFFF"
+        : "#000000";
     const colorSecondaryRaw = (options.secondaryColor ?? "").trim();
     const resolvedColorSecondary =
       colorSecondaryRaw &&
       colorSecondaryRaw !== "currentColor" &&
       colorSecondaryRaw !== "var(--primary)"
-        ? resolveCssColorToken(colorSecondaryRaw, "#000000")
-        : "#000000";
+        ? resolveCssColorToken(colorSecondaryRaw, defaultColorSecondary)
+        : defaultColorSecondary;
 
     inner = inner
       .replace(

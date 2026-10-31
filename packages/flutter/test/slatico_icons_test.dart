@@ -8,18 +8,18 @@ void main() {
 
   group('Slatico Tier 1 Catalog & Monochrome IconData Verification', () {
     test(
-      'contains all 23 Tier 1 icon families and 115 monochrome IconData entries',
+      'contains all 27 Tier 1 icon families and 135 monochrome IconData entries',
       () {
-        expect(SlaticoIconName.values.length, 23);
-        expect(SlaticoIcons.familyCount, 23);
-        expect(SlaticoIcons.monochromeGlyphCount, 115);
-        expect(SlaticoIcons.allMonochrome.length, 115);
+        expect(SlaticoIconName.values.length, 27);
+        expect(SlaticoIcons.familyCount, 27);
+        expect(SlaticoIcons.monochromeGlyphCount, 135);
+        expect(SlaticoIcons.allMonochrome.length, 135);
 
-        expect(SlaticoIcons.thinIcons.length, 23);
-        expect(SlaticoIcons.lightIcons.length, 23);
-        expect(SlaticoIcons.regularIcons.length, 23);
-        expect(SlaticoIcons.boldIcons.length, 23);
-        expect(SlaticoIcons.fillIcons.length, 23);
+        expect(SlaticoIcons.thinIcons.length, 27);
+        expect(SlaticoIcons.lightIcons.length, 27);
+        expect(SlaticoIcons.regularIcons.length, 27);
+        expect(SlaticoIcons.boldIcons.length, 27);
+        expect(SlaticoIcons.fillIcons.length, 27);
       },
     );
 
@@ -30,6 +30,10 @@ void main() {
         expect(SlaticoIcons.houseRegular.codePoint, 0xe008);
         expect(SlaticoIcons.userFill.codePoint, 0xe016);
         expect(SlaticoIcons.walletBold.codePoint, 0xe017);
+        expect(SlaticoIcons.arrowDownRegular.codePoint, 0xe018);
+        expect(SlaticoIcons.arrowUpRegular.codePoint, 0xe019);
+        expect(SlaticoIcons.arrowUpLeftRegular.codePoint, 0xe01a);
+        expect(SlaticoIcons.arrowUpRightRegular.codePoint, 0xe01b);
 
         expect(SlaticoIcons.houseThin.fontFamily, 'Slatico Thin');
         expect(SlaticoIcons.houseLight.fontFamily, 'Slatico Light');
@@ -39,7 +43,7 @@ void main() {
 
         for (final iconData in SlaticoIcons.allMonochrome.values) {
           expect(iconData.fontPackage, 'slatico_icons');
-          expect(iconData.codePoint, inInclusiveRange(0xe001, 0xe017));
+          expect(iconData.codePoint, inInclusiveRange(0xe001, 0xe01b));
         }
       },
     );

@@ -45,6 +45,10 @@ import {
 } from "../scripts/generate-icons.js";
 
 const EXPECTED_TIER1_FAMILIES = [
+  "arrow-down",
+  "arrow-up",
+  "arrow-up-left",
+  "arrow-up-right",
   "bell",
   "cloud",
   "cloud-check",
@@ -124,19 +128,19 @@ describe("@slatico/core specifications and utilities", () => {
 });
 
 describe("SVG discovery, validation, and Tier 1 production pipeline", () => {
-  it("validates all 23 Tier 1 production icon families (161 variants) and excludes demo icons from production exports", async () => {
+  it("validates all 27 Tier 1 production icon families (189 variants) and excludes demo icons from production exports", async () => {
     const repoRoot = process.cwd();
     const iconsDir = path.join(repoRoot, "icons");
     const result = await discoverAndValidateIcons(iconsDir, repoRoot);
 
     expect(result.valid).toBe(true);
     expect(result.errors).toEqual([]);
-    expect(result.families.length).toBe(23);
+    expect(result.families.length).toBe(27);
     expect(result.demoFamilies.map((f) => f.name)).toEqual(["cube", "sparkle"]);
 
     expect(ICON_NAMES).toEqual(EXPECTED_TIER1_FAMILIES);
-    expect(ICON_CATALOG.totalIcons).toBe(23);
-    expect(ICON_CATALOG.totalVariants).toBe(161);
+    expect(ICON_CATALOG.totalIcons).toBe(27);
+    expect(ICON_CATALOG.totalVariants).toBe(189);
     expect(ICON_CATALOG.tiers["tier-1"]).toEqual(EXPECTED_TIER1_FAMILIES);
     expect(ICON_CATALOG.tiers["tier-2"]).toEqual([]);
     expect(ICON_CATALOG.tiers["tier-3"]).toEqual([]);
@@ -417,8 +421,8 @@ describe("@slatico/react components & real consumer package verification", () =>
     );
 
     expect(coreDist.SLATICO_STYLES).toHaveLength(7);
-    expect(coreDist.ICON_CATALOG.totalIcons).toBe(23);
-    expect(coreDist.ICON_CATALOG.totalVariants).toBe(161);
+    expect(coreDist.ICON_CATALOG.totalIcons).toBe(27);
+    expect(coreDist.ICON_CATALOG.totalVariants).toBe(189);
     expect(svgDist.getSvgAsset("shield-check", "fill").svg).toContain('fill-rule="evenodd"');
     expect(reactDist.ShieldCheckIcon).toBeDefined();
     expect(reactSubpathBell.BellIcon).toBeDefined();

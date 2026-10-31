@@ -45,6 +45,9 @@ export function DynamicSlaticoIcon({
       secondaryColor !== "var(--primary)"
     ) {
       inlineStyle["--slatico-secondary-color"] = secondaryColor;
+    } else {
+      inlineStyle["--slatico-secondary-color"] =
+        "var(--slatico-color-secondary-default, #000000)";
     }
   } else {
     if (color) {

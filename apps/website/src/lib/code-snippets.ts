@@ -180,23 +180,39 @@ export function generatePlatformCodeSnippet(
   const snakeName = toSnakeCase(name);
   const upperSnakeName = toUpperSnakeCase(name);
   const styleUpper = style.toUpperCase();
+  const defaultColorSecondary =
+    typeof document !== "undefined" &&
+    document.documentElement.classList.contains("dark")
+      ? "#FFFFFF"
+      : "#000000";
+  const effectiveSecondaryColor =
+    style === "color" &&
+    (!secondaryColor.trim() ||
+      secondaryColor === "currentColor" ||
+      secondaryColor === "var(--primary)")
+      ? defaultColorSecondary
+      : secondaryColor;
   const hasCustomPrimary =
     primaryColor !== "currentColor" &&
     primaryColor.trim().length > 0 &&
     !(style === "color" && primaryColor.trim().toUpperCase() === "#FF6040");
   const hasCustomSecondary =
-    secondaryColor.trim().length > 0 &&
-    secondaryColor !== "currentColor" &&
-    !(style === "color" && (secondaryColor.trim().toUpperCase() === "#000000" || secondaryColor === "var(--primary)"));
+    effectiveSecondaryColor.trim().length > 0 &&
+    effectiveSecondaryColor !== "currentColor" &&
+    !(
+      style === "color" &&
+      (effectiveSecondaryColor.trim().toUpperCase() === "#000000" ||
+        effectiveSecondaryColor === "var(--primary)")
+    );
   const resolvedPrimary = hasCustomPrimary ? primaryColor : "currentColor";
   const resolvedHexPrimary = normalizeHex6(
     hasCustomPrimary ? primaryColor : style === "color" ? "#FF6040" : "#1A1931"
   );
   const resolvedHexSecondary = normalizeHex6(
     hasCustomSecondary
-      ? secondaryColor
+      ? effectiveSecondaryColor
       : style === "color"
-        ? "#000000"
+        ? defaultColorSecondary
         : resolvedHexPrimary
   );
   const opacityNum = Number(secondaryOpacity.toFixed(2));
@@ -212,7 +228,7 @@ export function generatePlatformCodeSnippet(
           props.push(`color="${primaryColor}"`);
         }
         if (hasCustomSecondary) {
-          props.push(`secondaryColor="${secondaryColor}"`);
+          props.push(`secondaryColor="${effectiveSecondaryColor}"`);
         }
       } else {
         props.push(`color="${resolvedPrimary}"`);
@@ -246,7 +262,7 @@ export function Example() {
           props.push(`color="${primaryColor}"`);
         }
         if (hasCustomSecondary) {
-          props.push(`secondary-color="${secondaryColor}"`);
+          props.push(`secondary-color="${effectiveSecondaryColor}"`);
         }
       } else {
         props.push(`color="${resolvedPrimary}"`);
@@ -283,7 +299,7 @@ import { ${componentName} } from "@slatico/vue/icons/${name}";
           svgOpts.push(`color: "${primaryColor}"`);
         }
         if (hasCustomSecondary) {
-          svgOpts.push(`secondaryColor: "${secondaryColor}"`);
+          svgOpts.push(`secondaryColor: "${effectiveSecondaryColor}"`);
         }
       } else {
         svgOpts.push(`color: "${resolvedPrimary}"`);
@@ -315,7 +331,7 @@ import { ${componentName} } from "@slatico/vue/icons/${name}";
           attrs.push(`color="${primaryColor}"`);
         }
         if (hasCustomSecondary) {
-          attrs.push(`secondary-color="${secondaryColor}"`);
+          attrs.push(`secondary-color="${effectiveSecondaryColor}"`);
         }
       } else {
         attrs.push(`color="${resolvedPrimary}"`);

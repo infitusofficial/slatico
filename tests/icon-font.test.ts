@@ -45,7 +45,7 @@ import { discoverAndValidateIcons } from "../scripts/icon-pipeline.js";
 const execFileAsync = promisify(execFile);
 
 describe("Phase 2B: @slatico/font Monochrome Icon Font System", () => {
-  it("supports the 5 monochrome styles (23 families × 5 styles = 115 glyphs) and excludes Duotone, Color, and demo icons", () => {
+  it("supports the 5 monochrome styles (27 families × 5 styles = 135 glyphs) and excludes Duotone, Color, and demo icons", () => {
     expect(SLATICO_FONT_PACKAGE_STATUS).toBe("implemented");
     expect(FONT_COMPATIBLE_STYLES).toEqual(["thin", "light", "regular", "bold", "fill"]);
     expect(FONT_EXCLUDED_STYLES).toEqual(["duotone", "color"]);
@@ -56,9 +56,9 @@ describe("Phase 2B: @slatico/font Monochrome Icon Font System", () => {
     expect(canCompileStyleToMonochromeFont("duotone")).toBe(false);
     expect(canCompileStyleToMonochromeFont("color")).toBe(false);
 
-    expect(Object.keys(FONT_CODEPOINTS).length).toBe(23);
-    expect(Object.keys(FONT_CODEPOINTS)).toEqual(ICON_NAMES);
-    expect(FONT_GLYPHS.length).toBe(115);
+    expect(Object.keys(FONT_CODEPOINTS).length).toBe(27);
+    expect(Object.keys(FONT_CODEPOINTS).sort()).toEqual([...ICON_NAMES].sort());
+    expect(FONT_GLYPHS.length).toBe(135);
 
     // Ensure demo icons are excluded
     expect("cube" in FONT_CODEPOINTS).toBe(false);
@@ -72,7 +72,11 @@ describe("Phase 2B: @slatico/font Monochrome Icon Font System", () => {
     expect(FONT_CODEPOINTS.house).toBe("0xE008");
     expect(FONT_CODEPOINTS.user).toBe("0xE016");
     expect(FONT_CODEPOINTS.wallet).toBe("0xE017");
-    expect(FONT_CODEPOINT_MANIFEST.nextCodepoint).toBe("0xE018");
+    expect(FONT_CODEPOINTS["arrow-down"]).toBe("0xE018");
+    expect(FONT_CODEPOINTS["arrow-up"]).toBe("0xE019");
+    expect(FONT_CODEPOINTS["arrow-up-left"]).toBe("0xE01A");
+    expect(FONT_CODEPOINTS["arrow-up-right"]).toBe("0xE01B");
+    expect(FONT_CODEPOINT_MANIFEST.nextCodepoint).toBe("0xE01C");
 
     // Simulate adding future Tier 2 / Tier 3 icons that sort BEFORE "bell" alphabetically (e.g. "anchor", "archive")
     const expandedNames = ["anchor", "archive", ...ICON_NAMES, "zap"].sort();
@@ -86,21 +90,21 @@ describe("Phase 2B: @slatico/font Monochrome Icon Font System", () => {
       expect(afterAddition.codepoints[name]).toBe(FONT_CODEPOINTS[name]);
     }
 
-    // Newly added icons receive sequential codepoints starting at 0xE018
-    expect(afterAddition.codepoints.anchor).toBe("0xE018");
-    expect(afterAddition.codepoints.archive).toBe("0xE019");
-    expect(afterAddition.codepoints.zap).toBe("0xE01A");
-    expect(afterAddition.nextCodepoint).toBe("0xE01B");
+    // Newly added icons receive sequential codepoints starting at 0xE01C
+    expect(afterAddition.codepoints.anchor).toBe("0xE01C");
+    expect(afterAddition.codepoints.archive).toBe("0xE01D");
+    expect(afterAddition.codepoints.zap).toBe("0xE01E");
+    expect(afterAddition.nextCodepoint).toBe("0xE01F");
 
-    // Simulate retiring "archive" (0xE019) and adding "bookmark": 0xE019 must move to retiredCodepoints and never be reused
+    // Simulate retiring "archive" (0xE01D) and adding "bookmark": 0xE01D must move to retiredCodepoints and never be reused
     const afterRetirement = resolveStableCodepointManifest(
       afterAddition,
       ["anchor", ...ICON_NAMES, "zap", "bookmark"].sort()
     );
     expect(afterRetirement.codepoints.archive).toBeUndefined();
-    expect(afterRetirement.retiredCodepoints).toContain("0xE019");
-    expect(afterRetirement.codepoints.bookmark).toBe("0xE01B");
-    expect(afterRetirement.nextCodepoint).toBe("0xE01C");
+    expect(afterRetirement.retiredCodepoints).toContain("0xE01D");
+    expect(afterRetirement.codepoints.bookmark).toBe("0xE01F");
+    expect(afterRetirement.nextCodepoint).toBe("0xE020");
 
     // Verify determinism across repeated calls
     const repeatCall = resolveStableCodepointManifest(
@@ -162,12 +166,12 @@ describe("Phase 2B: @slatico/font Monochrome Icon Font System", () => {
       excludedStyles: string[];
       glyphs: unknown[];
     };
-    expect(parsedManifest.totalFamilies).toBe(23);
+    expect(parsedManifest.totalFamilies).toBe(27);
     expect(parsedManifest.totalStyles).toBe(5);
-    expect(parsedManifest.totalGlyphs).toBe(115);
+    expect(parsedManifest.totalGlyphs).toBe(135);
     expect(parsedManifest.supportedStyles).toEqual(["thin", "light", "regular", "bold", "fill"]);
     expect(parsedManifest.excludedStyles).toEqual(["duotone", "color"]);
-    expect(parsedManifest.glyphs.length).toBe(115);
+    expect(parsedManifest.glyphs.length).toBe(135);
   });
 
   it("generates valid, non-empty, deterministic TTF, WOFF, and WOFF2 font files with intact negative space contours", async () => {
@@ -346,15 +350,15 @@ const cssPath = require.resolve("@slatico/font/slatico.css");
 const minCssPath = require.resolve("@slatico/font/slatico.min.css");
 
 assert.equal(FONT_COMPATIBLE_STYLES.length, 5);
-assert.equal(FONT_GLYPHS.length, 115);
-assert.equal(Object.keys(FONT_CODEPOINTS).length, 23);
+assert.equal(FONT_GLYPHS.length, 135);
+assert.equal(Object.keys(FONT_CODEPOINTS).length, 27);
 assert.equal(getFontClassName("house", "regular"), "slatico slatico-house-regular");
 assert.equal(getFontGlyph("bell", "bold").codepointHex, "0xE001");
 assert.equal(
   getFontHtmlSnippet("user", "fill"),
   '<i class="slatico slatico-user-fill" aria-hidden="true"></i>'
 );
-assert.equal(cjsFont.FONT_GLYPHS.length, 115);
+assert.equal(cjsFont.FONT_GLYPHS.length, 135);
 assert.ok(fs.existsSync(glyphsJsonPath));
 assert.ok(fs.existsSync(cssPath));
 assert.ok(fs.existsSync(minCssPath));

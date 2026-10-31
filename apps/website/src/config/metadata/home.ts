@@ -4,7 +4,7 @@ import { buildPageMetadata, type PageSeoConfig } from "./builder";
 export const HOME_SEO_CONFIG: PageSeoConfig = {
   title: `${SITE_CONFIG.brandName} — Precision Multi-Platform Open-Source SVG Icon Library`,
   description:
-    "Explore 23 original icon families and 161 production vector variants across Thin, Light, Regular, Bold, Fill, Duotone, and Color styles. Built for React, Vue, HTML, React Native, Flutter, Android, and Apple Swift.",
+    `Explore ${SITE_CONFIG.metrics.totalFamilies} original icon families and ${SITE_CONFIG.metrics.totalVariants} production vector variants across Thin, Light, Regular, Bold, Fill, Duotone, and Color styles. Built for React, Vue, HTML, React Native, Flutter, Android, and Apple Swift.`,
   canonicalPath: "/",
   keywords: [
     "Slatico",

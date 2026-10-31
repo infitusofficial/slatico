@@ -38,6 +38,11 @@ import {
   buildSoftwareSourceCodeJsonLd,
   buildWebSiteJsonLd
 } from "../apps/website/src/lib/structured-data";
+import {
+  getColorVariantDefaultSecondaryHex,
+  resolveEffectiveSecondaryColor,
+  resolveSecondaryPickerHex
+} from "../apps/website/src/lib/theme-color-defaults";
 
 const ROOT_DIR = path.resolve(__dirname, "..");
 const WEBSITE_DIR = path.join(ROOT_DIR, "apps", "website");
@@ -196,8 +201,8 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     expect(SITE_CONFIG.assets.logo).toBe("/brand/logo.svg");
     expect(SITE_CONFIG.assets.logoDark).toBe("/brand/logo-dark.svg");
     expect(SITE_CONFIG.assets.ogImage.url).toBe("/brand/og-image.png");
-    expect(SITE_CONFIG.metrics.totalFamilies).toBe(23);
-    expect(SITE_CONFIG.metrics.totalVariants).toBe(161);
+    expect(SITE_CONFIG.metrics.totalFamilies).toBe(27);
+    expect(SITE_CONFIG.metrics.totalVariants).toBe(189);
     expect(DOCS_GUIDES.length).toBe(7);
 
     // Default fallback to global og-image.png
@@ -234,11 +239,34 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     expect(buildDocsGuideMetadata("swift").title).toContain("Apple Native");
   });
 
-  it("dynamically enriches all 23 icon families and supports search & category filtering", () => {
+  it("dynamically enriches all 27 icon families (including arrow-down, arrow-up, arrow-up-left, arrow-up-right) and supports search & category filtering", () => {
     expect(ENRICHED_ICONS.length).toBe(ICON_CATALOG.totalIcons);
+    expect(ENRICHED_ICONS.length).toBe(27);
     expect(getEnrichedIconByName("bell")?.pascalName).toBe("Bell");
     expect(getEnrichedIconByName("shield-check")?.categoryId).toBe(
       "security-identity"
+    );
+
+    // Verify all 4 arrow families are enriched and searchable
+    for (const arrowSlug of [
+      "arrow-down",
+      "arrow-up",
+      "arrow-up-left",
+      "arrow-up-right"
+    ] as const) {
+      const enriched = getEnrichedIconByName(arrowSlug);
+      expect(enriched).toBeDefined();
+      expect(enriched?.categoryId).toBe("navigation-layout");
+    }
+
+    const searchArrow = filterCatalogIcons({ query: "arrow" });
+    expect(searchArrow.map((i) => i.name)).toEqual(
+      expect.arrayContaining([
+        "arrow-down",
+        "arrow-up",
+        "arrow-up-left",
+        "arrow-up-right"
+      ])
     );
 
     const searchBell = filterCatalogIcons({ query: "notification" });
@@ -292,6 +320,36 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     });
     expect(customBothColorSvg).toContain('fill="#2563EB"');
     expect(customBothColorSvg).toContain('fill="#059669"');
+
+    // Verify theme-aware default secondary color for `color` variant (#000000 in Light, #FFFFFF in Dark)
+    expect(getColorVariantDefaultSecondaryHex(false)).toBe("#000000");
+    expect(getColorVariantDefaultSecondaryHex(true)).toBe("#FFFFFF");
+    expect(resolveEffectiveSecondaryColor("color", "var(--primary)", false)).toBe(
+      "#000000"
+    );
+    expect(resolveEffectiveSecondaryColor("color", "var(--primary)", true)).toBe(
+      "#FFFFFF"
+    );
+    expect(resolveSecondaryPickerHex("color", "var(--primary)", false)).toBe(
+      "#000000"
+    );
+    expect(resolveSecondaryPickerHex("color", "var(--primary)", true)).toBe(
+      "#FFFFFF"
+    );
+    // Manual custom secondary color is preserved in both Light and Dark themes
+    expect(resolveEffectiveSecondaryColor("color", "#3B82F6", false)).toBe(
+      "#3B82F6"
+    );
+    expect(resolveEffectiveSecondaryColor("color", "#3B82F6", true)).toBe(
+      "#3B82F6"
+    );
+    // Duotone default secondary color remains var(--primary) in both themes
+    expect(
+      resolveEffectiveSecondaryColor("duotone", "var(--primary)", false)
+    ).toBe("var(--primary)");
+    expect(
+      resolveEffectiveSecondaryColor("duotone", "var(--primary)", true)
+    ).toBe("var(--primary)");
   });
 
   it("generates valid Vector PDF 1.4 documents with real vector path operators (m, l, c, h, f/f*) and ExtGState opacity", () => {
@@ -521,6 +579,10 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     const expectedOutputs = [
       "index.html",
       "icons.html",
+      "icons/arrow-down.html",
+      "icons/arrow-up.html",
+      "icons/arrow-up-left.html",
+      "icons/arrow-up-right.html",
       "icons/bell.html",
       "icons/shield-check.html",
       "docs.html",

@@ -119,13 +119,13 @@ describe("com.infitus.slatico Android Native Library (Phase 3B)", () => {
     expect(ciYaml).toContain(":sample:assembleDebug");
   });
 
-  it("generates exactly 161 valid Android VectorDrawable XML resources (23 families × 7 styles)", async () => {
+  it("generates exactly 189 valid Android VectorDrawable XML resources (27 families × 7 styles)", async () => {
     const files = (await fs.readdir(DRAWABLE_DIR))
       .filter((f) => f.endsWith(".xml"))
       .sort();
 
-    expect(files.length).toBe(161);
-    expect(ICON_NAMES.length * SLATICO_STYLES.length).toBe(161);
+    expect(files.length).toBe(189);
+    expect(ICON_NAMES.length * SLATICO_STYLES.length).toBe(189);
 
     for (const iconName of ICON_NAMES) {
       for (const style of SLATICO_STYLES) {
@@ -205,7 +205,7 @@ describe("com.infitus.slatico Android Native Library (Phase 3B)", () => {
       REPO_ROOT
     );
     expect(discovery.valid).toBe(true);
-    expect(discovery.families.length).toBe(23);
+    expect(discovery.families.length).toBe(27);
 
     const expectedIconNamesKt = generateKotlinIconNameModule(discovery.families);
     const actualIconNamesKt = await fs.readFile(

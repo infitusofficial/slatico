@@ -32,7 +32,7 @@ export const ICON_CATEGORIES: readonly IconCategoryDefinition[] = [
   {
     id: "navigation-layout",
     label: "Navigation & Layout",
-    description: "Home, dashboards, search, and workspace structure icons."
+    description: "Home, directional arrows, dashboards, search, and workspace structure icons."
   },
   {
     id: "communication-alerts",
@@ -73,6 +73,26 @@ interface IconSemanticEnrichment {
 }
 
 const ICON_SEMANTIC_MAP: Readonly<Record<string, IconSemanticEnrichment>> = {
+  "arrow-down": {
+    categoryId: "navigation-layout",
+    keywords: ["arrow", "down", "south", "download", "direction", "scroll", "move", "pointer", "bottom"],
+    summary: "Downward directional arrow for downloads, scroll indicators, and descending navigation."
+  },
+  "arrow-up": {
+    categoryId: "navigation-layout",
+    keywords: ["arrow", "up", "north", "upload", "direction", "scroll", "move", "pointer", "top"],
+    summary: "Upward directional arrow for uploads, back-to-top actions, and ascending navigation."
+  },
+  "arrow-up-left": {
+    categoryId: "navigation-layout",
+    keywords: ["arrow", "up-left", "northwest", "diagonal", "return", "direction", "pointer", "corner"],
+    summary: "Diagonal upper-left arrow for return navigation, parent contexts, and directional pointers."
+  },
+  "arrow-up-right": {
+    categoryId: "navigation-layout",
+    keywords: ["arrow", "up-right", "northeast", "diagonal", "external link", "open", "launch", "direction", "outbound"],
+    summary: "Diagonal upper-right arrow for external links, outbound launches, and call-to-action buttons."
+  },
   bell: {
     categoryId: "communication-alerts",
     keywords: ["notification", "alert", "alarm", "ring", "reminder", "chime", "updates"],

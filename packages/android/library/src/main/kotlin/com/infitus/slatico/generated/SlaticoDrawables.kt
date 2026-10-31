@@ -4,21 +4,105 @@ package com.infitus.slatico
 import androidx.annotation.DrawableRes
 
 /**
- * Strongly-typed Android `@DrawableRes` lookup catalog for all 23 Tier 1 Slatico
- * icon families across all 7 official styles (161 total VectorDrawable resources).
+ * Strongly-typed Android `@DrawableRes` lookup catalog for all 27 Tier 1 Slatico
+ * icon families across all 7 official styles (189 total VectorDrawable resources).
  */
 public object SlaticoDrawables {
     /** Total number of production icon families in Tier 1. */
-    public const val FAMILY_COUNT: Int = 23
+    public const val FAMILY_COUNT: Int = 27
 
     /** Total number of official Slatico styles. */
     public const val STYLE_COUNT: Int = 7
 
-    /** Total number of generated VectorDrawable XML resources (23 × 7). */
-    public const val TOTAL_DRAWABLES: Int = 161
+    /** Total number of generated VectorDrawable XML resources (27 × 7). */
+    public const val TOTAL_DRAWABLES: Int = 189
 
     /** Alias for [TOTAL_DRAWABLES]. */
     public const val TOTAL_VARIANTS: Int = TOTAL_DRAWABLES
+
+    @get:DrawableRes
+    public val arrowDownThin: Int get() = R.drawable.slatico_arrow_down_thin
+
+    @get:DrawableRes
+    public val arrowDownLight: Int get() = R.drawable.slatico_arrow_down_light
+
+    @get:DrawableRes
+    public val arrowDownRegular: Int get() = R.drawable.slatico_arrow_down_regular
+
+    @get:DrawableRes
+    public val arrowDownBold: Int get() = R.drawable.slatico_arrow_down_bold
+
+    @get:DrawableRes
+    public val arrowDownFill: Int get() = R.drawable.slatico_arrow_down_fill
+
+    @get:DrawableRes
+    public val arrowDownDuotone: Int get() = R.drawable.slatico_arrow_down_duotone
+
+    @get:DrawableRes
+    public val arrowDownColor: Int get() = R.drawable.slatico_arrow_down_color
+
+    @get:DrawableRes
+    public val arrowUpThin: Int get() = R.drawable.slatico_arrow_up_thin
+
+    @get:DrawableRes
+    public val arrowUpLight: Int get() = R.drawable.slatico_arrow_up_light
+
+    @get:DrawableRes
+    public val arrowUpRegular: Int get() = R.drawable.slatico_arrow_up_regular
+
+    @get:DrawableRes
+    public val arrowUpBold: Int get() = R.drawable.slatico_arrow_up_bold
+
+    @get:DrawableRes
+    public val arrowUpFill: Int get() = R.drawable.slatico_arrow_up_fill
+
+    @get:DrawableRes
+    public val arrowUpDuotone: Int get() = R.drawable.slatico_arrow_up_duotone
+
+    @get:DrawableRes
+    public val arrowUpColor: Int get() = R.drawable.slatico_arrow_up_color
+
+    @get:DrawableRes
+    public val arrowUpLeftThin: Int get() = R.drawable.slatico_arrow_up_left_thin
+
+    @get:DrawableRes
+    public val arrowUpLeftLight: Int get() = R.drawable.slatico_arrow_up_left_light
+
+    @get:DrawableRes
+    public val arrowUpLeftRegular: Int get() = R.drawable.slatico_arrow_up_left_regular
+
+    @get:DrawableRes
+    public val arrowUpLeftBold: Int get() = R.drawable.slatico_arrow_up_left_bold
+
+    @get:DrawableRes
+    public val arrowUpLeftFill: Int get() = R.drawable.slatico_arrow_up_left_fill
+
+    @get:DrawableRes
+    public val arrowUpLeftDuotone: Int get() = R.drawable.slatico_arrow_up_left_duotone
+
+    @get:DrawableRes
+    public val arrowUpLeftColor: Int get() = R.drawable.slatico_arrow_up_left_color
+
+    @get:DrawableRes
+    public val arrowUpRightThin: Int get() = R.drawable.slatico_arrow_up_right_thin
+
+    @get:DrawableRes
+    public val arrowUpRightLight: Int get() = R.drawable.slatico_arrow_up_right_light
+
+    @get:DrawableRes
+    public val arrowUpRightRegular: Int get() = R.drawable.slatico_arrow_up_right_regular
+
+    @get:DrawableRes
+    public val arrowUpRightBold: Int get() = R.drawable.slatico_arrow_up_right_bold
+
+    @get:DrawableRes
+    public val arrowUpRightFill: Int get() = R.drawable.slatico_arrow_up_right_fill
+
+    @get:DrawableRes
+    public val arrowUpRightDuotone: Int get() = R.drawable.slatico_arrow_up_right_duotone
+
+    @get:DrawableRes
+    public val arrowUpRightColor: Int get() = R.drawable.slatico_arrow_up_right_color
 
     @get:DrawableRes
     public val bellThin: Int get() = R.drawable.slatico_bell_thin
@@ -502,6 +586,114 @@ public object SlaticoDrawables {
 
     @get:DrawableRes
     public val walletColor: Int get() = R.drawable.slatico_wallet_color
+
+    /** Drawable resource IDs for the `arrow-down` icon family across all 7 styles. */
+
+    public object ArrowDown {
+
+        @get:DrawableRes
+        public val thin: Int get() = R.drawable.slatico_arrow_down_thin
+
+        @get:DrawableRes
+        public val light: Int get() = R.drawable.slatico_arrow_down_light
+
+        @get:DrawableRes
+        public val regular: Int get() = R.drawable.slatico_arrow_down_regular
+
+        @get:DrawableRes
+        public val bold: Int get() = R.drawable.slatico_arrow_down_bold
+
+        @get:DrawableRes
+        public val fill: Int get() = R.drawable.slatico_arrow_down_fill
+
+        @get:DrawableRes
+        public val duotone: Int get() = R.drawable.slatico_arrow_down_duotone
+
+        @get:DrawableRes
+        public val color: Int get() = R.drawable.slatico_arrow_down_color
+
+    }
+
+    /** Drawable resource IDs for the `arrow-up` icon family across all 7 styles. */
+
+    public object ArrowUp {
+
+        @get:DrawableRes
+        public val thin: Int get() = R.drawable.slatico_arrow_up_thin
+
+        @get:DrawableRes
+        public val light: Int get() = R.drawable.slatico_arrow_up_light
+
+        @get:DrawableRes
+        public val regular: Int get() = R.drawable.slatico_arrow_up_regular
+
+        @get:DrawableRes
+        public val bold: Int get() = R.drawable.slatico_arrow_up_bold
+
+        @get:DrawableRes
+        public val fill: Int get() = R.drawable.slatico_arrow_up_fill
+
+        @get:DrawableRes
+        public val duotone: Int get() = R.drawable.slatico_arrow_up_duotone
+
+        @get:DrawableRes
+        public val color: Int get() = R.drawable.slatico_arrow_up_color
+
+    }
+
+    /** Drawable resource IDs for the `arrow-up-left` icon family across all 7 styles. */
+
+    public object ArrowUpLeft {
+
+        @get:DrawableRes
+        public val thin: Int get() = R.drawable.slatico_arrow_up_left_thin
+
+        @get:DrawableRes
+        public val light: Int get() = R.drawable.slatico_arrow_up_left_light
+
+        @get:DrawableRes
+        public val regular: Int get() = R.drawable.slatico_arrow_up_left_regular
+
+        @get:DrawableRes
+        public val bold: Int get() = R.drawable.slatico_arrow_up_left_bold
+
+        @get:DrawableRes
+        public val fill: Int get() = R.drawable.slatico_arrow_up_left_fill
+
+        @get:DrawableRes
+        public val duotone: Int get() = R.drawable.slatico_arrow_up_left_duotone
+
+        @get:DrawableRes
+        public val color: Int get() = R.drawable.slatico_arrow_up_left_color
+
+    }
+
+    /** Drawable resource IDs for the `arrow-up-right` icon family across all 7 styles. */
+
+    public object ArrowUpRight {
+
+        @get:DrawableRes
+        public val thin: Int get() = R.drawable.slatico_arrow_up_right_thin
+
+        @get:DrawableRes
+        public val light: Int get() = R.drawable.slatico_arrow_up_right_light
+
+        @get:DrawableRes
+        public val regular: Int get() = R.drawable.slatico_arrow_up_right_regular
+
+        @get:DrawableRes
+        public val bold: Int get() = R.drawable.slatico_arrow_up_right_bold
+
+        @get:DrawableRes
+        public val fill: Int get() = R.drawable.slatico_arrow_up_right_fill
+
+        @get:DrawableRes
+        public val duotone: Int get() = R.drawable.slatico_arrow_up_right_duotone
+
+        @get:DrawableRes
+        public val color: Int get() = R.drawable.slatico_arrow_up_right_color
+
+    }
 
     /** Drawable resource IDs for the `bell` icon family across all 7 styles. */
 
@@ -1134,6 +1326,10 @@ public object SlaticoDrawables {
         style: SlaticoStyle = SlaticoStyle.REGULAR,
     ): Int = when (style) {
         SlaticoStyle.THIN -> when (name) {
+            SlaticoIconName.ARROW_DOWN -> R.drawable.slatico_arrow_down_thin
+            SlaticoIconName.ARROW_UP -> R.drawable.slatico_arrow_up_thin
+            SlaticoIconName.ARROW_UP_LEFT -> R.drawable.slatico_arrow_up_left_thin
+            SlaticoIconName.ARROW_UP_RIGHT -> R.drawable.slatico_arrow_up_right_thin
             SlaticoIconName.BELL -> R.drawable.slatico_bell_thin
             SlaticoIconName.CLOUD -> R.drawable.slatico_cloud_thin
             SlaticoIconName.CLOUD_CHECK -> R.drawable.slatico_cloud_check_thin
@@ -1159,6 +1355,10 @@ public object SlaticoDrawables {
             SlaticoIconName.WALLET -> R.drawable.slatico_wallet_thin
         }
         SlaticoStyle.LIGHT -> when (name) {
+            SlaticoIconName.ARROW_DOWN -> R.drawable.slatico_arrow_down_light
+            SlaticoIconName.ARROW_UP -> R.drawable.slatico_arrow_up_light
+            SlaticoIconName.ARROW_UP_LEFT -> R.drawable.slatico_arrow_up_left_light
+            SlaticoIconName.ARROW_UP_RIGHT -> R.drawable.slatico_arrow_up_right_light
             SlaticoIconName.BELL -> R.drawable.slatico_bell_light
             SlaticoIconName.CLOUD -> R.drawable.slatico_cloud_light
             SlaticoIconName.CLOUD_CHECK -> R.drawable.slatico_cloud_check_light
@@ -1184,6 +1384,10 @@ public object SlaticoDrawables {
             SlaticoIconName.WALLET -> R.drawable.slatico_wallet_light
         }
         SlaticoStyle.REGULAR -> when (name) {
+            SlaticoIconName.ARROW_DOWN -> R.drawable.slatico_arrow_down_regular
+            SlaticoIconName.ARROW_UP -> R.drawable.slatico_arrow_up_regular
+            SlaticoIconName.ARROW_UP_LEFT -> R.drawable.slatico_arrow_up_left_regular
+            SlaticoIconName.ARROW_UP_RIGHT -> R.drawable.slatico_arrow_up_right_regular
             SlaticoIconName.BELL -> R.drawable.slatico_bell_regular
             SlaticoIconName.CLOUD -> R.drawable.slatico_cloud_regular
             SlaticoIconName.CLOUD_CHECK -> R.drawable.slatico_cloud_check_regular
@@ -1209,6 +1413,10 @@ public object SlaticoDrawables {
             SlaticoIconName.WALLET -> R.drawable.slatico_wallet_regular
         }
         SlaticoStyle.BOLD -> when (name) {
+            SlaticoIconName.ARROW_DOWN -> R.drawable.slatico_arrow_down_bold
+            SlaticoIconName.ARROW_UP -> R.drawable.slatico_arrow_up_bold
+            SlaticoIconName.ARROW_UP_LEFT -> R.drawable.slatico_arrow_up_left_bold
+            SlaticoIconName.ARROW_UP_RIGHT -> R.drawable.slatico_arrow_up_right_bold
             SlaticoIconName.BELL -> R.drawable.slatico_bell_bold
             SlaticoIconName.CLOUD -> R.drawable.slatico_cloud_bold
             SlaticoIconName.CLOUD_CHECK -> R.drawable.slatico_cloud_check_bold
@@ -1234,6 +1442,10 @@ public object SlaticoDrawables {
             SlaticoIconName.WALLET -> R.drawable.slatico_wallet_bold
         }
         SlaticoStyle.FILL -> when (name) {
+            SlaticoIconName.ARROW_DOWN -> R.drawable.slatico_arrow_down_fill
+            SlaticoIconName.ARROW_UP -> R.drawable.slatico_arrow_up_fill
+            SlaticoIconName.ARROW_UP_LEFT -> R.drawable.slatico_arrow_up_left_fill
+            SlaticoIconName.ARROW_UP_RIGHT -> R.drawable.slatico_arrow_up_right_fill
             SlaticoIconName.BELL -> R.drawable.slatico_bell_fill
             SlaticoIconName.CLOUD -> R.drawable.slatico_cloud_fill
             SlaticoIconName.CLOUD_CHECK -> R.drawable.slatico_cloud_check_fill
@@ -1259,6 +1471,10 @@ public object SlaticoDrawables {
             SlaticoIconName.WALLET -> R.drawable.slatico_wallet_fill
         }
         SlaticoStyle.DUOTONE -> when (name) {
+            SlaticoIconName.ARROW_DOWN -> R.drawable.slatico_arrow_down_duotone
+            SlaticoIconName.ARROW_UP -> R.drawable.slatico_arrow_up_duotone
+            SlaticoIconName.ARROW_UP_LEFT -> R.drawable.slatico_arrow_up_left_duotone
+            SlaticoIconName.ARROW_UP_RIGHT -> R.drawable.slatico_arrow_up_right_duotone
             SlaticoIconName.BELL -> R.drawable.slatico_bell_duotone
             SlaticoIconName.CLOUD -> R.drawable.slatico_cloud_duotone
             SlaticoIconName.CLOUD_CHECK -> R.drawable.slatico_cloud_check_duotone
@@ -1284,6 +1500,10 @@ public object SlaticoDrawables {
             SlaticoIconName.WALLET -> R.drawable.slatico_wallet_duotone
         }
         SlaticoStyle.COLOR -> when (name) {
+            SlaticoIconName.ARROW_DOWN -> R.drawable.slatico_arrow_down_color
+            SlaticoIconName.ARROW_UP -> R.drawable.slatico_arrow_up_color
+            SlaticoIconName.ARROW_UP_LEFT -> R.drawable.slatico_arrow_up_left_color
+            SlaticoIconName.ARROW_UP_RIGHT -> R.drawable.slatico_arrow_up_right_color
             SlaticoIconName.BELL -> R.drawable.slatico_bell_color
             SlaticoIconName.CLOUD -> R.drawable.slatico_cloud_color
             SlaticoIconName.CLOUD_CHECK -> R.drawable.slatico_cloud_check_color

@@ -13,11 +13,67 @@ public data class SlaticoDuotonePathLayer(
 )
 
 /**
- * Generated 24x24 vector path layer definitions for all 23 Duotone icons.
+ * Generated 24x24 vector path layer definitions for all 27 Duotone icons.
  */
 public object SlaticoDuotoneVectors {
     @JvmStatic
     public fun layersFor(name: SlaticoIconName): List<SlaticoDuotonePathLayer> = when (name) {
+        SlaticoIconName.ARROW_DOWN -> listOf(
+            SlaticoDuotonePathLayer(
+                pathData = "m12 20.232-.575-.512-6.912-6.145h14.974l-6.912 6.145zm.397 1.185-.015.013a.575.575 0 0 1-.678.063l-.086-.063-.014-.013-8.986-7.987A.575.575 0 0 1 3 12.425h8.425V3a.575.575 0 0 1 1.15 0v9.425H21a.575.575 0 0 1 .382 1.005z",
+                isSecondaryTone = false,
+                defaultAlpha = 1f,
+                evenOdd = true,
+            ),
+            SlaticoDuotonePathLayer(
+                pathData = "m12 20.232-.575-.512-6.912-6.145h14.974l-6.912 6.145z",
+                isSecondaryTone = true,
+                defaultAlpha = 0.2f,
+                evenOdd = false,
+            ),
+        )
+        SlaticoIconName.ARROW_UP -> listOf(
+            SlaticoDuotonePathLayer(
+                pathData = "m12 3.769-.575.51-6.912 6.146h14.974L12.575 4.28zm.397-1.185-.015-.014a.575.575 0 0 0-.678-.063l-.086.063-.014.013-8.986 7.987A.575.575 0 0 0 3 11.575h8.425V21a.575.575 0 0 0 1.15 0v-9.425H21a.575.575 0 0 0 .382-1.005z",
+                isSecondaryTone = false,
+                defaultAlpha = 1f,
+                evenOdd = true,
+            ),
+            SlaticoDuotonePathLayer(
+                pathData = "m12 3.769-.575.51-6.912 6.146h14.974L12.575 4.28z",
+                isSecondaryTone = true,
+                defaultAlpha = 0.2f,
+                evenOdd = false,
+            ),
+        )
+        SlaticoIconName.ARROW_UP_LEFT -> listOf(
+            SlaticoDuotonePathLayer(
+                pathData = "M3.211 4.064V16l6.164-5.772.877-.82 6.607-6.188H3.211z",
+                isSecondaryTone = true,
+                defaultAlpha = 0.2f,
+                evenOdd = false,
+            ),
+            SlaticoDuotonePathLayer(
+                pathData = "M3.211 4.06v11.935l6.164-5.772.877-.82 6.607-6.188H3.211zm-1.21-1.453A.6.6 0 0 1 2.603 2h15.79a.606.606 0 0 1 .414 1.05l-7.699 7.21 10.715 10.715a.6.6 0 1 1-.848.849L10.233 11.08l-7.214 6.755A.605.605 0 0 1 2 17.393z",
+                isSecondaryTone = false,
+                defaultAlpha = 1f,
+                evenOdd = true,
+            ),
+        )
+        SlaticoIconName.ARROW_UP_RIGHT -> listOf(
+            SlaticoDuotonePathLayer(
+                pathData = "M20.79 4.064V16l-6.164-5.772-.877-.82L7.141 3.22H20.79z",
+                isSecondaryTone = true,
+                defaultAlpha = 0.2f,
+                evenOdd = false,
+            ),
+            SlaticoDuotonePathLayer(
+                pathData = "M20.79 4.06v11.935l-6.164-5.772-.877-.82-6.608-6.188H20.79zM22 2.606A.604.604 0 0 0 21.397 2H5.606a.606.606 0 0 0-.414 1.05l7.7 7.21L2.175 20.975a.6.6 0 1 0 .849.849L13.768 11.08l7.214 6.755A.605.605 0 0 0 22 17.393z",
+                isSecondaryTone = false,
+                defaultAlpha = 1f,
+                evenOdd = true,
+            ),
+        )
         SlaticoIconName.BELL -> listOf(
             SlaticoDuotonePathLayer(
                 pathData = "M9.644 18.575a2.426 2.426 0 0 0 4.712 0zm2.356-13a5.65 5.65 0 0 0-5.647 5.648v1.732a8.6 8.6 0 0 1-1.257 4.47h13.808a8.57 8.57 0 0 1-1.256-4.47v-1.732A5.65 5.65 0 0 0 12 5.575m0-2c-.633 0-1.17.413-1.355.985a6.8 6.8 0 0 1 2.71 0A1.425 1.425 0 0 0 12 3.575m3.53 15a3.576 3.576 0 0 1-7.06 0h-5.6l.906-1.245a7.43 7.43 0 0 0 1.427-4.375v-1.732A6.8 6.8 0 0 1 9.426 4.93a2.576 2.576 0 0 1 5.148 0 6.8 6.8 0 0 1 4.223 6.293v1.732c0 1.573.5 3.105 1.427 4.375l.907 1.245z",
@@ -494,12 +550,68 @@ public object SlaticoDuotoneVectors {
 }
 
 /**
- * Generated 24x24 vector path layer definitions for all 23 Color icons,
+ * Generated 24x24 vector path layer definitions for all 27 Color icons,
  * enabling independent primary (#FF6040 default) and secondary (#000000 default) customization.
  */
 public object SlaticoColorVectors {
     @JvmStatic
     public fun layersFor(name: SlaticoIconName): List<SlaticoDuotonePathLayer> = when (name) {
+        SlaticoIconName.ARROW_DOWN -> listOf(
+            SlaticoDuotonePathLayer(
+                pathData = "M11.425 3v18a.575.575 0 0 0 1.15 0V3a.575.575 0 0 0-1.15 0",
+                isSecondaryTone = true,
+                defaultAlpha = 1f,
+                evenOdd = false,
+            ),
+            SlaticoDuotonePathLayer(
+                pathData = "M11.704 21.493a.575.575 0 0 0 .678-.063l9-8a.575.575 0 1 0-.764-.86L12 20.231l-8.618-7.66a.575.575 0 1 0-.764.859l9 8z",
+                isSecondaryTone = false,
+                defaultAlpha = 1f,
+                evenOdd = false,
+            ),
+        )
+        SlaticoIconName.ARROW_UP -> listOf(
+            SlaticoDuotonePathLayer(
+                pathData = "M11.425 21V3a.575.575 0 0 1 1.15 0v18a.575.575 0 0 1-1.15 0",
+                isSecondaryTone = true,
+                defaultAlpha = 1f,
+                evenOdd = false,
+            ),
+            SlaticoDuotonePathLayer(
+                pathData = "M11.704 2.507a.575.575 0 0 1 .678.063l9 8a.575.575 0 1 1-.764.86L12 3.769l-8.618 7.66a.575.575 0 1 1-.764-.859l9-8z",
+                isSecondaryTone = false,
+                defaultAlpha = 1f,
+                evenOdd = false,
+            ),
+        )
+        SlaticoIconName.ARROW_UP_LEFT -> listOf(
+            SlaticoDuotonePathLayer(
+                pathData = "M3.406 2.594a.574.574 0 1 0-.812.812l18 18a.574.574 0 1 0 .812-.812z",
+                isSecondaryTone = true,
+                defaultAlpha = 1f,
+                evenOdd = false,
+            ),
+            SlaticoDuotonePathLayer(
+                pathData = "M3.575 17V3.575H18a.575.575 0 0 0 0-1.15H3A.575.575 0 0 0 2.425 3v14a.575.575 0 0 0 1.15 0",
+                isSecondaryTone = false,
+                defaultAlpha = 1f,
+                evenOdd = false,
+            ),
+        )
+        SlaticoIconName.ARROW_UP_RIGHT -> listOf(
+            SlaticoDuotonePathLayer(
+                pathData = "M20.594 2.594a.574.574 0 1 1 .812.812l-18 18a.574.574 0 1 1-.812-.812z",
+                isSecondaryTone = true,
+                defaultAlpha = 1f,
+                evenOdd = false,
+            ),
+            SlaticoDuotonePathLayer(
+                pathData = "M20.425 17V3.575H6a.575.575 0 0 1 0-1.15h15c.318 0 .575.257.575.575v14a.575.575 0 0 1-1.15 0",
+                isSecondaryTone = false,
+                defaultAlpha = 1f,
+                evenOdd = false,
+            ),
+        )
         SlaticoIconName.BELL -> listOf(
             SlaticoDuotonePathLayer(
                 pathData = "M9.575 18a2.425 2.425 0 1 0 4.85 0h1.15a3.575 3.575 0 0 1-7.15 0z",

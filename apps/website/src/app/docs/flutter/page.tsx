@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SITE_CONFIG } from "../../../config/site";
 import { buildDocsGuideMetadata } from "../../../config/metadata";
 import { buildBreadcrumbJsonLd } from "../../../lib/structured-data";
 import { DocsCodeBlock } from "../../../components/docs/docs-code-block";
@@ -27,7 +28,7 @@ export default function FlutterDocsPage() {
           Flutter Integration Guide
         </h1>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
-          The <code className="font-mono text-foreground">slatico_icons</code> package (<code className="font-mono">packages/flutter</code>) provides both the universal <code className="font-mono">SlaticoIcon</code> vector widget (supporting all 7 styles including customizable <code className="font-mono">duotone</code> and <code className="font-mono">color</code> icons) and 115 tree-shakeable <code className="font-mono">SlaticoIcons</code> <code className="font-mono">IconData</code> constants.
+          The <code className="font-mono text-foreground">slatico_icons</code> package (<code className="font-mono">packages/flutter</code>) provides both the universal <code className="font-mono">SlaticoIcon</code> vector widget (supporting all 7 styles including customizable <code className="font-mono">duotone</code> and <code className="font-mono">color</code> icons) and {SITE_CONFIG.metrics.totalFamilies * 5} tree-shakeable <code className="font-mono">SlaticoIcons</code> <code className="font-mono">IconData</code> constants.
         </p>
       </div>
 
