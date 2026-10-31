@@ -10,14 +10,26 @@ interface VariantRenderParams {
   readonly variant: SlaticoStyle;
   readonly color: string;
   readonly resolvedSecondaryColor: string;
+  readonly colorPrimary: string;
+  readonly colorSecondary: string;
   readonly secondaryOpacity: number | string;
   readonly instanceId: string;
 }
 
 function renderUserNativeVariant(params: VariantRenderParams): ReactNode {
-  const { variant, color, resolvedSecondaryColor, secondaryOpacity, instanceId } = params;
+  const {
+    variant,
+    color,
+    resolvedSecondaryColor,
+    colorPrimary,
+    colorSecondary,
+    secondaryOpacity,
+    instanceId
+  } = params;
   void color;
   void resolvedSecondaryColor;
+  void colorPrimary;
+  void colorSecondary;
   void secondaryOpacity;
   void instanceId;
   switch (variant) {
@@ -65,8 +77,8 @@ function renderUserNativeVariant(params: VariantRenderParams): ReactNode {
     case "color":
       return (
         <>
-        <Path fill="#000000" d="M12 11c2.458 0 4.8 1.113 6.513 3.066.736.839 1.33 1.803 1.77 2.846.307.73.585 1.38.68 1.972.105.656-.008 1.247-.41 1.863-.426.654-1.005.972-1.729 1.119-.674.136-1.528.134-2.544.134H7.72c-1.016 0-1.87.002-2.544-.134-.724-.147-1.303-.465-1.73-1.119-.401-.616-.514-1.207-.409-1.863.095-.592.372-1.241.68-1.972a10.5 10.5 0 0 1 1.77-2.846C7.201 12.113 9.542 11 12 11m0 1.247c-2.082 0-4.096.94-5.593 2.646a9.2 9.2 0 0 0-1.558 2.508c-.33.785-.532 1.275-.598 1.683-.055.345-.01.62.222.976.208.319.468.488.944.584.527.107 1.236.11 2.303.11h8.56c1.067 0 1.776-.003 2.303-.11.476-.096.736-.265.944-.584.232-.356.277-.63.222-.976-.066-.408-.267-.898-.598-1.683a9.2 9.2 0 0 0-1.558-2.508c-1.497-1.705-3.511-2.646-5.593-2.646" />
-        <Path fill="#FF6040" d="M15.743 7a3.743 3.743 0 1 0-7.486 0 3.743 3.743 0 0 0 7.486 0M17 7A5 5 0 1 1 7 7a5 5 0 0 1 10 0" />
+        <Path fill={colorSecondary} d="M12 11c2.458 0 4.8 1.113 6.513 3.066.736.839 1.33 1.803 1.77 2.846.307.73.585 1.38.68 1.972.105.656-.008 1.247-.41 1.863-.426.654-1.005.972-1.729 1.119-.674.136-1.528.134-2.544.134H7.72c-1.016 0-1.87.002-2.544-.134-.724-.147-1.303-.465-1.73-1.119-.401-.616-.514-1.207-.409-1.863.095-.592.372-1.241.68-1.972a10.5 10.5 0 0 1 1.77-2.846C7.201 12.113 9.542 11 12 11m0 1.247c-2.082 0-4.096.94-5.593 2.646a9.2 9.2 0 0 0-1.558 2.508c-.33.785-.532 1.275-.598 1.683-.055.345-.01.62.222.976.208.319.468.488.944.584.527.107 1.236.11 2.303.11h8.56c1.067 0 1.776-.003 2.303-.11.476-.096.736-.265.944-.584.232-.356.277-.63.222-.976-.066-.408-.267-.898-.598-1.683a9.2 9.2 0 0 0-1.558-2.508c-1.497-1.705-3.511-2.646-5.593-2.646" />
+        <Path fill={colorPrimary} d="M15.743 7a3.743 3.743 0 1 0-7.486 0 3.743 3.743 0 0 0 7.486 0M17 7A5 5 0 1 1 7 7a5 5 0 0 1 10 0" />
         </>
       );
   }
@@ -75,7 +87,7 @@ function renderUserNativeVariant(params: VariantRenderParams): ReactNode {
 export function UserIcon({
   variant = "regular",
   size = 24,
-  color = "#09090B",
+  color,
   secondaryColor,
   secondaryOpacity = 0.22,
   title,
@@ -94,18 +106,22 @@ export function UserIcon({
           (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
         ? size.trim()
         : 24;
-  const resolvedColor =
+  const hasExplicitColor =
     typeof color === "string" &&
     color.trim().length > 0 &&
-    color.trim() !== "currentColor"
-      ? color.trim()
-      : "#09090B";
-  const resolvedSecondaryColor =
+    color.trim() !== "currentColor";
+  const hasExplicitSecondaryColor =
     typeof secondaryColor === "string" &&
     secondaryColor.trim().length > 0 &&
-    secondaryColor.trim() !== "currentColor"
-      ? secondaryColor.trim()
-      : resolvedColor;
+    secondaryColor.trim() !== "currentColor";
+  const resolvedColor = hasExplicitColor ? color.trim() : "#09090B";
+  const resolvedSecondaryColor = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : resolvedColor;
+  const colorPrimary = hasExplicitColor ? color.trim() : "#FF6040";
+  const colorSecondary = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : "#000000";
   const parsedSecOpacity =
     typeof secondaryOpacity === "number"
       ? secondaryOpacity
@@ -133,6 +149,8 @@ export function UserIcon({
         variant,
         color: resolvedColor,
         resolvedSecondaryColor,
+        colorPrimary,
+        colorSecondary,
         secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}

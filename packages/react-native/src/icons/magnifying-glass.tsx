@@ -10,14 +10,26 @@ interface VariantRenderParams {
   readonly variant: SlaticoStyle;
   readonly color: string;
   readonly resolvedSecondaryColor: string;
+  readonly colorPrimary: string;
+  readonly colorSecondary: string;
   readonly secondaryOpacity: number | string;
   readonly instanceId: string;
 }
 
 function renderMagnifyingGlassNativeVariant(params: VariantRenderParams): ReactNode {
-  const { variant, color, resolvedSecondaryColor, secondaryOpacity, instanceId } = params;
+  const {
+    variant,
+    color,
+    resolvedSecondaryColor,
+    colorPrimary,
+    colorSecondary,
+    secondaryOpacity,
+    instanceId
+  } = params;
   void color;
   void resolvedSecondaryColor;
+  void colorPrimary;
+  void colorSecondary;
   void secondaryOpacity;
   void instanceId;
   switch (variant) {
@@ -62,8 +74,8 @@ function renderMagnifyingGlassNativeVariant(params: VariantRenderParams): ReactN
     case "color":
       return (
         <>
-        <Path fill="#000000" d="M17.594 17.594a.574.574 0 0 1 .812 0l3 3a.574.574 0 1 1-.812.812l-3-3a.574.574 0 0 1 0-.812" />
-        <Path fill="#FF6040" d="M19.425 11.5a7.925 7.925 0 1 0-15.85 0 7.925 7.925 0 0 0 15.85 0m1.15 0a9.075 9.075 0 1 1-18.15 0 9.075 9.075 0 0 1 18.15 0" />
+        <Path fill={colorSecondary} d="M17.594 17.594a.574.574 0 0 1 .812 0l3 3a.574.574 0 1 1-.812.812l-3-3a.574.574 0 0 1 0-.812" />
+        <Path fill={colorPrimary} d="M19.425 11.5a7.925 7.925 0 1 0-15.85 0 7.925 7.925 0 0 0 15.85 0m1.15 0a9.075 9.075 0 1 1-18.15 0 9.075 9.075 0 0 1 18.15 0" />
         </>
       );
   }
@@ -72,7 +84,7 @@ function renderMagnifyingGlassNativeVariant(params: VariantRenderParams): ReactN
 export function MagnifyingGlassIcon({
   variant = "regular",
   size = 24,
-  color = "#09090B",
+  color,
   secondaryColor,
   secondaryOpacity = 0.22,
   title,
@@ -91,18 +103,22 @@ export function MagnifyingGlassIcon({
           (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
         ? size.trim()
         : 24;
-  const resolvedColor =
+  const hasExplicitColor =
     typeof color === "string" &&
     color.trim().length > 0 &&
-    color.trim() !== "currentColor"
-      ? color.trim()
-      : "#09090B";
-  const resolvedSecondaryColor =
+    color.trim() !== "currentColor";
+  const hasExplicitSecondaryColor =
     typeof secondaryColor === "string" &&
     secondaryColor.trim().length > 0 &&
-    secondaryColor.trim() !== "currentColor"
-      ? secondaryColor.trim()
-      : resolvedColor;
+    secondaryColor.trim() !== "currentColor";
+  const resolvedColor = hasExplicitColor ? color.trim() : "#09090B";
+  const resolvedSecondaryColor = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : resolvedColor;
+  const colorPrimary = hasExplicitColor ? color.trim() : "#FF6040";
+  const colorSecondary = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : "#000000";
   const parsedSecOpacity =
     typeof secondaryOpacity === "number"
       ? secondaryOpacity
@@ -130,6 +146,8 @@ export function MagnifyingGlassIcon({
         variant,
         color: resolvedColor,
         resolvedSecondaryColor,
+        colorPrimary,
+        colorSecondary,
         secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}

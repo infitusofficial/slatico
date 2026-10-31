@@ -114,14 +114,23 @@ export function buildSlaticoWebElementMarkup(params: {
     "flex-shrink:0"
   ];
 
-  if (variant !== "color" && color) {
-    styleRules.push(`color:${escapeAttr(color)}`);
-  }
-  if (secondaryColor) {
-    styleRules.push(`--slatico-secondary-color:${escapeAttr(secondaryColor)}`);
-  }
-  if (secondaryOpacity !== undefined && String(secondaryOpacity) !== "") {
-    styleRules.push(`--slatico-secondary-opacity:${escapeAttr(String(secondaryOpacity))}`);
+  if (variant === "color") {
+    if (color && color !== "currentColor") {
+      styleRules.push(`--slatico-primary-color:${escapeAttr(color)}`);
+    }
+    if (secondaryColor && secondaryColor !== "currentColor") {
+      styleRules.push(`--slatico-secondary-color:${escapeAttr(secondaryColor)}`);
+    }
+  } else {
+    if (color) {
+      styleRules.push(`color:${escapeAttr(color)}`);
+    }
+    if (secondaryColor) {
+      styleRules.push(`--slatico-secondary-color:${escapeAttr(secondaryColor)}`);
+    }
+    if (secondaryOpacity !== undefined && String(secondaryOpacity) !== "") {
+      styleRules.push(`--slatico-secondary-opacity:${escapeAttr(String(secondaryOpacity))}`);
+    }
   }
 
   const a11yAttrs = label

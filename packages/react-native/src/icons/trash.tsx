@@ -10,14 +10,26 @@ interface VariantRenderParams {
   readonly variant: SlaticoStyle;
   readonly color: string;
   readonly resolvedSecondaryColor: string;
+  readonly colorPrimary: string;
+  readonly colorSecondary: string;
   readonly secondaryOpacity: number | string;
   readonly instanceId: string;
 }
 
 function renderTrashNativeVariant(params: VariantRenderParams): ReactNode {
-  const { variant, color, resolvedSecondaryColor, secondaryOpacity, instanceId } = params;
+  const {
+    variant,
+    color,
+    resolvedSecondaryColor,
+    colorPrimary,
+    colorSecondary,
+    secondaryOpacity,
+    instanceId
+  } = params;
   void color;
   void resolvedSecondaryColor;
+  void colorPrimary;
+  void colorSecondary;
   void secondaryOpacity;
   void instanceId;
   switch (variant) {
@@ -66,9 +78,9 @@ function renderTrashNativeVariant(params: VariantRenderParams): ReactNode {
     case "color":
       return (
         <>
-        <Path fill="#000000" d="M14.425 6a2.425 2.425 0 1 0-4.85 0v1h-1.15V6a3.575 3.575 0 0 1 7.15 0v1h-1.15z" />
-        <Path fill="#000000" d="M9.425 17v-7a.575.575 0 0 1 1.15 0v7a.575.575 0 0 1-1.15 0m4 0v-7a.575.575 0 0 1 1.15 0v7a.575.575 0 0 1-1.15 0" />
-        <Path fill="#FF6040" d="m20.053 6.425-.57.886-.153.239a7.4 7.4 0 0 0-1.166 3.574l-.479 8.03a2.575 2.575 0 0 1-2.57 2.421h-6.23a2.575 2.575 0 0 1-2.57-2.422l-.48-8.029A7.4 7.4 0 0 0 4.67 7.55l-.153-.24-.57-.885zm-14.04 1.15a8.6 8.6 0 0 1 .971 3.48l.478 8.03c.045.753.669 1.34 1.423 1.34h6.23c.754 0 1.378-.587 1.423-1.34l.478-8.03a8.6 8.6 0 0 1 .97-3.48z" />
+        <Path fill={colorSecondary} d="M14.425 6a2.425 2.425 0 1 0-4.85 0v1h-1.15V6a3.575 3.575 0 0 1 7.15 0v1h-1.15z" />
+        <Path fill={colorSecondary} d="M9.425 17v-7a.575.575 0 0 1 1.15 0v7a.575.575 0 0 1-1.15 0m4 0v-7a.575.575 0 0 1 1.15 0v7a.575.575 0 0 1-1.15 0" />
+        <Path fill={colorPrimary} d="m20.053 6.425-.57.886-.153.239a7.4 7.4 0 0 0-1.166 3.574l-.479 8.03a2.575 2.575 0 0 1-2.57 2.421h-6.23a2.575 2.575 0 0 1-2.57-2.422l-.48-8.029A7.4 7.4 0 0 0 4.67 7.55l-.153-.24-.57-.885zm-14.04 1.15a8.6 8.6 0 0 1 .971 3.48l.478 8.03c.045.753.669 1.34 1.423 1.34h6.23c.754 0 1.378-.587 1.423-1.34l.478-8.03a8.6 8.6 0 0 1 .97-3.48z" />
         </>
       );
   }
@@ -77,7 +89,7 @@ function renderTrashNativeVariant(params: VariantRenderParams): ReactNode {
 export function TrashIcon({
   variant = "regular",
   size = 24,
-  color = "#09090B",
+  color,
   secondaryColor,
   secondaryOpacity = 0.22,
   title,
@@ -96,18 +108,22 @@ export function TrashIcon({
           (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
         ? size.trim()
         : 24;
-  const resolvedColor =
+  const hasExplicitColor =
     typeof color === "string" &&
     color.trim().length > 0 &&
-    color.trim() !== "currentColor"
-      ? color.trim()
-      : "#09090B";
-  const resolvedSecondaryColor =
+    color.trim() !== "currentColor";
+  const hasExplicitSecondaryColor =
     typeof secondaryColor === "string" &&
     secondaryColor.trim().length > 0 &&
-    secondaryColor.trim() !== "currentColor"
-      ? secondaryColor.trim()
-      : resolvedColor;
+    secondaryColor.trim() !== "currentColor";
+  const resolvedColor = hasExplicitColor ? color.trim() : "#09090B";
+  const resolvedSecondaryColor = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : resolvedColor;
+  const colorPrimary = hasExplicitColor ? color.trim() : "#FF6040";
+  const colorSecondary = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : "#000000";
   const parsedSecOpacity =
     typeof secondaryOpacity === "number"
       ? secondaryOpacity
@@ -135,6 +151,8 @@ export function TrashIcon({
         variant,
         color: resolvedColor,
         resolvedSecondaryColor,
+        colorPrimary,
+        colorSecondary,
         secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}

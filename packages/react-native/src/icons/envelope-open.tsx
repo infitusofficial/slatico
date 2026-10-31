@@ -10,14 +10,26 @@ interface VariantRenderParams {
   readonly variant: SlaticoStyle;
   readonly color: string;
   readonly resolvedSecondaryColor: string;
+  readonly colorPrimary: string;
+  readonly colorSecondary: string;
   readonly secondaryOpacity: number | string;
   readonly instanceId: string;
 }
 
 function renderEnvelopeOpenNativeVariant(params: VariantRenderParams): ReactNode {
-  const { variant, color, resolvedSecondaryColor, secondaryOpacity, instanceId } = params;
+  const {
+    variant,
+    color,
+    resolvedSecondaryColor,
+    colorPrimary,
+    colorSecondary,
+    secondaryOpacity,
+    instanceId
+  } = params;
   void color;
   void resolvedSecondaryColor;
+  void colorPrimary;
+  void colorSecondary;
   void secondaryOpacity;
   void instanceId;
   switch (variant) {
@@ -63,8 +75,8 @@ function renderEnvelopeOpenNativeVariant(params: VariantRenderParams): ReactNode
     case "color":
       return (
         <>
-        <Path fill="#FF6040" d="M20.425 10.07c0-.476-.239-.921-.635-1.185l-7-4.667a1.425 1.425 0 0 0-1.58 0l-7 4.667a1.43 1.43 0 0 0-.635 1.185V19c0 .787.638 1.425 1.425 1.425h14c.787 0 1.425-.638 1.425-1.425zm1.15 8.93A2.575 2.575 0 0 1 19 21.575H5A2.575 2.575 0 0 1 2.425 19v-8.93c0-.86.43-1.665 1.146-2.142l7-4.667a2.58 2.58 0 0 1 2.858 0l7 4.667a2.58 2.58 0 0 1 1.146 2.142z" />
-        <Path fill="#000000" d="M18.715 9.501a.575.575 0 1 1 .57.998l-6.504 3.717a1.58 1.58 0 0 1-1.562 0l-6.504-3.717a.575.575 0 1 1 .57-.998l6.504 3.716c.13.074.291.074.422 0z" />
+        <Path fill={colorPrimary} d="M20.425 10.07c0-.476-.239-.921-.635-1.185l-7-4.667a1.425 1.425 0 0 0-1.58 0l-7 4.667a1.43 1.43 0 0 0-.635 1.185V19c0 .787.638 1.425 1.425 1.425h14c.787 0 1.425-.638 1.425-1.425zm1.15 8.93A2.575 2.575 0 0 1 19 21.575H5A2.575 2.575 0 0 1 2.425 19v-8.93c0-.86.43-1.665 1.146-2.142l7-4.667a2.58 2.58 0 0 1 2.858 0l7 4.667a2.58 2.58 0 0 1 1.146 2.142z" />
+        <Path fill={colorSecondary} d="M18.715 9.501a.575.575 0 1 1 .57.998l-6.504 3.717a1.58 1.58 0 0 1-1.562 0l-6.504-3.717a.575.575 0 1 1 .57-.998l6.504 3.716c.13.074.291.074.422 0z" />
         </>
       );
   }
@@ -73,7 +85,7 @@ function renderEnvelopeOpenNativeVariant(params: VariantRenderParams): ReactNode
 export function EnvelopeOpenIcon({
   variant = "regular",
   size = 24,
-  color = "#09090B",
+  color,
   secondaryColor,
   secondaryOpacity = 0.22,
   title,
@@ -92,18 +104,22 @@ export function EnvelopeOpenIcon({
           (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
         ? size.trim()
         : 24;
-  const resolvedColor =
+  const hasExplicitColor =
     typeof color === "string" &&
     color.trim().length > 0 &&
-    color.trim() !== "currentColor"
-      ? color.trim()
-      : "#09090B";
-  const resolvedSecondaryColor =
+    color.trim() !== "currentColor";
+  const hasExplicitSecondaryColor =
     typeof secondaryColor === "string" &&
     secondaryColor.trim().length > 0 &&
-    secondaryColor.trim() !== "currentColor"
-      ? secondaryColor.trim()
-      : resolvedColor;
+    secondaryColor.trim() !== "currentColor";
+  const resolvedColor = hasExplicitColor ? color.trim() : "#09090B";
+  const resolvedSecondaryColor = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : resolvedColor;
+  const colorPrimary = hasExplicitColor ? color.trim() : "#FF6040";
+  const colorSecondary = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : "#000000";
   const parsedSecOpacity =
     typeof secondaryOpacity === "number"
       ? secondaryOpacity
@@ -131,6 +147,8 @@ export function EnvelopeOpenIcon({
         variant,
         color: resolvedColor,
         resolvedSecondaryColor,
+        colorPrimary,
+        colorSecondary,
         secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}

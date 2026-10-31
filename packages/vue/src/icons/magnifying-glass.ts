@@ -35,8 +35,8 @@ function renderMagnifyingGlassVueVariant(variant: SlaticoStyle, _uid: string): V
       ];
     case "color":
       return [
-        h("path", { "fill": "black", "d": "M17.594 17.594a.574.574 0 0 1 .812 0l3 3a.574.574 0 1 1-.812.812l-3-3a.574.574 0 0 1 0-.812" }),
-        h("path", { "fill": "#FF6040", "d": "M19.425 11.5a7.925 7.925 0 1 0-15.85 0 7.925 7.925 0 0 0 15.85 0m1.15 0a9.075 9.075 0 1 1-18.15 0 9.075 9.075 0 0 1 18.15 0" })
+        h("path", { "fill": "var(--slatico-secondary-color, #000000)", "d": "M17.594 17.594a.574.574 0 0 1 .812 0l3 3a.574.574 0 1 1-.812.812l-3-3a.574.574 0 0 1 0-.812" }),
+        h("path", { "fill": "var(--slatico-primary-color, #FF6040)", "d": "M19.425 11.5a7.925 7.925 0 1 0-15.85 0 7.925 7.925 0 0 0 15.85 0m1.15 0a9.075 9.075 0 1 1-18.15 0 9.075 9.075 0 0 1 18.15 0" })
       ];
   }
 }
@@ -59,14 +59,27 @@ export const MagnifyingGlassIcon = defineComponent({
       const variant = props.variant ?? "regular";
       const isColorVariant = variant === "color";
       const styleObj: Record<string, string | number> = {};
-      if (!isColorVariant && props.color) {
-        styleObj.color = props.color;
-      }
-      if (props.secondaryColor !== undefined) {
-        styleObj["--slatico-secondary-color"] = props.secondaryColor;
-      }
-      if (props.secondaryOpacity !== undefined) {
-        styleObj["--slatico-secondary-opacity"] = props.secondaryOpacity;
+      if (isColorVariant) {
+        if (props.color && props.color !== "currentColor" && props.color.trim() !== "") {
+          styleObj["--slatico-primary-color"] = props.color;
+        }
+        if (
+          props.secondaryColor !== undefined &&
+          props.secondaryColor !== "currentColor" &&
+          props.secondaryColor.trim() !== ""
+        ) {
+          styleObj["--slatico-secondary-color"] = props.secondaryColor;
+        }
+      } else {
+        if (props.color) {
+          styleObj.color = props.color;
+        }
+        if (props.secondaryColor !== undefined) {
+          styleObj["--slatico-secondary-color"] = props.secondaryColor;
+        }
+        if (props.secondaryOpacity !== undefined) {
+          styleObj["--slatico-secondary-opacity"] = props.secondaryOpacity;
+        }
       }
 
       const children: VNode[] = [];

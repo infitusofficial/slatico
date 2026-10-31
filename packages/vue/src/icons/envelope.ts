@@ -36,8 +36,8 @@ function renderEnvelopeVueVariant(variant: SlaticoStyle, _uid: string): VNode[] 
       ];
     case "color":
       return [
-        h("path", { "fill": "#FF6040", "d": "M20.425 8c0-.787-.638-1.425-1.425-1.425H5c-.787 0-1.425.638-1.425 1.425v8c0 .787.638 1.425 1.425 1.425h14c.787 0 1.425-.638 1.425-1.425zm1.15 8A2.575 2.575 0 0 1 19 18.575H5A2.575 2.575 0 0 1 2.425 16V8A2.575 2.575 0 0 1 5 5.425h14A2.575 2.575 0 0 1 21.575 8z" }),
-        h("path", { "fill": "black", "d": "M18.715 7.501a.575.575 0 1 1 .57.998l-6.504 3.717a1.58 1.58 0 0 1-1.562 0L4.715 8.499a.575.575 0 1 1 .57-.998l6.504 3.716c.13.074.291.074.422 0z" })
+        h("path", { "fill": "var(--slatico-primary-color, #FF6040)", "d": "M20.425 8c0-.787-.638-1.425-1.425-1.425H5c-.787 0-1.425.638-1.425 1.425v8c0 .787.638 1.425 1.425 1.425h14c.787 0 1.425-.638 1.425-1.425zm1.15 8A2.575 2.575 0 0 1 19 18.575H5A2.575 2.575 0 0 1 2.425 16V8A2.575 2.575 0 0 1 5 5.425h14A2.575 2.575 0 0 1 21.575 8z" }),
+        h("path", { "fill": "var(--slatico-secondary-color, #000000)", "d": "M18.715 7.501a.575.575 0 1 1 .57.998l-6.504 3.717a1.58 1.58 0 0 1-1.562 0L4.715 8.499a.575.575 0 1 1 .57-.998l6.504 3.716c.13.074.291.074.422 0z" })
       ];
   }
 }
@@ -60,14 +60,27 @@ export const EnvelopeIcon = defineComponent({
       const variant = props.variant ?? "regular";
       const isColorVariant = variant === "color";
       const styleObj: Record<string, string | number> = {};
-      if (!isColorVariant && props.color) {
-        styleObj.color = props.color;
-      }
-      if (props.secondaryColor !== undefined) {
-        styleObj["--slatico-secondary-color"] = props.secondaryColor;
-      }
-      if (props.secondaryOpacity !== undefined) {
-        styleObj["--slatico-secondary-opacity"] = props.secondaryOpacity;
+      if (isColorVariant) {
+        if (props.color && props.color !== "currentColor" && props.color.trim() !== "") {
+          styleObj["--slatico-primary-color"] = props.color;
+        }
+        if (
+          props.secondaryColor !== undefined &&
+          props.secondaryColor !== "currentColor" &&
+          props.secondaryColor.trim() !== ""
+        ) {
+          styleObj["--slatico-secondary-color"] = props.secondaryColor;
+        }
+      } else {
+        if (props.color) {
+          styleObj.color = props.color;
+        }
+        if (props.secondaryColor !== undefined) {
+          styleObj["--slatico-secondary-color"] = props.secondaryColor;
+        }
+        if (props.secondaryOpacity !== undefined) {
+          styleObj["--slatico-secondary-opacity"] = props.secondaryOpacity;
+        }
       }
 
       const children: VNode[] = [];

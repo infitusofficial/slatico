@@ -109,14 +109,23 @@ export function renderSvgMarkup(
   } = options;
 
   const styleParts: string[] = [];
-  if (style !== "color" && color) {
-    styleParts.push(`color:${color}`);
-  }
-  if (secondaryColor !== undefined) {
-    styleParts.push(`--slatico-secondary-color:${secondaryColor}`);
-  }
-  if (secondaryOpacity !== undefined) {
-    styleParts.push(`--slatico-secondary-opacity:${String(secondaryOpacity)}`);
+  if (style === "color") {
+    if (color && color !== "currentColor") {
+      styleParts.push(`--slatico-primary-color:${color}`);
+    }
+    if (secondaryColor !== undefined && secondaryColor !== "currentColor") {
+      styleParts.push(`--slatico-secondary-color:${secondaryColor}`);
+    }
+  } else {
+    if (color) {
+      styleParts.push(`color:${color}`);
+    }
+    if (secondaryColor !== undefined) {
+      styleParts.push(`--slatico-secondary-color:${secondaryColor}`);
+    }
+    if (secondaryOpacity !== undefined) {
+      styleParts.push(`--slatico-secondary-opacity:${String(secondaryOpacity)}`);
+    }
   }
 
   const styleAttr = styleParts.length > 0 ? ` style="${escapeXml(styleParts.join(";"))}"` : "";

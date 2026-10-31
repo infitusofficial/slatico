@@ -10,14 +10,26 @@ interface VariantRenderParams {
   readonly variant: SlaticoStyle;
   readonly color: string;
   readonly resolvedSecondaryColor: string;
+  readonly colorPrimary: string;
+  readonly colorSecondary: string;
   readonly secondaryOpacity: number | string;
   readonly instanceId: string;
 }
 
 function renderTrendUpNativeVariant(params: VariantRenderParams): ReactNode {
-  const { variant, color, resolvedSecondaryColor, secondaryOpacity, instanceId } = params;
+  const {
+    variant,
+    color,
+    resolvedSecondaryColor,
+    colorPrimary,
+    colorSecondary,
+    secondaryOpacity,
+    instanceId
+  } = params;
   void color;
   void resolvedSecondaryColor;
+  void colorPrimary;
+  void colorSecondary;
   void secondaryOpacity;
   void instanceId;
   switch (variant) {
@@ -62,8 +74,8 @@ function renderTrendUpNativeVariant(params: VariantRenderParams): ReactNode {
     case "color":
       return (
         <>
-        <Path fill="#FF6040" d="M19.466 6.474a.75.75 0 0 1 1.068 1.052l-7.385 7.5a.75.75 0 0 1-1.068 0l-2.543-2.582-5.004 5.082a.75.75 0 0 1-1.068-1.052l5.538-5.625a.75.75 0 0 1 1.07 0l2.541 2.582z" />
-        <Path fill="#000000" d="M19.25 12V7.75H15a.75.75 0 0 1 0-1.5h5a.75.75 0 0 1 .75.75v5a.75.75 0 0 1-1.5 0" />
+        <Path fill={colorPrimary} d="M19.466 6.474a.75.75 0 0 1 1.068 1.052l-7.385 7.5a.75.75 0 0 1-1.068 0l-2.543-2.582-5.004 5.082a.75.75 0 0 1-1.068-1.052l5.538-5.625a.75.75 0 0 1 1.07 0l2.541 2.582z" />
+        <Path fill={colorSecondary} d="M19.25 12V7.75H15a.75.75 0 0 1 0-1.5h5a.75.75 0 0 1 .75.75v5a.75.75 0 0 1-1.5 0" />
         </>
       );
   }
@@ -72,7 +84,7 @@ function renderTrendUpNativeVariant(params: VariantRenderParams): ReactNode {
 export function TrendUpIcon({
   variant = "regular",
   size = 24,
-  color = "#09090B",
+  color,
   secondaryColor,
   secondaryOpacity = 0.22,
   title,
@@ -91,18 +103,22 @@ export function TrendUpIcon({
           (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
         ? size.trim()
         : 24;
-  const resolvedColor =
+  const hasExplicitColor =
     typeof color === "string" &&
     color.trim().length > 0 &&
-    color.trim() !== "currentColor"
-      ? color.trim()
-      : "#09090B";
-  const resolvedSecondaryColor =
+    color.trim() !== "currentColor";
+  const hasExplicitSecondaryColor =
     typeof secondaryColor === "string" &&
     secondaryColor.trim().length > 0 &&
-    secondaryColor.trim() !== "currentColor"
-      ? secondaryColor.trim()
-      : resolvedColor;
+    secondaryColor.trim() !== "currentColor";
+  const resolvedColor = hasExplicitColor ? color.trim() : "#09090B";
+  const resolvedSecondaryColor = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : resolvedColor;
+  const colorPrimary = hasExplicitColor ? color.trim() : "#FF6040";
+  const colorSecondary = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : "#000000";
   const parsedSecOpacity =
     typeof secondaryOpacity === "number"
       ? secondaryOpacity
@@ -130,6 +146,8 @@ export function TrendUpIcon({
         variant,
         color: resolvedColor,
         resolvedSecondaryColor,
+        colorPrimary,
+        colorSecondary,
         secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}

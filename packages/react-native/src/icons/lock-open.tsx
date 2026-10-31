@@ -10,14 +10,26 @@ interface VariantRenderParams {
   readonly variant: SlaticoStyle;
   readonly color: string;
   readonly resolvedSecondaryColor: string;
+  readonly colorPrimary: string;
+  readonly colorSecondary: string;
   readonly secondaryOpacity: number | string;
   readonly instanceId: string;
 }
 
 function renderLockOpenNativeVariant(params: VariantRenderParams): ReactNode {
-  const { variant, color, resolvedSecondaryColor, secondaryOpacity, instanceId } = params;
+  const {
+    variant,
+    color,
+    resolvedSecondaryColor,
+    colorPrimary,
+    colorSecondary,
+    secondaryOpacity,
+    instanceId
+  } = params;
   void color;
   void resolvedSecondaryColor;
+  void colorPrimary;
+  void colorSecondary;
   void secondaryOpacity;
   void instanceId;
   switch (variant) {
@@ -63,9 +75,9 @@ function renderLockOpenNativeVariant(params: VariantRenderParams): ReactNode {
     case "color":
       return (
         <>
-        <Path fill="#000000" d="M7.425 9V6.889A4.4 4.4 0 0 1 8.77 3.727 4.63 4.63 0 0 1 12 2.425c2.188 0 4.132 1.508 4.563 3.568a.575.575 0 0 1-1.125.236c-.312-1.49-1.756-2.654-3.438-2.654-.914 0-1.787.353-2.428.977a3.26 3.26 0 0 0-.997 2.337V9a.575.575 0 0 1-1.15 0" />
-        <Path fill="#000000" d="M13 15a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
-        <Path fill="#FF6040" d="M19.425 11c0-.787-.638-1.425-1.425-1.425H6c-.787 0-1.425.638-1.425 1.425v8c0 .787.638 1.425 1.425 1.425h12c.787 0 1.425-.638 1.425-1.425zm1.15 8A2.575 2.575 0 0 1 18 21.575H6A2.575 2.575 0 0 1 3.425 19v-8A2.575 2.575 0 0 1 6 8.425h12A2.575 2.575 0 0 1 20.575 11z" />
+        <Path fill={colorSecondary} d="M7.425 9V6.889A4.4 4.4 0 0 1 8.77 3.727 4.63 4.63 0 0 1 12 2.425c2.188 0 4.132 1.508 4.563 3.568a.575.575 0 0 1-1.125.236c-.312-1.49-1.756-2.654-3.438-2.654-.914 0-1.787.353-2.428.977a3.26 3.26 0 0 0-.997 2.337V9a.575.575 0 0 1-1.15 0" />
+        <Path fill={colorSecondary} d="M13 15a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+        <Path fill={colorPrimary} d="M19.425 11c0-.787-.638-1.425-1.425-1.425H6c-.787 0-1.425.638-1.425 1.425v8c0 .787.638 1.425 1.425 1.425h12c.787 0 1.425-.638 1.425-1.425zm1.15 8A2.575 2.575 0 0 1 18 21.575H6A2.575 2.575 0 0 1 3.425 19v-8A2.575 2.575 0 0 1 6 8.425h12A2.575 2.575 0 0 1 20.575 11z" />
         </>
       );
   }
@@ -74,7 +86,7 @@ function renderLockOpenNativeVariant(params: VariantRenderParams): ReactNode {
 export function LockOpenIcon({
   variant = "regular",
   size = 24,
-  color = "#09090B",
+  color,
   secondaryColor,
   secondaryOpacity = 0.22,
   title,
@@ -93,18 +105,22 @@ export function LockOpenIcon({
           (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
         ? size.trim()
         : 24;
-  const resolvedColor =
+  const hasExplicitColor =
     typeof color === "string" &&
     color.trim().length > 0 &&
-    color.trim() !== "currentColor"
-      ? color.trim()
-      : "#09090B";
-  const resolvedSecondaryColor =
+    color.trim() !== "currentColor";
+  const hasExplicitSecondaryColor =
     typeof secondaryColor === "string" &&
     secondaryColor.trim().length > 0 &&
-    secondaryColor.trim() !== "currentColor"
-      ? secondaryColor.trim()
-      : resolvedColor;
+    secondaryColor.trim() !== "currentColor";
+  const resolvedColor = hasExplicitColor ? color.trim() : "#09090B";
+  const resolvedSecondaryColor = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : resolvedColor;
+  const colorPrimary = hasExplicitColor ? color.trim() : "#FF6040";
+  const colorSecondary = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : "#000000";
   const parsedSecOpacity =
     typeof secondaryOpacity === "number"
       ? secondaryOpacity
@@ -132,6 +148,8 @@ export function LockOpenIcon({
         variant,
         color: resolvedColor,
         resolvedSecondaryColor,
+        colorPrimary,
+        colorSecondary,
         secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}

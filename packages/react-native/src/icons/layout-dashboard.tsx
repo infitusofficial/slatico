@@ -10,14 +10,26 @@ interface VariantRenderParams {
   readonly variant: SlaticoStyle;
   readonly color: string;
   readonly resolvedSecondaryColor: string;
+  readonly colorPrimary: string;
+  readonly colorSecondary: string;
   readonly secondaryOpacity: number | string;
   readonly instanceId: string;
 }
 
 function renderLayoutDashboardNativeVariant(params: VariantRenderParams): ReactNode {
-  const { variant, color, resolvedSecondaryColor, secondaryOpacity, instanceId } = params;
+  const {
+    variant,
+    color,
+    resolvedSecondaryColor,
+    colorPrimary,
+    colorSecondary,
+    secondaryOpacity,
+    instanceId
+  } = params;
   void color;
   void resolvedSecondaryColor;
+  void colorPrimary;
+  void colorSecondary;
   void secondaryOpacity;
   void instanceId;
   switch (variant) {
@@ -66,8 +78,8 @@ function renderLayoutDashboardNativeVariant(params: VariantRenderParams): ReactN
     case "color":
       return (
         <>
-        <Path fill="#000000" d="M7.925 20v-9.925H3a.575.575 0 0 1 0-1.15h18a.575.575 0 0 1 0 1.15H9.075V20a.575.575 0 0 1-1.15 0" />
-        <Path fill="#FF6040" d="M20.425 6c0-.787-.638-1.425-1.425-1.425H5c-.787 0-1.425.638-1.425 1.425v12c0 .787.638 1.425 1.425 1.425h14c.787 0 1.425-.638 1.425-1.425zm1.15 12A2.575 2.575 0 0 1 19 20.575H5A2.575 2.575 0 0 1 2.425 18V6A2.575 2.575 0 0 1 5 3.425h14A2.575 2.575 0 0 1 21.575 6z" />
+        <Path fill={colorSecondary} d="M7.925 20v-9.925H3a.575.575 0 0 1 0-1.15h18a.575.575 0 0 1 0 1.15H9.075V20a.575.575 0 0 1-1.15 0" />
+        <Path fill={colorPrimary} d="M20.425 6c0-.787-.638-1.425-1.425-1.425H5c-.787 0-1.425.638-1.425 1.425v12c0 .787.638 1.425 1.425 1.425h14c.787 0 1.425-.638 1.425-1.425zm1.15 12A2.575 2.575 0 0 1 19 20.575H5A2.575 2.575 0 0 1 2.425 18V6A2.575 2.575 0 0 1 5 3.425h14A2.575 2.575 0 0 1 21.575 6z" />
         </>
       );
   }
@@ -76,7 +88,7 @@ function renderLayoutDashboardNativeVariant(params: VariantRenderParams): ReactN
 export function LayoutDashboardIcon({
   variant = "regular",
   size = 24,
-  color = "#09090B",
+  color,
   secondaryColor,
   secondaryOpacity = 0.22,
   title,
@@ -95,18 +107,22 @@ export function LayoutDashboardIcon({
           (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
         ? size.trim()
         : 24;
-  const resolvedColor =
+  const hasExplicitColor =
     typeof color === "string" &&
     color.trim().length > 0 &&
-    color.trim() !== "currentColor"
-      ? color.trim()
-      : "#09090B";
-  const resolvedSecondaryColor =
+    color.trim() !== "currentColor";
+  const hasExplicitSecondaryColor =
     typeof secondaryColor === "string" &&
     secondaryColor.trim().length > 0 &&
-    secondaryColor.trim() !== "currentColor"
-      ? secondaryColor.trim()
-      : resolvedColor;
+    secondaryColor.trim() !== "currentColor";
+  const resolvedColor = hasExplicitColor ? color.trim() : "#09090B";
+  const resolvedSecondaryColor = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : resolvedColor;
+  const colorPrimary = hasExplicitColor ? color.trim() : "#FF6040";
+  const colorSecondary = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : "#000000";
   const parsedSecOpacity =
     typeof secondaryOpacity === "number"
       ? secondaryOpacity
@@ -134,6 +150,8 @@ export function LayoutDashboardIcon({
         variant,
         color: resolvedColor,
         resolvedSecondaryColor,
+        colorPrimary,
+        colorSecondary,
         secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}

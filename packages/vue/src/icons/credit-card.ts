@@ -38,10 +38,10 @@ function renderCreditCardVueVariant(variant: SlaticoStyle, _uid: string): VNode[
       ];
     case "color":
       return [
-        h("path", { "fill": "black", "d": "M18 15.25a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5z" }),
-        h("path", { "fill": "black", "d": "M21 9.25a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1 0-1.5z" }),
-        h("path", { "fill": "#FF6040", "d": "M12 15.25a.75.75 0 0 1 0 1.5h-1a.75.75 0 0 1 0-1.5z" }),
-        h("path", { "fill": "#FF6040", "d": "M20.25 7c0-.69-.56-1.25-1.25-1.25H5c-.69 0-1.25.56-1.25 1.25v10c0 .69.56 1.25 1.25 1.25h14c.69 0 1.25-.56 1.25-1.25zm1.5 10A2.75 2.75 0 0 1 19 19.75H5A2.75 2.75 0 0 1 2.25 17V7A2.75 2.75 0 0 1 5 4.25h14A2.75 2.75 0 0 1 21.75 7z" })
+        h("path", { "fill": "var(--slatico-secondary-color, #000000)", "d": "M18 15.25a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5z" }),
+        h("path", { "fill": "var(--slatico-secondary-color, #000000)", "d": "M21 9.25a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1 0-1.5z" }),
+        h("path", { "fill": "var(--slatico-primary-color, #FF6040)", "d": "M12 15.25a.75.75 0 0 1 0 1.5h-1a.75.75 0 0 1 0-1.5z" }),
+        h("path", { "fill": "var(--slatico-primary-color, #FF6040)", "d": "M20.25 7c0-.69-.56-1.25-1.25-1.25H5c-.69 0-1.25.56-1.25 1.25v10c0 .69.56 1.25 1.25 1.25h14c.69 0 1.25-.56 1.25-1.25zm1.5 10A2.75 2.75 0 0 1 19 19.75H5A2.75 2.75 0 0 1 2.25 17V7A2.75 2.75 0 0 1 5 4.25h14A2.75 2.75 0 0 1 21.75 7z" })
       ];
   }
 }
@@ -64,14 +64,27 @@ export const CreditCardIcon = defineComponent({
       const variant = props.variant ?? "regular";
       const isColorVariant = variant === "color";
       const styleObj: Record<string, string | number> = {};
-      if (!isColorVariant && props.color) {
-        styleObj.color = props.color;
-      }
-      if (props.secondaryColor !== undefined) {
-        styleObj["--slatico-secondary-color"] = props.secondaryColor;
-      }
-      if (props.secondaryOpacity !== undefined) {
-        styleObj["--slatico-secondary-opacity"] = props.secondaryOpacity;
+      if (isColorVariant) {
+        if (props.color && props.color !== "currentColor" && props.color.trim() !== "") {
+          styleObj["--slatico-primary-color"] = props.color;
+        }
+        if (
+          props.secondaryColor !== undefined &&
+          props.secondaryColor !== "currentColor" &&
+          props.secondaryColor.trim() !== ""
+        ) {
+          styleObj["--slatico-secondary-color"] = props.secondaryColor;
+        }
+      } else {
+        if (props.color) {
+          styleObj.color = props.color;
+        }
+        if (props.secondaryColor !== undefined) {
+          styleObj["--slatico-secondary-color"] = props.secondaryColor;
+        }
+        if (props.secondaryOpacity !== undefined) {
+          styleObj["--slatico-secondary-opacity"] = props.secondaryOpacity;
+        }
       }
 
       const children: VNode[] = [];

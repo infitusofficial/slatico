@@ -65,15 +65,15 @@ function renderSlidersHorizontalVariant(variant: SlaticoStyle, _instanceId: stri
     case "color":
       return (
         <>
-        <path fill="black" d="M5.425 5.85a.576.576 0 0 1 0 1.15h-2.85a.575.575 0 0 1 0-1.15z" />
-        <path fill="black" d="M21.425 5.85a.576.576 0 0 1 0 1.15h-9.85a.575.575 0 0 1 0-1.15z" />
-        <path fill="black" d="M12.425 11.85a.575.575 0 0 1 0 1.15h-9.85a.575.575 0 0 1 0-1.15z" />
-        <path fill="black" d="M21.425 11.85a.575.575 0 0 1 0 1.15h-2.85a.575.575 0 0 1 0-1.15z" />
-        <path fill="black" d="M5.425 17.85a.575.575 0 0 1 0 1.15h-2.85a.575.575 0 0 1 0-1.15z" />
-        <path fill="black" d="M21.425 17.85a.575.575 0 0 1 0 1.15h-9.85a.575.575 0 0 1 0-1.15z" />
-        <path fill="#FF6040" d="M10.425 6.5a1.925 1.925 0 1 0-3.85 0 1.925 1.925 0 0 0 3.85 0m1.15 0a3.075 3.075 0 1 1-6.15 0 3.075 3.075 0 0 1 6.15 0" />
-        <path fill="#FF6040" d="M17.425 12.5a1.925 1.925 0 1 0-3.85 0 1.925 1.925 0 0 0 3.85 0m1.15 0a3.075 3.075 0 1 1-6.15 0 3.075 3.075 0 0 1 6.15 0" />
-        <path fill="#FF6040" d="M10.425 18.5a1.925 1.925 0 1 0-3.85 0 1.925 1.925 0 0 0 3.85 0m1.15 0a3.075 3.075 0 1 1-6.15 0 3.075 3.075 0 0 1 6.15 0" />
+        <path fill="var(--slatico-secondary-color, #000000)" d="M5.425 5.85a.576.576 0 0 1 0 1.15h-2.85a.575.575 0 0 1 0-1.15z" />
+        <path fill="var(--slatico-secondary-color, #000000)" d="M21.425 5.85a.576.576 0 0 1 0 1.15h-9.85a.575.575 0 0 1 0-1.15z" />
+        <path fill="var(--slatico-secondary-color, #000000)" d="M12.425 11.85a.575.575 0 0 1 0 1.15h-9.85a.575.575 0 0 1 0-1.15z" />
+        <path fill="var(--slatico-secondary-color, #000000)" d="M21.425 11.85a.575.575 0 0 1 0 1.15h-2.85a.575.575 0 0 1 0-1.15z" />
+        <path fill="var(--slatico-secondary-color, #000000)" d="M5.425 17.85a.575.575 0 0 1 0 1.15h-2.85a.575.575 0 0 1 0-1.15z" />
+        <path fill="var(--slatico-secondary-color, #000000)" d="M21.425 17.85a.575.575 0 0 1 0 1.15h-9.85a.575.575 0 0 1 0-1.15z" />
+        <path fill="var(--slatico-primary-color, #FF6040)" d="M10.425 6.5a1.925 1.925 0 1 0-3.85 0 1.925 1.925 0 0 0 3.85 0m1.15 0a3.075 3.075 0 1 1-6.15 0 3.075 3.075 0 0 1 6.15 0" />
+        <path fill="var(--slatico-primary-color, #FF6040)" d="M17.425 12.5a1.925 1.925 0 1 0-3.85 0 1.925 1.925 0 0 0 3.85 0m1.15 0a3.075 3.075 0 1 1-6.15 0 3.075 3.075 0 0 1 6.15 0" />
+        <path fill="var(--slatico-primary-color, #FF6040)" d="M10.425 18.5a1.925 1.925 0 1 0-3.85 0 1.925 1.925 0 0 0 3.85 0m1.15 0a3.075 3.075 0 1 1-6.15 0 3.075 3.075 0 0 1 6.15 0" />
         </>
       );
   }
@@ -96,19 +96,34 @@ export const SlidersHorizontalIcon = forwardRef<SVGSVGElement, SlaticoIconProps>
     const rawId = useId();
     const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
     const isColorVariant = variant === "color";
-    const duotoneVars: Record<string, string | number> = {};
-    if (secondaryColor !== undefined) {
-      duotoneVars["--slatico-secondary-color"] = secondaryColor;
-    }
-    if (secondaryOpacity !== undefined) {
-      duotoneVars["--slatico-secondary-opacity"] = secondaryOpacity;
+    const cssVars: Record<string, string | number> = {};
+    if (isColorVariant) {
+      if (color !== undefined && color !== "currentColor" && color.trim() !== "") {
+        cssVars["--slatico-primary-color"] = color;
+      }
+      if (
+        secondaryColor !== undefined &&
+        secondaryColor !== "currentColor" &&
+        secondaryColor.trim() !== ""
+      ) {
+        cssVars["--slatico-secondary-color"] = secondaryColor;
+      }
+    } else {
+      if (secondaryColor !== undefined) {
+        cssVars["--slatico-secondary-color"] = secondaryColor;
+      }
+      if (secondaryOpacity !== undefined) {
+        cssVars["--slatico-secondary-opacity"] = secondaryOpacity;
+      }
     }
 
     const resolvedStyle: CSSProperties | undefined = isColorVariant
-      ? style
+      ? Object.keys(cssVars).length > 0 || style !== undefined
+        ? ({ ...cssVars, ...style } as CSSProperties)
+        : undefined
       : ({
           color,
-          ...duotoneVars,
+          ...cssVars,
           ...style
         } as CSSProperties);
 

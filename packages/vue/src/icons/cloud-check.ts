@@ -36,8 +36,8 @@ function renderCloudCheckVueVariant(variant: SlaticoStyle, _uid: string): VNode[
       ];
     case "color":
       return [
-        h("path", { "fill": "#FF6040", "d": "M20.425 13.75c0-1.544-.616-2.868-2.05-3.188-.489-.11-1.11-.079-1.518-.079a.58.58 0 0 1-.542-.381c-.736-2.065-2.662-3.527-4.933-3.527a4.904 4.904 0 0 0-4.878 4.357.575.575 0 0 1-.486.505c-1.389.206-2.443 1.42-2.443 2.938 0 1.687 1.317 3.05 2.876 3.05h10.847c1.588 0 2.294-.506 2.654-1.099.401-.66.473-1.569.473-2.576m1.15 0c0 .993-.053 2.208-.64 3.174-.628 1.032-1.774 1.651-3.637 1.651H6.45c-2.252 0-4.026-1.937-4.026-4.2 0-1.912 1.243-3.528 2.999-3.988a6.054 6.054 0 0 1 5.958-4.962c2.64 0 4.88 1.613 5.865 3.907.385-.003.921.005 1.378.106 2.215.495 2.95 2.543 2.95 4.312" }),
-        h("path", { "fill": "black", "d": "M13.613 10.574a.576.576 0 0 1 .774.852l-3.728 3.387c-.6.547-1.517.547-2.118 0l-.928-.842a.575.575 0 1 1 .774-.85l.927.842c.163.147.41.147.572 0z" })
+        h("path", { "fill": "var(--slatico-primary-color, #FF6040)", "d": "M20.425 13.75c0-1.544-.616-2.868-2.05-3.188-.489-.11-1.11-.079-1.518-.079a.58.58 0 0 1-.542-.381c-.736-2.065-2.662-3.527-4.933-3.527a4.904 4.904 0 0 0-4.878 4.357.575.575 0 0 1-.486.505c-1.389.206-2.443 1.42-2.443 2.938 0 1.687 1.317 3.05 2.876 3.05h10.847c1.588 0 2.294-.506 2.654-1.099.401-.66.473-1.569.473-2.576m1.15 0c0 .993-.053 2.208-.64 3.174-.628 1.032-1.774 1.651-3.637 1.651H6.45c-2.252 0-4.026-1.937-4.026-4.2 0-1.912 1.243-3.528 2.999-3.988a6.054 6.054 0 0 1 5.958-4.962c2.64 0 4.88 1.613 5.865 3.907.385-.003.921.005 1.378.106 2.215.495 2.95 2.543 2.95 4.312" }),
+        h("path", { "fill": "var(--slatico-secondary-color, #000000)", "d": "M13.613 10.574a.576.576 0 0 1 .774.852l-3.728 3.387c-.6.547-1.517.547-2.118 0l-.928-.842a.575.575 0 1 1 .774-.85l.927.842c.163.147.41.147.572 0z" })
       ];
   }
 }
@@ -60,14 +60,27 @@ export const CloudCheckIcon = defineComponent({
       const variant = props.variant ?? "regular";
       const isColorVariant = variant === "color";
       const styleObj: Record<string, string | number> = {};
-      if (!isColorVariant && props.color) {
-        styleObj.color = props.color;
-      }
-      if (props.secondaryColor !== undefined) {
-        styleObj["--slatico-secondary-color"] = props.secondaryColor;
-      }
-      if (props.secondaryOpacity !== undefined) {
-        styleObj["--slatico-secondary-opacity"] = props.secondaryOpacity;
+      if (isColorVariant) {
+        if (props.color && props.color !== "currentColor" && props.color.trim() !== "") {
+          styleObj["--slatico-primary-color"] = props.color;
+        }
+        if (
+          props.secondaryColor !== undefined &&
+          props.secondaryColor !== "currentColor" &&
+          props.secondaryColor.trim() !== ""
+        ) {
+          styleObj["--slatico-secondary-color"] = props.secondaryColor;
+        }
+      } else {
+        if (props.color) {
+          styleObj.color = props.color;
+        }
+        if (props.secondaryColor !== undefined) {
+          styleObj["--slatico-secondary-color"] = props.secondaryColor;
+        }
+        if (props.secondaryOpacity !== undefined) {
+          styleObj["--slatico-secondary-opacity"] = props.secondaryOpacity;
+        }
       }
 
       const children: VNode[] = [];

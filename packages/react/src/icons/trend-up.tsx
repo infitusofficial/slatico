@@ -49,8 +49,8 @@ function renderTrendUpVariant(variant: SlaticoStyle, _instanceId: string): React
     case "color":
       return (
         <>
-        <path fill="#FF6040" d="M19.466 6.474a.75.75 0 0 1 1.068 1.052l-7.385 7.5a.75.75 0 0 1-1.068 0l-2.543-2.582-5.004 5.082a.75.75 0 0 1-1.068-1.052l5.538-5.625a.75.75 0 0 1 1.07 0l2.541 2.582z" />
-        <path fill="black" d="M19.25 12V7.75H15a.75.75 0 0 1 0-1.5h5a.75.75 0 0 1 .75.75v5a.75.75 0 0 1-1.5 0" />
+        <path fill="var(--slatico-primary-color, #FF6040)" d="M19.466 6.474a.75.75 0 0 1 1.068 1.052l-7.385 7.5a.75.75 0 0 1-1.068 0l-2.543-2.582-5.004 5.082a.75.75 0 0 1-1.068-1.052l5.538-5.625a.75.75 0 0 1 1.07 0l2.541 2.582z" />
+        <path fill="var(--slatico-secondary-color, #000000)" d="M19.25 12V7.75H15a.75.75 0 0 1 0-1.5h5a.75.75 0 0 1 .75.75v5a.75.75 0 0 1-1.5 0" />
         </>
       );
   }
@@ -73,19 +73,34 @@ export const TrendUpIcon = forwardRef<SVGSVGElement, SlaticoIconProps>(
     const rawId = useId();
     const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
     const isColorVariant = variant === "color";
-    const duotoneVars: Record<string, string | number> = {};
-    if (secondaryColor !== undefined) {
-      duotoneVars["--slatico-secondary-color"] = secondaryColor;
-    }
-    if (secondaryOpacity !== undefined) {
-      duotoneVars["--slatico-secondary-opacity"] = secondaryOpacity;
+    const cssVars: Record<string, string | number> = {};
+    if (isColorVariant) {
+      if (color !== undefined && color !== "currentColor" && color.trim() !== "") {
+        cssVars["--slatico-primary-color"] = color;
+      }
+      if (
+        secondaryColor !== undefined &&
+        secondaryColor !== "currentColor" &&
+        secondaryColor.trim() !== ""
+      ) {
+        cssVars["--slatico-secondary-color"] = secondaryColor;
+      }
+    } else {
+      if (secondaryColor !== undefined) {
+        cssVars["--slatico-secondary-color"] = secondaryColor;
+      }
+      if (secondaryOpacity !== undefined) {
+        cssVars["--slatico-secondary-opacity"] = secondaryOpacity;
+      }
     }
 
     const resolvedStyle: CSSProperties | undefined = isColorVariant
-      ? style
+      ? Object.keys(cssVars).length > 0 || style !== undefined
+        ? ({ ...cssVars, ...style } as CSSProperties)
+        : undefined
       : ({
           color,
-          ...duotoneVars,
+          ...cssVars,
           ...style
         } as CSSProperties);
 

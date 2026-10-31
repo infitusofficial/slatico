@@ -54,8 +54,8 @@ function renderHouseVariant(variant: SlaticoStyle, _instanceId: string): ReactNo
     case "color":
       return (
         <>
-        <path fill="#FF6040" d="m18.5 10.81-5.866-5.866a1.25 1.25 0 0 0-1.768 0L5 10.81V19c0 .69.56 1.25 1.25 1.25h11c.69 0 1.25-.56 1.25-1.25zM20 19a2.75 2.75 0 0 1-2.75 2.75h-11A2.75 2.75 0 0 1 3.5 19v-6.69l-.22.22a.75.75 0 1 1-1.06-1.06l7.586-7.586a2.75 2.75 0 0 1 3.888 0l7.586 7.586a.75.75 0 1 1-1.06 1.06l-.22-.22z" />
-        <path fill="black" d="M14.75 17.25a.75.75 0 0 1 0 1.5h-6a.75.75 0 0 1 0-1.5z" />
+        <path fill="var(--slatico-primary-color, #FF6040)" d="m18.5 10.81-5.866-5.866a1.25 1.25 0 0 0-1.768 0L5 10.81V19c0 .69.56 1.25 1.25 1.25h11c.69 0 1.25-.56 1.25-1.25zM20 19a2.75 2.75 0 0 1-2.75 2.75h-11A2.75 2.75 0 0 1 3.5 19v-6.69l-.22.22a.75.75 0 1 1-1.06-1.06l7.586-7.586a2.75 2.75 0 0 1 3.888 0l7.586 7.586a.75.75 0 1 1-1.06 1.06l-.22-.22z" />
+        <path fill="var(--slatico-secondary-color, #000000)" d="M14.75 17.25a.75.75 0 0 1 0 1.5h-6a.75.75 0 0 1 0-1.5z" />
         </>
       );
   }
@@ -78,19 +78,34 @@ export const HouseIcon = forwardRef<SVGSVGElement, SlaticoIconProps>(
     const rawId = useId();
     const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
     const isColorVariant = variant === "color";
-    const duotoneVars: Record<string, string | number> = {};
-    if (secondaryColor !== undefined) {
-      duotoneVars["--slatico-secondary-color"] = secondaryColor;
-    }
-    if (secondaryOpacity !== undefined) {
-      duotoneVars["--slatico-secondary-opacity"] = secondaryOpacity;
+    const cssVars: Record<string, string | number> = {};
+    if (isColorVariant) {
+      if (color !== undefined && color !== "currentColor" && color.trim() !== "") {
+        cssVars["--slatico-primary-color"] = color;
+      }
+      if (
+        secondaryColor !== undefined &&
+        secondaryColor !== "currentColor" &&
+        secondaryColor.trim() !== ""
+      ) {
+        cssVars["--slatico-secondary-color"] = secondaryColor;
+      }
+    } else {
+      if (secondaryColor !== undefined) {
+        cssVars["--slatico-secondary-color"] = secondaryColor;
+      }
+      if (secondaryOpacity !== undefined) {
+        cssVars["--slatico-secondary-opacity"] = secondaryOpacity;
+      }
     }
 
     const resolvedStyle: CSSProperties | undefined = isColorVariant
-      ? style
+      ? Object.keys(cssVars).length > 0 || style !== undefined
+        ? ({ ...cssVars, ...style } as CSSProperties)
+        : undefined
       : ({
           color,
-          ...duotoneVars,
+          ...cssVars,
           ...style
         } as CSSProperties);
 

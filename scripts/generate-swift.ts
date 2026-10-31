@@ -161,6 +161,16 @@ function normalizeHex6(rawColor: string | undefined): string {
     return "#000000";
   }
   const trimmed = rawColor.trim();
+  const varFallbackMatch = trimmed.match(
+    /^var\(--slatico-(?:primary|secondary)-color\s*,\s*([^)]+)\)$/
+  );
+  if (varFallbackMatch && varFallbackMatch[1]) {
+    const fb = varFallbackMatch[1].trim();
+    if (fb !== "currentColor") {
+      return normalizeHex6(fb);
+    }
+    return "#000000";
+  }
   if (
     trimmed === "currentColor" ||
     trimmed.startsWith("var(--slatico-secondary-color")

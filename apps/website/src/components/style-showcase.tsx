@@ -64,7 +64,7 @@ const TIER1_ICONS: readonly Tier1ShowcaseItem[] = [
 
 const COLOR_PRESETS = [
   { label: "Default", primary: "currentColor", secondary: undefined },
-  { label: "Brand Coral", primary: "#18181B", secondary: "#FF6040" },
+  { label: "Brand Primary", primary: "var(--foreground)", secondary: "var(--primary)" },
   { label: "Indigo + Violet", primary: "#4F46E5", secondary: "#A855F7" },
   { label: "Emerald + Amber", primary: "#059669", secondary: "#F59E0B" },
   { label: "Sky + Rose", primary: "#0284C7", secondary: "#F43F5E" }

@@ -3,7 +3,16 @@
   "compilerOptions": {
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["node"]
+    "types": ["node"],
+    "paths": {
+      "@slatico/core": ["./packages/core/src/index.ts"],
+      "@slatico/svg": ["./packages/svg/src/index.ts"],
+      "@slatico/react": ["./packages/react/src/index.ts"],
+      "@slatico/vue": ["./packages/vue/src/index.ts"],
+      "@slatico/web": ["./packages/web/src/index.ts"],
+      "@slatico/font": ["./packages/font/src/index.ts"],
+      "@slatico/react-native": ["./packages/react-native/src/index.ts"]
+    }
   },
   "include": [
     "scripts/**/*.ts",

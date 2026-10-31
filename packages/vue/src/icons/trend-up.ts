@@ -35,8 +35,8 @@ function renderTrendUpVueVariant(variant: SlaticoStyle, _uid: string): VNode[] {
       ];
     case "color":
       return [
-        h("path", { "fill": "#FF6040", "d": "M19.466 6.474a.75.75 0 0 1 1.068 1.052l-7.385 7.5a.75.75 0 0 1-1.068 0l-2.543-2.582-5.004 5.082a.75.75 0 0 1-1.068-1.052l5.538-5.625a.75.75 0 0 1 1.07 0l2.541 2.582z" }),
-        h("path", { "fill": "black", "d": "M19.25 12V7.75H15a.75.75 0 0 1 0-1.5h5a.75.75 0 0 1 .75.75v5a.75.75 0 0 1-1.5 0" })
+        h("path", { "fill": "var(--slatico-primary-color, #FF6040)", "d": "M19.466 6.474a.75.75 0 0 1 1.068 1.052l-7.385 7.5a.75.75 0 0 1-1.068 0l-2.543-2.582-5.004 5.082a.75.75 0 0 1-1.068-1.052l5.538-5.625a.75.75 0 0 1 1.07 0l2.541 2.582z" }),
+        h("path", { "fill": "var(--slatico-secondary-color, #000000)", "d": "M19.25 12V7.75H15a.75.75 0 0 1 0-1.5h5a.75.75 0 0 1 .75.75v5a.75.75 0 0 1-1.5 0" })
       ];
   }
 }
@@ -59,14 +59,27 @@ export const TrendUpIcon = defineComponent({
       const variant = props.variant ?? "regular";
       const isColorVariant = variant === "color";
       const styleObj: Record<string, string | number> = {};
-      if (!isColorVariant && props.color) {
-        styleObj.color = props.color;
-      }
-      if (props.secondaryColor !== undefined) {
-        styleObj["--slatico-secondary-color"] = props.secondaryColor;
-      }
-      if (props.secondaryOpacity !== undefined) {
-        styleObj["--slatico-secondary-opacity"] = props.secondaryOpacity;
+      if (isColorVariant) {
+        if (props.color && props.color !== "currentColor" && props.color.trim() !== "") {
+          styleObj["--slatico-primary-color"] = props.color;
+        }
+        if (
+          props.secondaryColor !== undefined &&
+          props.secondaryColor !== "currentColor" &&
+          props.secondaryColor.trim() !== ""
+        ) {
+          styleObj["--slatico-secondary-color"] = props.secondaryColor;
+        }
+      } else {
+        if (props.color) {
+          styleObj.color = props.color;
+        }
+        if (props.secondaryColor !== undefined) {
+          styleObj["--slatico-secondary-color"] = props.secondaryColor;
+        }
+        if (props.secondaryOpacity !== undefined) {
+          styleObj["--slatico-secondary-opacity"] = props.secondaryOpacity;
+        }
       }
 
       const children: VNode[] = [];

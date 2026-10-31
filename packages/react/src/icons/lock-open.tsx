@@ -50,9 +50,9 @@ function renderLockOpenVariant(variant: SlaticoStyle, _instanceId: string): Reac
     case "color":
       return (
         <>
-        <path fill="black" d="M7.425 9V6.889A4.4 4.4 0 0 1 8.77 3.727 4.63 4.63 0 0 1 12 2.425c2.188 0 4.132 1.508 4.563 3.568a.575.575 0 0 1-1.125.236c-.312-1.49-1.756-2.654-3.438-2.654-.914 0-1.787.353-2.428.977a3.26 3.26 0 0 0-.997 2.337V9a.575.575 0 0 1-1.15 0" />
-        <path fill="black" d="M13 15a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
-        <path fill="#FF6040" d="M19.425 11c0-.787-.638-1.425-1.425-1.425H6c-.787 0-1.425.638-1.425 1.425v8c0 .787.638 1.425 1.425 1.425h12c.787 0 1.425-.638 1.425-1.425zm1.15 8A2.575 2.575 0 0 1 18 21.575H6A2.575 2.575 0 0 1 3.425 19v-8A2.575 2.575 0 0 1 6 8.425h12A2.575 2.575 0 0 1 20.575 11z" />
+        <path fill="var(--slatico-secondary-color, #000000)" d="M7.425 9V6.889A4.4 4.4 0 0 1 8.77 3.727 4.63 4.63 0 0 1 12 2.425c2.188 0 4.132 1.508 4.563 3.568a.575.575 0 0 1-1.125.236c-.312-1.49-1.756-2.654-3.438-2.654-.914 0-1.787.353-2.428.977a3.26 3.26 0 0 0-.997 2.337V9a.575.575 0 0 1-1.15 0" />
+        <path fill="var(--slatico-secondary-color, #000000)" d="M13 15a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+        <path fill="var(--slatico-primary-color, #FF6040)" d="M19.425 11c0-.787-.638-1.425-1.425-1.425H6c-.787 0-1.425.638-1.425 1.425v8c0 .787.638 1.425 1.425 1.425h12c.787 0 1.425-.638 1.425-1.425zm1.15 8A2.575 2.575 0 0 1 18 21.575H6A2.575 2.575 0 0 1 3.425 19v-8A2.575 2.575 0 0 1 6 8.425h12A2.575 2.575 0 0 1 20.575 11z" />
         </>
       );
   }
@@ -75,19 +75,34 @@ export const LockOpenIcon = forwardRef<SVGSVGElement, SlaticoIconProps>(
     const rawId = useId();
     const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
     const isColorVariant = variant === "color";
-    const duotoneVars: Record<string, string | number> = {};
-    if (secondaryColor !== undefined) {
-      duotoneVars["--slatico-secondary-color"] = secondaryColor;
-    }
-    if (secondaryOpacity !== undefined) {
-      duotoneVars["--slatico-secondary-opacity"] = secondaryOpacity;
+    const cssVars: Record<string, string | number> = {};
+    if (isColorVariant) {
+      if (color !== undefined && color !== "currentColor" && color.trim() !== "") {
+        cssVars["--slatico-primary-color"] = color;
+      }
+      if (
+        secondaryColor !== undefined &&
+        secondaryColor !== "currentColor" &&
+        secondaryColor.trim() !== ""
+      ) {
+        cssVars["--slatico-secondary-color"] = secondaryColor;
+      }
+    } else {
+      if (secondaryColor !== undefined) {
+        cssVars["--slatico-secondary-color"] = secondaryColor;
+      }
+      if (secondaryOpacity !== undefined) {
+        cssVars["--slatico-secondary-opacity"] = secondaryOpacity;
+      }
     }
 
     const resolvedStyle: CSSProperties | undefined = isColorVariant
-      ? style
+      ? Object.keys(cssVars).length > 0 || style !== undefined
+        ? ({ ...cssVars, ...style } as CSSProperties)
+        : undefined
       : ({
           color,
-          ...duotoneVars,
+          ...cssVars,
           ...style
         } as CSSProperties);
 

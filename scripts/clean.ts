@@ -19,7 +19,12 @@ async function clean(): Promise<void> {
   const root = process.cwd();
   for (const rel of TARGETS) {
     const fullPath = path.join(root, rel);
-    await fs.rm(fullPath, { recursive: true, force: true });
+    await fs.rm(fullPath, {
+      recursive: true,
+      force: true,
+      maxRetries: 5,
+      retryDelay: 100
+    });
   }
   console.log("[Slatico Clean] Removed build outputs and caches.");
 }

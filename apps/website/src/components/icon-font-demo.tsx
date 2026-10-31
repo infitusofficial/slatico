@@ -63,25 +63,25 @@ ${getFontHtmlSnippet(selectedIcon, selectedStyle)}
 }`;
 
   return (
-    <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-xs dark:border-zinc-800 dark:bg-zinc-900/70">
-      <div className="flex flex-col justify-between gap-4 border-b border-zinc-200 pb-5 lg:flex-row lg:items-center dark:border-zinc-800">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="rounded-md bg-emerald-500/10 px-2 py-0.5 font-mono text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">
+    <div className="min-w-0 max-w-full rounded-[32px] squircle border border-border bg-surface p-4 shadow-xs sm:p-6">
+      <div className="flex flex-col justify-between gap-4 border-b border-border pb-5 lg:flex-row lg:items-center">
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="rounded-md bg-primary-soft px-2 py-0.5 font-mono text-[11px] font-semibold text-primary">
               @slatico/font
             </span>
-            <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">
+            <span className="min-w-0 break-words font-mono text-xs text-muted-foreground">
               WOFF2 • WOFF • TTF • CSS • 5 Monochrome Styles × {ICON_NAMES.length} Icons ={" "}
               {ICON_NAMES.length * FONT_COMPATIBLE_STYLES.length} Glyphs
             </span>
           </div>
-          <h3 className="mt-1.5 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-            Production Icon Font System (HTML, PHP, WordPress & Laravel Ready)
+          <h3 className="mt-1.5 text-base font-bold text-foreground sm:text-lg">
+            Production Icon Font System (HTML, PHP, WordPress &amp; Laravel Ready)
           </h3>
-          <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">
+          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
             Live CSS icon font glyphs rendered directly from{" "}
-            <code className="font-mono">@slatico/font/slatico.css</code> with stable Unicode
-            Private Use Area (<code className="font-mono">U+E001–U+E017</code>) codepoints.
+            <code className="break-all font-mono text-foreground">@slatico/font/slatico.css</code>{" "}
+            with stable Unicode Private Use Area (<code className="font-mono text-foreground">U+E001–U+E017</code>) codepoints.
           </p>
         </div>
 
@@ -98,10 +98,10 @@ ${getFontHtmlSnippet(selectedIcon, selectedStyle)}
                 key={style}
                 type="button"
                 onClick={() => setSelectedStyle(style)}
-                className={`rounded-lg px-3 py-1.5 text-xs font-medium capitalize transition ${
+                className={`rounded-[20px] squircle px-3 py-1.5 text-xs font-semibold capitalize transition ${
                   isSelected
-                    ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
-                    : "border border-zinc-200 bg-zinc-50 text-zinc-700 hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                    ? "bg-primary text-primary-foreground"
+                    : "border border-border bg-surface-subtle text-muted-foreground hover:bg-surface-muted hover:text-foreground"
                 }`}
               >
                 {style}
@@ -112,24 +112,24 @@ ${getFontHtmlSnippet(selectedIcon, selectedStyle)}
       </div>
 
       {/* Controls: CSS Font Size & CSS Color + Five-Style Live Strip */}
-      <div className="mt-5 grid gap-6 lg:grid-cols-12">
-        <div className="space-y-5 lg:col-span-7">
+      <div className="mt-5 grid min-w-0 grid-cols-1 gap-6 lg:grid-cols-12">
+        <div className="min-w-0 space-y-5 lg:col-span-7">
           {/* Interactive Size & Color Controls */}
-          <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-zinc-200/80 bg-zinc-50/70 p-3.5 dark:border-zinc-800/80 dark:bg-zinc-950/50">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-[24px] squircle border border-border bg-surface-subtle p-3.5">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-medium text-muted-foreground">
                 CSS font-size:
               </span>
-              <div className="flex gap-1">
+              <div className="flex flex-wrap gap-1">
                 {FONT_SIZE_PRESETS.map((size) => (
                   <button
                     key={size}
                     type="button"
                     onClick={() => setFontSize(size)}
-                    className={`rounded px-2 py-1 font-mono text-xs transition ${
+                    className={`rounded-[16px] squircle px-2 py-1 font-mono text-xs font-medium transition ${
                       fontSize === size
-                        ? "bg-indigo-600 text-white"
-                        : "bg-white text-zinc-700 hover:bg-zinc-100 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                        ? "bg-primary text-primary-foreground"
+                        : "border border-border bg-surface text-muted-foreground hover:text-foreground"
                     }`}
                   >
                     {size}px
@@ -138,20 +138,20 @@ ${getFontHtmlSnippet(selectedIcon, selectedStyle)}
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-medium text-muted-foreground">
                 CSS color:
               </span>
-              <div className="flex gap-1.5">
+              <div className="flex flex-wrap gap-1.5">
                 {FONT_COLOR_PRESETS.map((preset) => (
                   <button
                     key={preset.label}
                     type="button"
                     onClick={() => setFontColor(preset.value)}
-                    className={`rounded px-2 py-1 text-xs font-medium transition ${
+                    className={`rounded-[16px] squircle px-2 py-1 text-xs font-medium transition ${
                       fontColor === preset.value
-                        ? "ring-2 ring-indigo-500 bg-white text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100"
-                        : "bg-white text-zinc-600 hover:bg-zinc-100 dark:bg-zinc-900 dark:text-zinc-400"
+                        ? "border border-primary bg-primary-soft font-semibold text-primary"
+                        : "border border-border bg-surface text-muted-foreground hover:text-foreground"
                     }`}
                   >
                     {preset.label}
@@ -162,21 +162,21 @@ ${getFontHtmlSnippet(selectedIcon, selectedStyle)}
           </div>
 
           {/* Live 5-Style Font Comparison for Selected Icon */}
-          <div className="rounded-xl border border-zinc-200 p-4 dark:border-zinc-800">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-zinc-800 dark:text-zinc-200">
+          <div className="min-w-0 rounded-[24px] squircle border border-border p-4">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="text-xs font-semibold text-foreground">
                 5 Monochrome Font Families —{" "}
-                <code className="font-mono text-indigo-600 dark:text-indigo-400">
+                <code className="font-mono text-primary">
                   {selectedIcon}
                 </code>{" "}
                 ({activeGlyph.codepointHex})
               </span>
-              <span className="font-mono text-[11px] text-zinc-500 dark:text-zinc-400">
+              <span className="font-mono text-[11px] text-muted-foreground">
                 {FONT_FAMILIES[selectedStyle]}
               </span>
             </div>
 
-            <div className="mt-3 grid grid-cols-5 gap-2">
+            <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-5">
               {FONT_COMPATIBLE_STYLES.map((style) => {
                 const glyph = getFontGlyph(selectedIcon, style);
                 const isCurrent = style === selectedStyle;
@@ -185,14 +185,14 @@ ${getFontHtmlSnippet(selectedIcon, selectedStyle)}
                     key={style}
                     type="button"
                     onClick={() => setSelectedStyle(style)}
-                    className={`flex flex-col items-center justify-center rounded-lg border p-3 transition ${
+                    className={`flex min-w-0 flex-col items-center justify-center rounded-[20px] squircle border p-2.5 transition sm:p-3 ${
                       isCurrent
-                        ? "border-indigo-500 bg-indigo-50/40 dark:border-indigo-400 dark:bg-indigo-950/30"
-                        : "border-zinc-200/80 bg-zinc-50/40 hover:border-zinc-300 dark:border-zinc-800 dark:bg-zinc-950/40"
+                        ? "border-primary bg-primary-soft text-primary"
+                        : "border-border bg-surface-subtle text-foreground hover:border-border-strong"
                     }`}
                   >
                     <div
-                      className="flex h-12 items-center justify-center text-zinc-900 dark:text-zinc-100"
+                      className="flex h-11 items-center justify-center text-foreground"
                       style={{
                         fontSize: `${fontSize}px`,
                         color: fontColor === "currentColor" ? undefined : fontColor
@@ -200,7 +200,7 @@ ${getFontHtmlSnippet(selectedIcon, selectedStyle)}
                     >
                       <i className={`slatico ${glyph.className}`} aria-hidden="true" />
                     </div>
-                    <span className="mt-1.5 font-mono text-[11px] font-medium capitalize text-zinc-700 dark:text-zinc-300">
+                    <span className="mt-1.5 max-w-full truncate font-mono text-[11px] font-medium capitalize">
                       {style}
                     </span>
                   </button>
@@ -210,16 +210,16 @@ ${getFontHtmlSnippet(selectedIcon, selectedStyle)}
           </div>
 
           {/* Interactive Grid of Real Tier 1 Font Glyphs */}
-          <div>
-            <div className="mb-2 flex items-center justify-between">
-              <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
-                Click any Tier 1 glyph below to inspect its CSS class & Unicode PUA assignment:
+          <div className="min-w-0">
+            <div className="mb-2 flex flex-wrap items-center justify-between gap-1">
+              <span className="text-xs font-medium text-muted-foreground">
+                Click any Tier 1 glyph below to inspect its CSS class &amp; Unicode PUA assignment:
               </span>
-              <span className="font-mono text-[11px] text-zinc-500">
+              <span className="max-w-full truncate font-mono text-[11px] text-muted-foreground">
                 .{activeGlyph.className}
               </span>
             </div>
-            <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
+            <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
               {FEATURED_FONT_ICONS.map((iconName) => {
                 const glyph = getFontGlyph(iconName, selectedStyle);
                 const isSelected = selectedIcon === iconName;
@@ -228,14 +228,14 @@ ${getFontHtmlSnippet(selectedIcon, selectedStyle)}
                     key={iconName}
                     type="button"
                     onClick={() => setSelectedIcon(iconName)}
-                    className={`flex flex-col items-center justify-center rounded-lg border p-2.5 transition ${
+                    className={`flex min-w-0 flex-col items-center justify-center rounded-[20px] squircle border p-2.5 transition ${
                       isSelected
-                        ? "border-indigo-500 bg-indigo-50/40 dark:border-indigo-400 dark:bg-indigo-950/30"
-                        : "border-zinc-200/80 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:bg-zinc-800/60"
+                        ? "border-primary bg-primary-soft text-primary"
+                        : "border-border bg-surface hover:bg-surface-subtle"
                     }`}
                   >
                     <div
-                      className="flex h-10 items-center justify-center text-zinc-900 dark:text-zinc-100"
+                      className="flex h-10 items-center justify-center text-foreground"
                       style={{
                         fontSize: `${Math.min(fontSize, 32)}px`,
                         color: fontColor === "currentColor" ? undefined : fontColor
@@ -243,7 +243,7 @@ ${getFontHtmlSnippet(selectedIcon, selectedStyle)}
                     >
                       <i className={`slatico ${glyph.className}`} aria-hidden="true" />
                     </div>
-                    <span className="mt-1 max-w-full truncate font-mono text-[10px] text-zinc-600 dark:text-zinc-400">
+                    <span className="mt-1 max-w-full truncate font-mono text-[10px] text-muted-foreground">
                       {iconName}
                     </span>
                   </button>
@@ -254,35 +254,35 @@ ${getFontHtmlSnippet(selectedIcon, selectedStyle)}
         </div>
 
         {/* Code Snippets & Architectural Explanation for Duotone / Color */}
-        <div className="flex flex-col justify-between space-y-4 lg:col-span-5">
-          <div className="rounded-xl border border-zinc-200 bg-zinc-950 p-4 text-zinc-100 dark:border-zinc-800">
-            <div className="flex items-center justify-between border-b border-zinc-800 pb-2 text-[11px] font-mono text-zinc-400">
-              <span>HTML & CSS Icon Font Usage</span>
+        <div className="flex min-w-0 flex-col justify-between space-y-4 lg:col-span-5">
+          <div className="min-w-0 max-w-full overflow-hidden rounded-[24px] squircle border border-code-border bg-code-bg p-4 text-code-fg">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-code-border pb-2 font-mono text-[11px] text-code-fg/75">
+              <span>HTML &amp; CSS Icon Font Usage</span>
               <span>{activeGlyph.codepointHex}</span>
             </div>
-            <pre className="mt-3 overflow-x-auto font-mono text-xs leading-relaxed text-zinc-200">
+            <pre className="mt-3 max-w-full overflow-x-auto font-mono text-xs leading-relaxed text-code-fg">
               <code>{htmlUsageSnippet}</code>
             </pre>
-            <pre className="mt-3 border-t border-zinc-800 pt-3 overflow-x-auto font-mono text-xs leading-relaxed text-indigo-300">
+            <pre className="mt-3 max-w-full overflow-x-auto border-t border-code-border pt-3 font-mono text-xs leading-relaxed text-code-fg/90">
               <code>{cssUsageSnippet}</code>
             </pre>
           </div>
 
-          <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs leading-relaxed text-zinc-700 dark:text-zinc-300">
-            <p className="font-semibold text-zinc-900 dark:text-zinc-100">
-              Why Duotone & Color Use SVG Instead of Icon Fonts
+          <div className="min-w-0 rounded-[24px] squircle border border-primary-border bg-primary-soft p-4 text-xs leading-relaxed text-muted-foreground">
+            <p className="font-semibold text-foreground">
+              Why Duotone &amp; Color Use SVG Instead of Icon Fonts
             </p>
-            <p className="mt-1">
-              Standard monochrome web fonts (<code className="font-mono">WOFF2</code> /{" "}
-              <code className="font-mono">TTF</code>) render a single foreground glyph contour per
-              character. Flattening <strong>Duotone</strong> (independent secondary tone and opacity
-              layers) or <strong>Color</strong> (multi-stop vector gradients and distinct fills)
+            <p className="mt-1 break-words">
+              Standard monochrome web fonts (<code className="font-mono text-foreground">WOFF2</code> /{" "}
+              <code className="font-mono text-foreground">TTF</code>) render a single foreground glyph contour per
+              character. Flattening <strong className="text-foreground">Duotone</strong> (independent secondary tone and opacity
+              layers) or <strong className="text-foreground">Color</strong> (customizable primary and secondary vector fills)
               into a monochrome font would destroy their visual fidelity. Use{" "}
-              <code className="font-mono">@slatico/svg</code>,{" "}
-              <code className="font-mono">@slatico/react</code>,{" "}
-              <code className="font-mono">@slatico/vue</code>,{" "}
-              <code className="font-mono">@slatico/web</code>, or{" "}
-              <code className="font-mono">@slatico/react-native</code> for Duotone and Color icons.
+              <code className="font-mono text-foreground">@slatico/svg</code>,{" "}
+              <code className="font-mono text-foreground">@slatico/react</code>,{" "}
+              <code className="font-mono text-foreground">@slatico/vue</code>,{" "}
+              <code className="font-mono text-foreground">@slatico/web</code>, or{" "}
+              <code className="font-mono text-foreground">@slatico/react-native</code> for Duotone and Color icons.
             </p>
           </div>
         </div>

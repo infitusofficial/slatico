@@ -235,24 +235,36 @@ describe("Phase 3D: @slatico/react-native Visual & Functional Verification (161 
     }
   });
 
-  it("preserves intrinsic multicolor palette (#FF6040 and #000000) in Color icons without destructive tinting", () => {
+  it("preserves default multicolor palette (#FF6040 and #000000) in Color icons when unset and supports independent primary/secondary customization", () => {
     const singleAccentColorIcons = new Set(["minus", "plus", "shield"]);
 
     for (const iconName of ICON_NAMES) {
       const pascal = toPascalCase(iconName);
       const ColorComp = rnExports[`${pascal}ColorIcon`]!;
 
-      // Passing a custom color prop must not overwrite the intrinsic multicolor artwork
-      const markup = renderToStaticMarkup(
-        createElement(ColorComp, { size: 36, color: "#10B981" })
+      // Default (or currentColor) preserves intrinsic #FF6040 and #000000
+      const defaultMarkup = renderToStaticMarkup(
+        createElement(ColorComp, { size: 36 })
       );
 
-      expect(markup).toContain('fill="#FF6040"');
+      expect(defaultMarkup).toContain('fill="#FF6040"');
       if (!singleAccentColorIcons.has(iconName)) {
-        expect(markup).toContain('fill="#000000"');
+        expect(defaultMarkup).toContain('fill="#000000"');
       }
-      expect(markup).not.toContain('fill="#10B981"');
-      expect(markup).not.toContain('fill="black"');
+      expect(defaultMarkup).not.toContain('fill="black"');
+
+      // Custom primary (color) and secondary (secondaryColor) update independently
+      const customMarkup = renderToStaticMarkup(
+        createElement(ColorComp, {
+          size: 36,
+          color: "#10B981",
+          secondaryColor: "#2563EB"
+        })
+      );
+      expect(customMarkup).toContain('fill="#10B981"');
+      if (!singleAccentColorIcons.has(iconName)) {
+        expect(customMarkup).toContain('fill="#2563EB"');
+      }
     }
   });
 

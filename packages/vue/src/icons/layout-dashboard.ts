@@ -39,8 +39,8 @@ function renderLayoutDashboardVueVariant(variant: SlaticoStyle, _uid: string): V
       ];
     case "color":
       return [
-        h("path", { "fill": "black", "d": "M7.925 20v-9.925H3a.575.575 0 0 1 0-1.15h18a.575.575 0 0 1 0 1.15H9.075V20a.575.575 0 0 1-1.15 0" }),
-        h("path", { "fill": "#FF6040", "d": "M20.425 6c0-.787-.638-1.425-1.425-1.425H5c-.787 0-1.425.638-1.425 1.425v12c0 .787.638 1.425 1.425 1.425h14c.787 0 1.425-.638 1.425-1.425zm1.15 12A2.575 2.575 0 0 1 19 20.575H5A2.575 2.575 0 0 1 2.425 18V6A2.575 2.575 0 0 1 5 3.425h14A2.575 2.575 0 0 1 21.575 6z" })
+        h("path", { "fill": "var(--slatico-secondary-color, #000000)", "d": "M7.925 20v-9.925H3a.575.575 0 0 1 0-1.15h18a.575.575 0 0 1 0 1.15H9.075V20a.575.575 0 0 1-1.15 0" }),
+        h("path", { "fill": "var(--slatico-primary-color, #FF6040)", "d": "M20.425 6c0-.787-.638-1.425-1.425-1.425H5c-.787 0-1.425.638-1.425 1.425v12c0 .787.638 1.425 1.425 1.425h14c.787 0 1.425-.638 1.425-1.425zm1.15 12A2.575 2.575 0 0 1 19 20.575H5A2.575 2.575 0 0 1 2.425 18V6A2.575 2.575 0 0 1 5 3.425h14A2.575 2.575 0 0 1 21.575 6z" })
       ];
   }
 }
@@ -63,14 +63,27 @@ export const LayoutDashboardIcon = defineComponent({
       const variant = props.variant ?? "regular";
       const isColorVariant = variant === "color";
       const styleObj: Record<string, string | number> = {};
-      if (!isColorVariant && props.color) {
-        styleObj.color = props.color;
-      }
-      if (props.secondaryColor !== undefined) {
-        styleObj["--slatico-secondary-color"] = props.secondaryColor;
-      }
-      if (props.secondaryOpacity !== undefined) {
-        styleObj["--slatico-secondary-opacity"] = props.secondaryOpacity;
+      if (isColorVariant) {
+        if (props.color && props.color !== "currentColor" && props.color.trim() !== "") {
+          styleObj["--slatico-primary-color"] = props.color;
+        }
+        if (
+          props.secondaryColor !== undefined &&
+          props.secondaryColor !== "currentColor" &&
+          props.secondaryColor.trim() !== ""
+        ) {
+          styleObj["--slatico-secondary-color"] = props.secondaryColor;
+        }
+      } else {
+        if (props.color) {
+          styleObj.color = props.color;
+        }
+        if (props.secondaryColor !== undefined) {
+          styleObj["--slatico-secondary-color"] = props.secondaryColor;
+        }
+        if (props.secondaryOpacity !== undefined) {
+          styleObj["--slatico-secondary-opacity"] = props.secondaryOpacity;
+        }
       }
 
       const children: VNode[] = [];

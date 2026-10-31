@@ -34,7 +34,7 @@ function renderPlusVueVariant(variant: SlaticoStyle, _uid: string): VNode[] {
       ];
     case "color":
       return [
-        h("path", { "fill": "#FF6040", "d": "M11.425 21v-8.425H3a.575.575 0 0 1 0-1.15h8.425V3a.575.575 0 0 1 1.15 0v8.425H21a.575.575 0 0 1 0 1.15h-8.425V21a.575.575 0 0 1-1.15 0" })
+        h("path", { "fill": "var(--slatico-primary-color, #FF6040)", "d": "M11.425 21v-8.425H3a.575.575 0 0 1 0-1.15h8.425V3a.575.575 0 0 1 1.15 0v8.425H21a.575.575 0 0 1 0 1.15h-8.425V21a.575.575 0 0 1-1.15 0" })
       ];
   }
 }
@@ -57,14 +57,27 @@ export const PlusIcon = defineComponent({
       const variant = props.variant ?? "regular";
       const isColorVariant = variant === "color";
       const styleObj: Record<string, string | number> = {};
-      if (!isColorVariant && props.color) {
-        styleObj.color = props.color;
-      }
-      if (props.secondaryColor !== undefined) {
-        styleObj["--slatico-secondary-color"] = props.secondaryColor;
-      }
-      if (props.secondaryOpacity !== undefined) {
-        styleObj["--slatico-secondary-opacity"] = props.secondaryOpacity;
+      if (isColorVariant) {
+        if (props.color && props.color !== "currentColor" && props.color.trim() !== "") {
+          styleObj["--slatico-primary-color"] = props.color;
+        }
+        if (
+          props.secondaryColor !== undefined &&
+          props.secondaryColor !== "currentColor" &&
+          props.secondaryColor.trim() !== ""
+        ) {
+          styleObj["--slatico-secondary-color"] = props.secondaryColor;
+        }
+      } else {
+        if (props.color) {
+          styleObj.color = props.color;
+        }
+        if (props.secondaryColor !== undefined) {
+          styleObj["--slatico-secondary-color"] = props.secondaryColor;
+        }
+        if (props.secondaryOpacity !== undefined) {
+          styleObj["--slatico-secondary-opacity"] = props.secondaryOpacity;
+        }
       }
 
       const children: VNode[] = [];

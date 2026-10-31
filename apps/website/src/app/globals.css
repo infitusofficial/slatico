@@ -1,8 +1,184 @@
 @import "tailwindcss";
+
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ==========================================================================
+   SLATICO CENTRALIZED SEMANTIC DESIGN TOKEN SYSTEM
+   --------------------------------------------------------------------------
+   Canonical Brand Tokens (defined once in :root):
+   - Primary Brand Color : --brand-primary
+   - Dark Brand Color    : --brand-dark
+   All brand accents, hovers, active states, rings, and surfaces derive from
+   these two canonical tokens via CSS variables and color-mix().
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* 1. Canonical Brand Tokens (Single Source of Truth) */
+  --brand-primary: #FF6040;
+  --brand-dark: #010520;
+
+  /* 2. Light Mode Semantic Surface & Typography Tokens */
+  --background: color-mix(in srgb, var(--brand-dark) 1.5%, #ffffff);
+  --foreground: var(--brand-dark);
+
+  --surface: #ffffff;
+  --surface-elevated: #ffffff;
+  --surface-muted: color-mix(in srgb, var(--brand-dark) 4.5%, #ffffff);
+  --surface-subtle: color-mix(in srgb, var(--brand-dark) 2.75%, #ffffff);
+
+  --muted: color-mix(in srgb, var(--brand-dark) 5%, #ffffff);
+  --muted-foreground: color-mix(in srgb, var(--brand-dark) 64%, #ffffff);
+
+  --border: color-mix(in srgb, var(--brand-dark) 11%, #ffffff);
+  --border-strong: color-mix(in srgb, var(--brand-dark) 20%, #ffffff);
+  --input: color-mix(in srgb, var(--brand-dark) 13%, #ffffff);
+
+  /* 3. Semantic Primary & Interactive State Tokens (Exact --brand-primary reference) */
+  --primary: var(--brand-primary);
+  --primary-foreground: #ffffff;
+  --primary-hover: color-mix(in srgb, var(--brand-primary) 86%, var(--brand-dark));
+  --primary-active: color-mix(in srgb, var(--brand-primary) 76%, var(--brand-dark));
+  --primary-soft: color-mix(in srgb, var(--brand-primary) 10%, #ffffff);
+  --primary-border: color-mix(in srgb, var(--brand-primary) 32%, transparent);
+  --ring: color-mix(in srgb, var(--brand-primary) 55%, transparent);
+
+  /* 4. Code Surface Tokens */
+  --code-bg: color-mix(in srgb, var(--brand-dark) 96%, #000000);
+  --code-fg: color-mix(in srgb, #ffffff 94%, var(--brand-primary));
+  --code-border: color-mix(in srgb, #ffffff 12%, var(--brand-dark));
+}
+
+.dark {
+  color-scheme: dark;
+
+  /* Dark Mode Semantic Surface & Typography Tokens (Anchored on --brand-dark) */
+  --background: var(--brand-dark);
+  --foreground: color-mix(in srgb, #ffffff 96%, var(--brand-primary));
+
+  --surface: color-mix(in srgb, #ffffff 5%, var(--brand-dark));
+  --surface-elevated: color-mix(in srgb, #ffffff 8.5%, var(--brand-dark));
+  --surface-muted: color-mix(in srgb, #ffffff 3.5%, var(--brand-dark));
+  --surface-subtle: color-mix(in srgb, #ffffff 2.2%, var(--brand-dark));
+
+  --muted: color-mix(in srgb, #ffffff 7%, var(--brand-dark));
+  --muted-foreground: color-mix(in srgb, #ffffff 68%, var(--brand-dark));
+
+  --border: color-mix(in srgb, #ffffff 12%, var(--brand-dark));
+  --border-strong: color-mix(in srgb, #ffffff 22%, var(--brand-dark));
+  --input: color-mix(in srgb, #ffffff 15%, var(--brand-dark));
+
+  /* Semantic Primary & Interactive State Tokens in Dark Mode (Exact --brand-primary reference) */
+  --primary: var(--brand-primary);
+  --primary-foreground: #ffffff;
+  --primary-hover: color-mix(in srgb, var(--brand-primary) 88%, #ffffff);
+  --primary-active: color-mix(in srgb, var(--brand-primary) 80%, var(--brand-dark));
+  --primary-soft: color-mix(in srgb, var(--brand-primary) 16%, var(--brand-dark));
+  --primary-border: color-mix(in srgb, var(--brand-primary) 42%, transparent);
+  --ring: color-mix(in srgb, var(--brand-primary) 65%, transparent);
+
+  /* Code Surface Tokens */
+  --code-bg: color-mix(in srgb, #000000 35%, var(--brand-dark));
+  --code-fg: color-mix(in srgb, #ffffff 95%, var(--brand-primary));
+  --code-border: color-mix(in srgb, #ffffff 14%, var(--brand-dark));
+}
+
+@theme inline {
+  --font-sans: var(--font-general-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-dark: var(--brand-dark);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-subtle: var(--surface-subtle);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-active: var(--primary-active);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-border: var(--primary-border);
+  --color-ring: var(--ring);
+
+  --color-code-bg: var(--code-bg);
+  --color-code-fg: var(--code-fg);
+  --color-code-border: var(--code-border);
+}
+
 @layer base {
-  body {
-    @apply bg-zinc-50 text-zinc-900 antialiased selection:bg-indigo-500 selection:text-white dark:bg-zinc-950 dark:text-zinc-100;
+  * {
+    border-color: var(--border);
   }
+
+  html {
+    font-family: var(--font-sans);
+    letter-spacing: 0.01em;
+    background-color: var(--background);
+    color: var(--foreground);
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    letter-spacing: 0.01em;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  code,
+  pre,
+  kbd,
+  samp {
+    font-family: var(--font-mono);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+@utility squircle-soft {
+  @supports (corner-shape: superellipse(1.5)) {
+    corner-shape: superellipse(1.5);
+  }
+}
+
+@utility squircle {
+  @supports (corner-shape: superellipse(2)) {
+    corner-shape: superellipse(2);
+  }
+}
+
+@utility squircle-strong {
+  @supports (corner-shape: superellipse(4)) {
+    corner-shape: superellipse(4);
+  }
+}
+
+/* Checkerboard background utility for transparent icon inspection */
+.bg-checkerboard {
+  background-image:
+    linear-gradient(45deg, color-mix(in srgb, var(--foreground) 7%, transparent) 25%, transparent 25%),
+    linear-gradient(-45deg, color-mix(in srgb, var(--foreground) 7%, transparent) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, color-mix(in srgb, var(--foreground) 7%, transparent) 75%),
+    linear-gradient(-45deg, transparent 75%, color-mix(in srgb, var(--foreground) 7%, transparent) 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0;
 }

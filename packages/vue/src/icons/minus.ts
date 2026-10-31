@@ -34,7 +34,7 @@ function renderMinusVueVariant(variant: SlaticoStyle, _uid: string): VNode[] {
       ];
     case "color":
       return [
-        h("path", { "fill": "#FF6040", "d": "M21 11.425a.575.575 0 0 1 0 1.15H3a.575.575 0 0 1 0-1.15z" })
+        h("path", { "fill": "var(--slatico-primary-color, #FF6040)", "d": "M21 11.425a.575.575 0 0 1 0 1.15H3a.575.575 0 0 1 0-1.15z" })
       ];
   }
 }
@@ -57,14 +57,27 @@ export const MinusIcon = defineComponent({
       const variant = props.variant ?? "regular";
       const isColorVariant = variant === "color";
       const styleObj: Record<string, string | number> = {};
-      if (!isColorVariant && props.color) {
-        styleObj.color = props.color;
-      }
-      if (props.secondaryColor !== undefined) {
-        styleObj["--slatico-secondary-color"] = props.secondaryColor;
-      }
-      if (props.secondaryOpacity !== undefined) {
-        styleObj["--slatico-secondary-opacity"] = props.secondaryOpacity;
+      if (isColorVariant) {
+        if (props.color && props.color !== "currentColor" && props.color.trim() !== "") {
+          styleObj["--slatico-primary-color"] = props.color;
+        }
+        if (
+          props.secondaryColor !== undefined &&
+          props.secondaryColor !== "currentColor" &&
+          props.secondaryColor.trim() !== ""
+        ) {
+          styleObj["--slatico-secondary-color"] = props.secondaryColor;
+        }
+      } else {
+        if (props.color) {
+          styleObj.color = props.color;
+        }
+        if (props.secondaryColor !== undefined) {
+          styleObj["--slatico-secondary-color"] = props.secondaryColor;
+        }
+        if (props.secondaryOpacity !== undefined) {
+          styleObj["--slatico-secondary-opacity"] = props.secondaryOpacity;
+        }
       }
 
       const children: VNode[] = [];

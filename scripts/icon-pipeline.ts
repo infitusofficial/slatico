@@ -213,6 +213,17 @@ export function normalizeAuthoredSvgContent(
           )
     );
     svg = svg.replace(/\bfill="(?:black|#000000|#000)"/gi, 'fill="currentColor"');
+  } else if (style === "color" && !/\bdata-demo="true"/i.test(svg)) {
+    // 5. Normalize Tier 1 Color style primary (#FF6040) and secondary (black/#000000) layers
+    // to CSS custom properties with exact authored fallback colors.
+    svg = svg.replace(
+      /\bfill="#FF6040"/gi,
+      'fill="var(--slatico-primary-color, #FF6040)"'
+    );
+    svg = svg.replace(
+      /\bfill="(?:black|#000000|#000)"/gi,
+      'fill="var(--slatico-secondary-color, #000000)"'
+    );
   }
 
   return {

@@ -39,9 +39,9 @@ function renderLockVueVariant(variant: SlaticoStyle, _uid: string): VNode[] {
       ];
     case "color":
       return [
-        h("path", { "fill": "black", "d": "M15.425 7a3.425 3.425 0 1 0-6.85 0v2h-1.15V7a4.575 4.575 0 0 1 9.15 0v2h-1.15z" }),
-        h("path", { "fill": "black", "d": "M13 15a1 1 0 1 1-2 0 1 1 0 0 1 2 0" }),
-        h("path", { "fill": "#FF6040", "d": "M19.425 11c0-.787-.638-1.425-1.425-1.425H6c-.787 0-1.425.638-1.425 1.425v8c0 .787.638 1.425 1.425 1.425h12c.787 0 1.425-.638 1.425-1.425zm1.15 8A2.575 2.575 0 0 1 18 21.575H6A2.575 2.575 0 0 1 3.425 19v-8A2.575 2.575 0 0 1 6 8.425h12A2.575 2.575 0 0 1 20.575 11z" })
+        h("path", { "fill": "var(--slatico-secondary-color, #000000)", "d": "M15.425 7a3.425 3.425 0 1 0-6.85 0v2h-1.15V7a4.575 4.575 0 0 1 9.15 0v2h-1.15z" }),
+        h("path", { "fill": "var(--slatico-secondary-color, #000000)", "d": "M13 15a1 1 0 1 1-2 0 1 1 0 0 1 2 0" }),
+        h("path", { "fill": "var(--slatico-primary-color, #FF6040)", "d": "M19.425 11c0-.787-.638-1.425-1.425-1.425H6c-.787 0-1.425.638-1.425 1.425v8c0 .787.638 1.425 1.425 1.425h12c.787 0 1.425-.638 1.425-1.425zm1.15 8A2.575 2.575 0 0 1 18 21.575H6A2.575 2.575 0 0 1 3.425 19v-8A2.575 2.575 0 0 1 6 8.425h12A2.575 2.575 0 0 1 20.575 11z" })
       ];
   }
 }
@@ -64,14 +64,27 @@ export const LockIcon = defineComponent({
       const variant = props.variant ?? "regular";
       const isColorVariant = variant === "color";
       const styleObj: Record<string, string | number> = {};
-      if (!isColorVariant && props.color) {
-        styleObj.color = props.color;
-      }
-      if (props.secondaryColor !== undefined) {
-        styleObj["--slatico-secondary-color"] = props.secondaryColor;
-      }
-      if (props.secondaryOpacity !== undefined) {
-        styleObj["--slatico-secondary-opacity"] = props.secondaryOpacity;
+      if (isColorVariant) {
+        if (props.color && props.color !== "currentColor" && props.color.trim() !== "") {
+          styleObj["--slatico-primary-color"] = props.color;
+        }
+        if (
+          props.secondaryColor !== undefined &&
+          props.secondaryColor !== "currentColor" &&
+          props.secondaryColor.trim() !== ""
+        ) {
+          styleObj["--slatico-secondary-color"] = props.secondaryColor;
+        }
+      } else {
+        if (props.color) {
+          styleObj.color = props.color;
+        }
+        if (props.secondaryColor !== undefined) {
+          styleObj["--slatico-secondary-color"] = props.secondaryColor;
+        }
+        if (props.secondaryOpacity !== undefined) {
+          styleObj["--slatico-secondary-opacity"] = props.secondaryOpacity;
+        }
       }
 
       const children: VNode[] = [];

@@ -58,7 +58,8 @@ describe("Phase 2A & Tier 1: @slatico/react & @slatico/svg instance ID scoping &
       )
     );
 
-    expect(twoColorIcons).toContain('fill="#FF6040"');
+    expect(twoColorIcons).toContain('fill="var(--slatico-primary-color, #FF6040)"');
+    expect(twoColorIcons).toContain('fill="var(--slatico-secondary-color, #000000)"');
     expect(twoColorIcons).toContain('data-slatico-icon="bell"');
     expect(twoColorIcons).toContain('data-slatico-icon="shield-check"');
 
@@ -159,7 +160,8 @@ describe("Phase 2A & Tier 1: @slatico/vue Vue 3 SSR & Consumer Application Verif
     expect(html).toContain('role="img"');
     expect(html).toContain('aria-label="Vue Duotone Bell"');
     expect(html).toContain("<title>Vue Duotone Bell</title>");
-    expect(html).toContain('fill="#FF6040"');
+    expect(html).toContain('fill="var(--slatico-primary-color, #FF6040)"');
+    expect(html).toContain('fill="var(--slatico-secondary-color, #000000)"');
   });
 });
 
@@ -195,7 +197,18 @@ describe("Phase 2A & Tier 1: @slatico/web Native Web Components Verification", (
       variant: "color",
       instanceId: "wc-a"
     });
-    expect(colorMarkup).toContain('fill="#FF6040"');
+    expect(colorMarkup).toContain('fill="var(--slatico-primary-color, #FF6040)"');
+    expect(colorMarkup).toContain('fill="var(--slatico-secondary-color, #000000)"');
+
+    const customColorMarkup = buildSlaticoWebElementMarkup({
+      name: "bell",
+      variant: "color",
+      color: "#2563EB",
+      secondaryColor: "#10B981",
+      instanceId: "wc-b"
+    });
+    expect(customColorMarkup).toContain("--slatico-primary-color:#2563EB");
+    expect(customColorMarkup).toContain("--slatico-secondary-color:#10B981");
   });
 });
 
@@ -352,7 +365,7 @@ const reactHtml = renderToStaticMarkup(
   )
 );
 assert.ok(reactHtml.includes("--slatico-secondary-color:#6366F1"));
-assert.ok(reactHtml.includes('fill="#FF6040"'));
+assert.ok(reactHtml.includes('fill="var(--slatico-primary-color, #FF6040)"'));
 
 const vueHtml = await renderToString(
   createSSRApp({

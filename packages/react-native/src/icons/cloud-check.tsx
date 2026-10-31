@@ -10,14 +10,26 @@ interface VariantRenderParams {
   readonly variant: SlaticoStyle;
   readonly color: string;
   readonly resolvedSecondaryColor: string;
+  readonly colorPrimary: string;
+  readonly colorSecondary: string;
   readonly secondaryOpacity: number | string;
   readonly instanceId: string;
 }
 
 function renderCloudCheckNativeVariant(params: VariantRenderParams): ReactNode {
-  const { variant, color, resolvedSecondaryColor, secondaryOpacity, instanceId } = params;
+  const {
+    variant,
+    color,
+    resolvedSecondaryColor,
+    colorPrimary,
+    colorSecondary,
+    secondaryOpacity,
+    instanceId
+  } = params;
   void color;
   void resolvedSecondaryColor;
+  void colorPrimary;
+  void colorSecondary;
   void secondaryOpacity;
   void instanceId;
   switch (variant) {
@@ -63,8 +75,8 @@ function renderCloudCheckNativeVariant(params: VariantRenderParams): ReactNode {
     case "color":
       return (
         <>
-        <Path fill="#FF6040" d="M20.425 13.75c0-1.544-.616-2.868-2.05-3.188-.489-.11-1.11-.079-1.518-.079a.58.58 0 0 1-.542-.381c-.736-2.065-2.662-3.527-4.933-3.527a4.904 4.904 0 0 0-4.878 4.357.575.575 0 0 1-.486.505c-1.389.206-2.443 1.42-2.443 2.938 0 1.687 1.317 3.05 2.876 3.05h10.847c1.588 0 2.294-.506 2.654-1.099.401-.66.473-1.569.473-2.576m1.15 0c0 .993-.053 2.208-.64 3.174-.628 1.032-1.774 1.651-3.637 1.651H6.45c-2.252 0-4.026-1.937-4.026-4.2 0-1.912 1.243-3.528 2.999-3.988a6.054 6.054 0 0 1 5.958-4.962c2.64 0 4.88 1.613 5.865 3.907.385-.003.921.005 1.378.106 2.215.495 2.95 2.543 2.95 4.312" />
-        <Path fill="#000000" d="M13.613 10.574a.576.576 0 0 1 .774.852l-3.728 3.387c-.6.547-1.517.547-2.118 0l-.928-.842a.575.575 0 1 1 .774-.85l.927.842c.163.147.41.147.572 0z" />
+        <Path fill={colorPrimary} d="M20.425 13.75c0-1.544-.616-2.868-2.05-3.188-.489-.11-1.11-.079-1.518-.079a.58.58 0 0 1-.542-.381c-.736-2.065-2.662-3.527-4.933-3.527a4.904 4.904 0 0 0-4.878 4.357.575.575 0 0 1-.486.505c-1.389.206-2.443 1.42-2.443 2.938 0 1.687 1.317 3.05 2.876 3.05h10.847c1.588 0 2.294-.506 2.654-1.099.401-.66.473-1.569.473-2.576m1.15 0c0 .993-.053 2.208-.64 3.174-.628 1.032-1.774 1.651-3.637 1.651H6.45c-2.252 0-4.026-1.937-4.026-4.2 0-1.912 1.243-3.528 2.999-3.988a6.054 6.054 0 0 1 5.958-4.962c2.64 0 4.88 1.613 5.865 3.907.385-.003.921.005 1.378.106 2.215.495 2.95 2.543 2.95 4.312" />
+        <Path fill={colorSecondary} d="M13.613 10.574a.576.576 0 0 1 .774.852l-3.728 3.387c-.6.547-1.517.547-2.118 0l-.928-.842a.575.575 0 1 1 .774-.85l.927.842c.163.147.41.147.572 0z" />
         </>
       );
   }
@@ -73,7 +85,7 @@ function renderCloudCheckNativeVariant(params: VariantRenderParams): ReactNode {
 export function CloudCheckIcon({
   variant = "regular",
   size = 24,
-  color = "#09090B",
+  color,
   secondaryColor,
   secondaryOpacity = 0.22,
   title,
@@ -92,18 +104,22 @@ export function CloudCheckIcon({
           (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
         ? size.trim()
         : 24;
-  const resolvedColor =
+  const hasExplicitColor =
     typeof color === "string" &&
     color.trim().length > 0 &&
-    color.trim() !== "currentColor"
-      ? color.trim()
-      : "#09090B";
-  const resolvedSecondaryColor =
+    color.trim() !== "currentColor";
+  const hasExplicitSecondaryColor =
     typeof secondaryColor === "string" &&
     secondaryColor.trim().length > 0 &&
-    secondaryColor.trim() !== "currentColor"
-      ? secondaryColor.trim()
-      : resolvedColor;
+    secondaryColor.trim() !== "currentColor";
+  const resolvedColor = hasExplicitColor ? color.trim() : "#09090B";
+  const resolvedSecondaryColor = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : resolvedColor;
+  const colorPrimary = hasExplicitColor ? color.trim() : "#FF6040";
+  const colorSecondary = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : "#000000";
   const parsedSecOpacity =
     typeof secondaryOpacity === "number"
       ? secondaryOpacity
@@ -131,6 +147,8 @@ export function CloudCheckIcon({
         variant,
         color: resolvedColor,
         resolvedSecondaryColor,
+        colorPrimary,
+        colorSecondary,
         secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}

@@ -176,7 +176,30 @@ export function convertDuotoneSvgForFlutter(optimizedWebDuotoneSvg: string): {
 }
 
 export function convertColorSvgForFlutter(optimizedWebColorSvg: string): string {
-  let svg = optimizedWebColorSvg;
+  let svg = optimizedWebColorSvg
+    .replace(
+      /var\(--slatico-primary-color,\s*([^)]+)\)/g,
+      (_m, fallback: string) => fallback.trim()
+    )
+    .replace(
+      /var\(--slatico-secondary-color,\s*([^)]+)\)/g,
+      (_m, fallback: string) => fallback.trim()
+    );
+  if (!/\bwidth="/.test(svg)) {
+    svg = svg.replace("<svg ", '<svg width="24" height="24" ');
+  }
+  return svg;
+}
+
+export function convertColorSvgTemplateForFlutter(
+  optimizedWebColorSvg: string
+): string {
+  let svg = optimizedWebColorSvg
+    .replace(/var\(--slatico-primary-color,\s*[^)]+\)/g, "__SLATICO_PRIMARY_COLOR__")
+    .replace(
+      /var\(--slatico-secondary-color,\s*[^)]+\)/g,
+      "__SLATICO_SECONDARY_COLOR__"
+    );
   if (!/\bwidth="/.test(svg)) {
     svg = svg.replace("<svg ", '<svg width="24" height="24" ');
   }
@@ -193,6 +216,7 @@ export function generateFlutterCatalogDartModule(
 
   const duotoneTemplateEntries: string[] = [];
   const duotoneDefaultOpacities: string[] = [];
+  const colorTemplateEntries: string[] = [];
 
   for (const fam of families) {
     const enumIdent = toSafeDartIdentifier(fam.name);
@@ -205,6 +229,14 @@ export function generateFlutterCatalogDartModule(
     );
     duotoneDefaultOpacities.push(
       `  SlaticoIconName.${enumIdent}: ${defaultSecondaryOpacity},`
+    );
+
+    const colorTemplateSvg = convertColorSvgTemplateForFlutter(
+      fam.variants.color.optimizedSvg
+    );
+    const escapedColorSvg = colorTemplateSvg.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+    colorTemplateEntries.push(
+      `  SlaticoIconName.${enumIdent}:\n      '${escapedColorSvg}',`
     );
   }
 
@@ -256,6 +288,13 @@ ${duotoneDefaultOpacities.join("\n")}
 const Map<SlaticoIconName, String> slaticoDuotoneSvgTemplates =
     <SlaticoIconName, String>{
 ${duotoneTemplateEntries.join("\n")}
+};
+
+/// Tokenized 24x24 Color SVG templates supporting dynamic primary color (#FF6040 default)
+/// and secondary color (#000000 default) injection in \`flutter_svg\`.
+const Map<SlaticoIconName, String> slaticoColorSvgTemplates =
+    <SlaticoIconName, String>{
+${colorTemplateEntries.join("\n")}
 };
 `;
 }

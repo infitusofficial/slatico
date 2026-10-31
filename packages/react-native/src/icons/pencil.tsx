@@ -10,14 +10,26 @@ interface VariantRenderParams {
   readonly variant: SlaticoStyle;
   readonly color: string;
   readonly resolvedSecondaryColor: string;
+  readonly colorPrimary: string;
+  readonly colorSecondary: string;
   readonly secondaryOpacity: number | string;
   readonly instanceId: string;
 }
 
 function renderPencilNativeVariant(params: VariantRenderParams): ReactNode {
-  const { variant, color, resolvedSecondaryColor, secondaryOpacity, instanceId } = params;
+  const {
+    variant,
+    color,
+    resolvedSecondaryColor,
+    colorPrimary,
+    colorSecondary,
+    secondaryOpacity,
+    instanceId
+  } = params;
   void color;
   void resolvedSecondaryColor;
+  void colorPrimary;
+  void colorSecondary;
   void secondaryOpacity;
   void instanceId;
   switch (variant) {
@@ -65,8 +77,8 @@ function renderPencilNativeVariant(params: VariantRenderParams): ReactNode {
     case "color":
       return (
         <>
-        <Path fill="#000000" d="m17.966 9.669.082 1.147h-.013l-.022.002-.07.002q-.09.001-.237-.008a4 4 0 0 1-.787-.135c-.64-.171-1.47-.542-2.258-1.33-.79-.79-1.16-1.619-1.33-2.26a4 4 0 0 1-.136-.786 3 3 0 0 1-.008-.236l.002-.071.002-.022v-.013l1.146.082h.001v.03q-.001.048.005.149c.01.133.034.332.098.571.127.476.408 1.117 1.033 1.742s1.266.906 1.742 1.033a3 3 0 0 0 .72.103z" />
-        <Path fill="#FF6040" fillRule="evenodd" d="M10.726 17.877c.42-.12.803-.346 1.112-.655L19.29 9.77a3.575 3.575 0 1 0-5.056-5.056l-7.48 7.479a2.5 2.5 0 0 0-.624 1.02c-.34 1.056-1.2 3.749-1.488 4.96-.07.292-.049.69.278.956.298.242.67.216.927.142zm7.75-12.349a2.425 2.425 0 0 1 0 3.43l-1.712 1.711-5.74 5.74a1.4 1.4 0 0 1-.614.362l-4.556 1.303c.337-1.277 1.055-3.535 1.37-4.508.067-.21.184-.4.343-.559l5.768-5.767 1.711-1.712a2.425 2.425 0 0 1 3.43 0" clipRule="evenodd" />
+        <Path fill={colorSecondary} d="m17.966 9.669.082 1.147h-.013l-.022.002-.07.002q-.09.001-.237-.008a4 4 0 0 1-.787-.135c-.64-.171-1.47-.542-2.258-1.33-.79-.79-1.16-1.619-1.33-2.26a4 4 0 0 1-.136-.786 3 3 0 0 1-.008-.236l.002-.071.002-.022v-.013l1.146.082h.001v.03q-.001.048.005.149c.01.133.034.332.098.571.127.476.408 1.117 1.033 1.742s1.266.906 1.742 1.033a3 3 0 0 0 .72.103z" />
+        <Path fill={colorPrimary} fillRule="evenodd" d="M10.726 17.877c.42-.12.803-.346 1.112-.655L19.29 9.77a3.575 3.575 0 1 0-5.056-5.056l-7.48 7.479a2.5 2.5 0 0 0-.624 1.02c-.34 1.056-1.2 3.749-1.488 4.96-.07.292-.049.69.278.956.298.242.67.216.927.142zm7.75-12.349a2.425 2.425 0 0 1 0 3.43l-1.712 1.711-5.74 5.74a1.4 1.4 0 0 1-.614.362l-4.556 1.303c.337-1.277 1.055-3.535 1.37-4.508.067-.21.184-.4.343-.559l5.768-5.767 1.711-1.712a2.425 2.425 0 0 1 3.43 0" clipRule="evenodd" />
         </>
       );
   }
@@ -75,7 +87,7 @@ function renderPencilNativeVariant(params: VariantRenderParams): ReactNode {
 export function PencilIcon({
   variant = "regular",
   size = 24,
-  color = "#09090B",
+  color,
   secondaryColor,
   secondaryOpacity = 0.22,
   title,
@@ -94,18 +106,22 @@ export function PencilIcon({
           (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
         ? size.trim()
         : 24;
-  const resolvedColor =
+  const hasExplicitColor =
     typeof color === "string" &&
     color.trim().length > 0 &&
-    color.trim() !== "currentColor"
-      ? color.trim()
-      : "#09090B";
-  const resolvedSecondaryColor =
+    color.trim() !== "currentColor";
+  const hasExplicitSecondaryColor =
     typeof secondaryColor === "string" &&
     secondaryColor.trim().length > 0 &&
-    secondaryColor.trim() !== "currentColor"
-      ? secondaryColor.trim()
-      : resolvedColor;
+    secondaryColor.trim() !== "currentColor";
+  const resolvedColor = hasExplicitColor ? color.trim() : "#09090B";
+  const resolvedSecondaryColor = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : resolvedColor;
+  const colorPrimary = hasExplicitColor ? color.trim() : "#FF6040";
+  const colorSecondary = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : "#000000";
   const parsedSecOpacity =
     typeof secondaryOpacity === "number"
       ? secondaryOpacity
@@ -133,6 +149,8 @@ export function PencilIcon({
         variant,
         color: resolvedColor,
         resolvedSecondaryColor,
+        colorPrimary,
+        colorSecondary,
         secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}

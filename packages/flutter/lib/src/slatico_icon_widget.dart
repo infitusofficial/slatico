@@ -41,6 +41,27 @@ String resolveDuotoneSvgMarkup({
       );
 }
 
+/// Resolves the `flutter_svg`-compatible SVG markup for a [SlaticoStyle.color] icon
+/// with independent customizable [primaryColor] (default `#FF6040`) and
+/// [secondaryColor] (default `#000000`).
+String resolveColorSvgMarkup({
+  required SlaticoIconName name,
+  Color? primaryColor,
+  Color? secondaryColor,
+}) {
+  final String template = slaticoColorSvgTemplates[name]!;
+  final String primaryHex = primaryColor != null
+      ? formatColorToSvgHex(primaryColor)
+      : '#FF6040';
+  final String secondaryHex = secondaryColor != null
+      ? formatColorToSvgHex(secondaryColor)
+      : '#000000';
+
+  return template
+      .replaceAll('__SLATICO_PRIMARY_COLOR__', primaryHex)
+      .replaceAll('__SLATICO_SECONDARY_COLOR__', secondaryHex);
+}
+
 /// Universal Flutter widget for rendering any of the 23 Slatico icons across all 7 styles:
 ///
 /// - **Monochrome Styles (`thin`, `light`, `regular`, `bold`, `fill`):**
@@ -112,8 +133,24 @@ class SlaticoIcon extends StatelessWidget {
       );
     }
 
-    // 2. Color style: render intrinsic multicolor SVG asset without any colorFilter override
+    // 2. Color style: render intrinsic multicolor SVG asset or custom two-color override
     if (resolvedStyle == SlaticoStyle.color) {
+      final Color? customPrimary = color;
+      final Color? customSecondary = secondaryColor;
+      if (customPrimary != null || customSecondary != null) {
+        final String colorMarkup = resolveColorSvgMarkup(
+          name: name,
+          primaryColor: customPrimary,
+          secondaryColor: customSecondary,
+        );
+        return SvgPicture.string(
+          colorMarkup,
+          width: resolvedSize,
+          height: resolvedSize,
+          semanticsLabel: semanticLabel,
+          excludeFromSemantics: semanticLabel == null,
+        );
+      }
       return SvgPicture.asset(
         name.colorAssetPath,
         package: SlaticoIcons.fontPackage,

@@ -47,17 +47,32 @@ fun SlaticoIcon(
 
     when (style) {
         SlaticoStyle.COLOR -> {
-            val colorFilter = if (color != Color.Unspecified) {
-                ColorFilter.tint(color)
+            val hasCustomColor = color != Color.Unspecified || secondaryColor != Color.Unspecified
+            if (!hasCustomColor) {
+                Image(
+                    painter = painterResource(id = drawableRes),
+                    contentDescription = contentDescription,
+                    modifier = sizedModifier
+                )
             } else {
-                null
+                val resolvedPrimary = if (color != Color.Unspecified) {
+                    color
+                } else {
+                    Color(0xFFFF6040)
+                }
+                val resolvedSecondary = if (secondaryColor != Color.Unspecified) {
+                    secondaryColor
+                } else {
+                    Color(0xFF000000)
+                }
+                SlaticoCustomColorCanvas(
+                    name = name,
+                    primaryColor = resolvedPrimary,
+                    secondaryColor = resolvedSecondary,
+                    contentDescription = contentDescription,
+                    modifier = sizedModifier
+                )
             }
-            Image(
-                painter = painterResource(id = drawableRes),
-                contentDescription = contentDescription,
-                colorFilter = colorFilter,
-                modifier = sizedModifier
-            )
         }
 
         SlaticoStyle.DUOTONE -> {
@@ -178,6 +193,48 @@ private fun SlaticoCustomDuotoneCanvas(
                     path = composePath,
                     color = layerColor,
                     alpha = layerAlpha
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun SlaticoCustomColorCanvas(
+    name: SlaticoIconName,
+    primaryColor: Color,
+    secondaryColor: Color,
+    contentDescription: String?,
+    modifier: Modifier = Modifier
+) {
+    val layers = remember(name) {
+        SlaticoColorVectors.layersFor(name).map { spec ->
+            val composePath = PathParser().parsePathString(spec.pathData).toPath().apply {
+                fillType = if (spec.evenOdd) PathFillType.EvenOdd else PathFillType.NonZero
+            }
+            Pair(composePath, spec)
+        }
+    }
+
+    val a11yModifier = if (contentDescription != null) {
+        modifier.semantics {
+            this.contentDescription = contentDescription
+            this.role = Role.Image
+        }
+    } else {
+        modifier
+    }
+
+    Canvas(modifier = a11yModifier) {
+        val scaleX = size.width / 24f
+        val scaleY = size.height / 24f
+        scale(scaleX = scaleX, scaleY = scaleY, pivot = androidx.compose.ui.geometry.Offset.Zero) {
+            for ((composePath, spec) in layers) {
+                val layerColor = if (spec.isSecondaryTone) secondaryColor else primaryColor
+                drawPath(
+                    path = composePath,
+                    color = layerColor,
+                    alpha = spec.defaultAlpha
                 )
             }
         }

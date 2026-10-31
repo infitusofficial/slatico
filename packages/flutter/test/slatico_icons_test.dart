@@ -70,7 +70,7 @@ void main() {
     );
 
     test(
-      'resolves Duotone SVG markup with custom primary color, secondary color, and opacity',
+      'resolves Duotone and Color SVG markup with custom primary and secondary colors',
       () {
         final String svg = resolveDuotoneSvgMarkup(
           name: SlaticoIconName.house,
@@ -82,6 +82,20 @@ void main() {
         expect(svg, contains('#3B82F6'));
         expect(svg, contains('0.35'));
         expect(svg, isNot(contains('var(--slatico')));
+
+        final String defaultColorSvg = resolveColorSvgMarkup(
+          name: SlaticoIconName.bell,
+        );
+        expect(defaultColorSvg, contains('#FF6040'));
+        expect(defaultColorSvg, contains('#000000'));
+
+        final String customColorSvg = resolveColorSvgMarkup(
+          name: SlaticoIconName.bell,
+          primaryColor: const Color(0xFF2563EB),
+          secondaryColor: const Color(0xFF059669),
+        );
+        expect(customColorSvg, contains('#2563EB'));
+        expect(customColorSvg, contains('#059669'));
       },
     );
 

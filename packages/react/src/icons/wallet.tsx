@@ -56,10 +56,10 @@ function renderWalletVariant(variant: SlaticoStyle, _instanceId: string): ReactN
     case "color":
       return (
         <>
-        <path fill="black" fillRule="evenodd" d="M2.425 15V7A2.575 2.575 0 0 1 5 4.425h12c1.243 0 2.28.881 2.522 2.053A2.6 2.6 0 0 0 19 6.425h-.696c-.221-.5-.722-.85-1.304-.85H5c-.787 0-1.425.638-1.425 1.425v8c0 .582.35 1.083.85 1.304V17q0 .27.053.522A2.576 2.576 0 0 1 2.425 15" clipRule="evenodd" />
-        <path fill="black" fillRule="evenodd" d="M20.425 10.575H14a2.425 2.425 0 1 0 0 4.85h6.425v1.15H14a3.575 3.575 0 0 1 0-7.15h6.425z" clipRule="evenodd" />
-        <path fill="#FF6040" d="M15 13a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
-        <path fill="#FF6040" d="M4.478 17.522A2.576 2.576 0 0 0 7 19.575h12A2.575 2.575 0 0 0 21.575 17V9A2.576 2.576 0 0 0 19 6.425H7A2.575 2.575 0 0 0 4.425 9v8q0 .27.053.522M20.425 17c0 .787-.638 1.425-1.425 1.425H7A1.425 1.425 0 0 1 5.575 17V9c0-.787.638-1.425 1.425-1.425h12c.787 0 1.425.638 1.425 1.425z" />
+        <path fill="var(--slatico-secondary-color, #000000)" fillRule="evenodd" d="M2.425 15V7A2.575 2.575 0 0 1 5 4.425h12c1.243 0 2.28.881 2.522 2.053A2.6 2.6 0 0 0 19 6.425h-.696c-.221-.5-.722-.85-1.304-.85H5c-.787 0-1.425.638-1.425 1.425v8c0 .582.35 1.083.85 1.304V17q0 .27.053.522A2.576 2.576 0 0 1 2.425 15" clipRule="evenodd" />
+        <path fill="var(--slatico-secondary-color, #000000)" fillRule="evenodd" d="M20.425 10.575H14a2.425 2.425 0 1 0 0 4.85h6.425v1.15H14a3.575 3.575 0 0 1 0-7.15h6.425z" clipRule="evenodd" />
+        <path fill="var(--slatico-primary-color, #FF6040)" d="M15 13a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+        <path fill="var(--slatico-primary-color, #FF6040)" d="M4.478 17.522A2.576 2.576 0 0 0 7 19.575h12A2.575 2.575 0 0 0 21.575 17V9A2.576 2.576 0 0 0 19 6.425H7A2.575 2.575 0 0 0 4.425 9v8q0 .27.053.522M20.425 17c0 .787-.638 1.425-1.425 1.425H7A1.425 1.425 0 0 1 5.575 17V9c0-.787.638-1.425 1.425-1.425h12c.787 0 1.425.638 1.425 1.425z" />
         </>
       );
   }
@@ -82,19 +82,34 @@ export const WalletIcon = forwardRef<SVGSVGElement, SlaticoIconProps>(
     const rawId = useId();
     const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
     const isColorVariant = variant === "color";
-    const duotoneVars: Record<string, string | number> = {};
-    if (secondaryColor !== undefined) {
-      duotoneVars["--slatico-secondary-color"] = secondaryColor;
-    }
-    if (secondaryOpacity !== undefined) {
-      duotoneVars["--slatico-secondary-opacity"] = secondaryOpacity;
+    const cssVars: Record<string, string | number> = {};
+    if (isColorVariant) {
+      if (color !== undefined && color !== "currentColor" && color.trim() !== "") {
+        cssVars["--slatico-primary-color"] = color;
+      }
+      if (
+        secondaryColor !== undefined &&
+        secondaryColor !== "currentColor" &&
+        secondaryColor.trim() !== ""
+      ) {
+        cssVars["--slatico-secondary-color"] = secondaryColor;
+      }
+    } else {
+      if (secondaryColor !== undefined) {
+        cssVars["--slatico-secondary-color"] = secondaryColor;
+      }
+      if (secondaryOpacity !== undefined) {
+        cssVars["--slatico-secondary-opacity"] = secondaryOpacity;
+      }
     }
 
     const resolvedStyle: CSSProperties | undefined = isColorVariant
-      ? style
+      ? Object.keys(cssVars).length > 0 || style !== undefined
+        ? ({ ...cssVars, ...style } as CSSProperties)
+        : undefined
       : ({
           color,
-          ...duotoneVars,
+          ...cssVars,
           ...style
         } as CSSProperties);
 

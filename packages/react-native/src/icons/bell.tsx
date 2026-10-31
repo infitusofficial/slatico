@@ -10,14 +10,26 @@ interface VariantRenderParams {
   readonly variant: SlaticoStyle;
   readonly color: string;
   readonly resolvedSecondaryColor: string;
+  readonly colorPrimary: string;
+  readonly colorSecondary: string;
   readonly secondaryOpacity: number | string;
   readonly instanceId: string;
 }
 
 function renderBellNativeVariant(params: VariantRenderParams): ReactNode {
-  const { variant, color, resolvedSecondaryColor, secondaryOpacity, instanceId } = params;
+  const {
+    variant,
+    color,
+    resolvedSecondaryColor,
+    colorPrimary,
+    colorSecondary,
+    secondaryOpacity,
+    instanceId
+  } = params;
   void color;
   void resolvedSecondaryColor;
+  void colorPrimary;
+  void colorSecondary;
   void secondaryOpacity;
   void instanceId;
   switch (variant) {
@@ -67,9 +79,9 @@ function renderBellNativeVariant(params: VariantRenderParams): ReactNode {
     case "color":
       return (
         <>
-        <Path fill="#000000" d="M9.575 18a2.425 2.425 0 1 0 4.85 0h1.15a3.575 3.575 0 0 1-7.15 0z" />
-        <Path fill="#000000" d="M10.575 5a1.425 1.425 0 1 1 2.85 0h1.15a2.575 2.575 0 0 0-5.15 0z" />
-        <Path fill="#FF6040" d="M17.648 11.223a5.648 5.648 0 0 0-11.295 0v1.732a8.6 8.6 0 0 1-1.257 4.47h13.808a8.57 8.57 0 0 1-1.256-4.47zm1.149 1.732c0 1.573.5 3.105 1.427 4.375l.907 1.245H2.869l.907-1.245a7.43 7.43 0 0 0 1.427-4.375v-1.732a6.797 6.797 0 1 1 13.594 0z" />
+        <Path fill={colorSecondary} d="M9.575 18a2.425 2.425 0 1 0 4.85 0h1.15a3.575 3.575 0 0 1-7.15 0z" />
+        <Path fill={colorSecondary} d="M10.575 5a1.425 1.425 0 1 1 2.85 0h1.15a2.575 2.575 0 0 0-5.15 0z" />
+        <Path fill={colorPrimary} d="M17.648 11.223a5.648 5.648 0 0 0-11.295 0v1.732a8.6 8.6 0 0 1-1.257 4.47h13.808a8.57 8.57 0 0 1-1.256-4.47zm1.149 1.732c0 1.573.5 3.105 1.427 4.375l.907 1.245H2.869l.907-1.245a7.43 7.43 0 0 0 1.427-4.375v-1.732a6.797 6.797 0 1 1 13.594 0z" />
         </>
       );
   }
@@ -78,7 +90,7 @@ function renderBellNativeVariant(params: VariantRenderParams): ReactNode {
 export function BellIcon({
   variant = "regular",
   size = 24,
-  color = "#09090B",
+  color,
   secondaryColor,
   secondaryOpacity = 0.22,
   title,
@@ -97,18 +109,22 @@ export function BellIcon({
           (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
         ? size.trim()
         : 24;
-  const resolvedColor =
+  const hasExplicitColor =
     typeof color === "string" &&
     color.trim().length > 0 &&
-    color.trim() !== "currentColor"
-      ? color.trim()
-      : "#09090B";
-  const resolvedSecondaryColor =
+    color.trim() !== "currentColor";
+  const hasExplicitSecondaryColor =
     typeof secondaryColor === "string" &&
     secondaryColor.trim().length > 0 &&
-    secondaryColor.trim() !== "currentColor"
-      ? secondaryColor.trim()
-      : resolvedColor;
+    secondaryColor.trim() !== "currentColor";
+  const resolvedColor = hasExplicitColor ? color.trim() : "#09090B";
+  const resolvedSecondaryColor = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : resolvedColor;
+  const colorPrimary = hasExplicitColor ? color.trim() : "#FF6040";
+  const colorSecondary = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : "#000000";
   const parsedSecOpacity =
     typeof secondaryOpacity === "number"
       ? secondaryOpacity
@@ -136,6 +152,8 @@ export function BellIcon({
         variant,
         color: resolvedColor,
         resolvedSecondaryColor,
+        colorPrimary,
+        colorSecondary,
         secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}

@@ -21,6 +21,7 @@
   "scripts": {
     "icons:validate": "tsx scripts/validate-icons.ts",
     "icons:generate": "tsx scripts/generate-icons.ts",
+    "website:icons": "tsx scripts/generate-website-icons.ts",
     "build:packages": "pnpm --filter \"@slatico/*\" --filter \"!@slatico/website\" build",
     "build:website": "pnpm --filter @slatico/website build",
     "build": "pnpm icons:generate && pnpm build:packages && pnpm build:website",

@@ -12,7 +12,7 @@ export const minusIconDef: SlaticoWebIconDefinition = {
   "bold": "<path fill=\"currentColor\" d=\"M21 10.875a1.125 1.125 0 0 1 0 2.25H3a1.125 1.125 0 0 1 0-2.25z\"/>",
   "fill": "<path fill=\"currentColor\" d=\"M21 11.425a.575.575 0 0 1 0 1.15H3a.575.575 0 0 1 0-1.15z\"/>",
   "duotone": "<path fill=\"currentColor\" d=\"M21 11.425a.575.575 0 0 1 0 1.15H3a.575.575 0 0 1 0-1.15z\"/>",
-  "color": "<path fill=\"#FF6040\" d=\"M21 11.425a.575.575 0 0 1 0 1.15H3a.575.575 0 0 1 0-1.15z\"/>"
+  "color": "<path fill=\"var(--slatico-primary-color, #FF6040)\" d=\"M21 11.425a.575.575 0 0 1 0 1.15H3a.575.575 0 0 1 0-1.15z\"/>"
 }
 } as const;
 

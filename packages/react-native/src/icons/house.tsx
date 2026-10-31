@@ -10,14 +10,26 @@ interface VariantRenderParams {
   readonly variant: SlaticoStyle;
   readonly color: string;
   readonly resolvedSecondaryColor: string;
+  readonly colorPrimary: string;
+  readonly colorSecondary: string;
   readonly secondaryOpacity: number | string;
   readonly instanceId: string;
 }
 
 function renderHouseNativeVariant(params: VariantRenderParams): ReactNode {
-  const { variant, color, resolvedSecondaryColor, secondaryOpacity, instanceId } = params;
+  const {
+    variant,
+    color,
+    resolvedSecondaryColor,
+    colorPrimary,
+    colorSecondary,
+    secondaryOpacity,
+    instanceId
+  } = params;
   void color;
   void resolvedSecondaryColor;
+  void colorPrimary;
+  void colorSecondary;
   void secondaryOpacity;
   void instanceId;
   switch (variant) {
@@ -67,8 +79,8 @@ function renderHouseNativeVariant(params: VariantRenderParams): ReactNode {
     case "color":
       return (
         <>
-        <Path fill="#FF6040" d="m18.5 10.81-5.866-5.866a1.25 1.25 0 0 0-1.768 0L5 10.81V19c0 .69.56 1.25 1.25 1.25h11c.69 0 1.25-.56 1.25-1.25zM20 19a2.75 2.75 0 0 1-2.75 2.75h-11A2.75 2.75 0 0 1 3.5 19v-6.69l-.22.22a.75.75 0 1 1-1.06-1.06l7.586-7.586a2.75 2.75 0 0 1 3.888 0l7.586 7.586a.75.75 0 1 1-1.06 1.06l-.22-.22z" />
-        <Path fill="#000000" d="M14.75 17.25a.75.75 0 0 1 0 1.5h-6a.75.75 0 0 1 0-1.5z" />
+        <Path fill={colorPrimary} d="m18.5 10.81-5.866-5.866a1.25 1.25 0 0 0-1.768 0L5 10.81V19c0 .69.56 1.25 1.25 1.25h11c.69 0 1.25-.56 1.25-1.25zM20 19a2.75 2.75 0 0 1-2.75 2.75h-11A2.75 2.75 0 0 1 3.5 19v-6.69l-.22.22a.75.75 0 1 1-1.06-1.06l7.586-7.586a2.75 2.75 0 0 1 3.888 0l7.586 7.586a.75.75 0 1 1-1.06 1.06l-.22-.22z" />
+        <Path fill={colorSecondary} d="M14.75 17.25a.75.75 0 0 1 0 1.5h-6a.75.75 0 0 1 0-1.5z" />
         </>
       );
   }
@@ -77,7 +89,7 @@ function renderHouseNativeVariant(params: VariantRenderParams): ReactNode {
 export function HouseIcon({
   variant = "regular",
   size = 24,
-  color = "#09090B",
+  color,
   secondaryColor,
   secondaryOpacity = 0.22,
   title,
@@ -96,18 +108,22 @@ export function HouseIcon({
           (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
         ? size.trim()
         : 24;
-  const resolvedColor =
+  const hasExplicitColor =
     typeof color === "string" &&
     color.trim().length > 0 &&
-    color.trim() !== "currentColor"
-      ? color.trim()
-      : "#09090B";
-  const resolvedSecondaryColor =
+    color.trim() !== "currentColor";
+  const hasExplicitSecondaryColor =
     typeof secondaryColor === "string" &&
     secondaryColor.trim().length > 0 &&
-    secondaryColor.trim() !== "currentColor"
-      ? secondaryColor.trim()
-      : resolvedColor;
+    secondaryColor.trim() !== "currentColor";
+  const resolvedColor = hasExplicitColor ? color.trim() : "#09090B";
+  const resolvedSecondaryColor = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : resolvedColor;
+  const colorPrimary = hasExplicitColor ? color.trim() : "#FF6040";
+  const colorSecondary = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : "#000000";
   const parsedSecOpacity =
     typeof secondaryOpacity === "number"
       ? secondaryOpacity
@@ -135,6 +151,8 @@ export function HouseIcon({
         variant,
         color: resolvedColor,
         resolvedSecondaryColor,
+        colorPrimary,
+        colorSecondary,
         secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}

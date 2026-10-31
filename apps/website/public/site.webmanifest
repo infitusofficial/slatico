@@ -1,0 +1,26 @@
+{
+  "name": "Slatico by Infitus Creative Studio",
+  "short_name": "Slatico",
+  "description": "Modern, original, open-source multi-platform SVG icon library across 7 architectural styles.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#010520",
+  "theme_color": "#FF6040",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -10,14 +10,26 @@ interface VariantRenderParams {
   readonly variant: SlaticoStyle;
   readonly color: string;
   readonly resolvedSecondaryColor: string;
+  readonly colorPrimary: string;
+  readonly colorSecondary: string;
   readonly secondaryOpacity: number | string;
   readonly instanceId: string;
 }
 
 function renderLockNativeVariant(params: VariantRenderParams): ReactNode {
-  const { variant, color, resolvedSecondaryColor, secondaryOpacity, instanceId } = params;
+  const {
+    variant,
+    color,
+    resolvedSecondaryColor,
+    colorPrimary,
+    colorSecondary,
+    secondaryOpacity,
+    instanceId
+  } = params;
   void color;
   void resolvedSecondaryColor;
+  void colorPrimary;
+  void colorSecondary;
   void secondaryOpacity;
   void instanceId;
   switch (variant) {
@@ -66,9 +78,9 @@ function renderLockNativeVariant(params: VariantRenderParams): ReactNode {
     case "color":
       return (
         <>
-        <Path fill="#000000" d="M15.425 7a3.425 3.425 0 1 0-6.85 0v2h-1.15V7a4.575 4.575 0 0 1 9.15 0v2h-1.15z" />
-        <Path fill="#000000" d="M13 15a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
-        <Path fill="#FF6040" d="M19.425 11c0-.787-.638-1.425-1.425-1.425H6c-.787 0-1.425.638-1.425 1.425v8c0 .787.638 1.425 1.425 1.425h12c.787 0 1.425-.638 1.425-1.425zm1.15 8A2.575 2.575 0 0 1 18 21.575H6A2.575 2.575 0 0 1 3.425 19v-8A2.575 2.575 0 0 1 6 8.425h12A2.575 2.575 0 0 1 20.575 11z" />
+        <Path fill={colorSecondary} d="M15.425 7a3.425 3.425 0 1 0-6.85 0v2h-1.15V7a4.575 4.575 0 0 1 9.15 0v2h-1.15z" />
+        <Path fill={colorSecondary} d="M13 15a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+        <Path fill={colorPrimary} d="M19.425 11c0-.787-.638-1.425-1.425-1.425H6c-.787 0-1.425.638-1.425 1.425v8c0 .787.638 1.425 1.425 1.425h12c.787 0 1.425-.638 1.425-1.425zm1.15 8A2.575 2.575 0 0 1 18 21.575H6A2.575 2.575 0 0 1 3.425 19v-8A2.575 2.575 0 0 1 6 8.425h12A2.575 2.575 0 0 1 20.575 11z" />
         </>
       );
   }
@@ -77,7 +89,7 @@ function renderLockNativeVariant(params: VariantRenderParams): ReactNode {
 export function LockIcon({
   variant = "regular",
   size = 24,
-  color = "#09090B",
+  color,
   secondaryColor,
   secondaryOpacity = 0.22,
   title,
@@ -96,18 +108,22 @@ export function LockIcon({
           (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
         ? size.trim()
         : 24;
-  const resolvedColor =
+  const hasExplicitColor =
     typeof color === "string" &&
     color.trim().length > 0 &&
-    color.trim() !== "currentColor"
-      ? color.trim()
-      : "#09090B";
-  const resolvedSecondaryColor =
+    color.trim() !== "currentColor";
+  const hasExplicitSecondaryColor =
     typeof secondaryColor === "string" &&
     secondaryColor.trim().length > 0 &&
-    secondaryColor.trim() !== "currentColor"
-      ? secondaryColor.trim()
-      : resolvedColor;
+    secondaryColor.trim() !== "currentColor";
+  const resolvedColor = hasExplicitColor ? color.trim() : "#09090B";
+  const resolvedSecondaryColor = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : resolvedColor;
+  const colorPrimary = hasExplicitColor ? color.trim() : "#FF6040";
+  const colorSecondary = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : "#000000";
   const parsedSecOpacity =
     typeof secondaryOpacity === "number"
       ? secondaryOpacity
@@ -135,6 +151,8 @@ export function LockIcon({
         variant,
         color: resolvedColor,
         resolvedSecondaryColor,
+        colorPrimary,
+        colorSecondary,
         secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}

@@ -54,9 +54,9 @@ function renderBellVariant(variant: SlaticoStyle, _instanceId: string): ReactNod
     case "color":
       return (
         <>
-        <path fill="black" d="M9.575 18a2.425 2.425 0 1 0 4.85 0h1.15a3.575 3.575 0 0 1-7.15 0z" />
-        <path fill="black" d="M10.575 5a1.425 1.425 0 1 1 2.85 0h1.15a2.575 2.575 0 0 0-5.15 0z" />
-        <path fill="#FF6040" d="M17.648 11.223a5.648 5.648 0 0 0-11.295 0v1.732a8.6 8.6 0 0 1-1.257 4.47h13.808a8.57 8.57 0 0 1-1.256-4.47zm1.149 1.732c0 1.573.5 3.105 1.427 4.375l.907 1.245H2.869l.907-1.245a7.43 7.43 0 0 0 1.427-4.375v-1.732a6.797 6.797 0 1 1 13.594 0z" />
+        <path fill="var(--slatico-secondary-color, #000000)" d="M9.575 18a2.425 2.425 0 1 0 4.85 0h1.15a3.575 3.575 0 0 1-7.15 0z" />
+        <path fill="var(--slatico-secondary-color, #000000)" d="M10.575 5a1.425 1.425 0 1 1 2.85 0h1.15a2.575 2.575 0 0 0-5.15 0z" />
+        <path fill="var(--slatico-primary-color, #FF6040)" d="M17.648 11.223a5.648 5.648 0 0 0-11.295 0v1.732a8.6 8.6 0 0 1-1.257 4.47h13.808a8.57 8.57 0 0 1-1.256-4.47zm1.149 1.732c0 1.573.5 3.105 1.427 4.375l.907 1.245H2.869l.907-1.245a7.43 7.43 0 0 0 1.427-4.375v-1.732a6.797 6.797 0 1 1 13.594 0z" />
         </>
       );
   }
@@ -79,19 +79,34 @@ export const BellIcon = forwardRef<SVGSVGElement, SlaticoIconProps>(
     const rawId = useId();
     const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
     const isColorVariant = variant === "color";
-    const duotoneVars: Record<string, string | number> = {};
-    if (secondaryColor !== undefined) {
-      duotoneVars["--slatico-secondary-color"] = secondaryColor;
-    }
-    if (secondaryOpacity !== undefined) {
-      duotoneVars["--slatico-secondary-opacity"] = secondaryOpacity;
+    const cssVars: Record<string, string | number> = {};
+    if (isColorVariant) {
+      if (color !== undefined && color !== "currentColor" && color.trim() !== "") {
+        cssVars["--slatico-primary-color"] = color;
+      }
+      if (
+        secondaryColor !== undefined &&
+        secondaryColor !== "currentColor" &&
+        secondaryColor.trim() !== ""
+      ) {
+        cssVars["--slatico-secondary-color"] = secondaryColor;
+      }
+    } else {
+      if (secondaryColor !== undefined) {
+        cssVars["--slatico-secondary-color"] = secondaryColor;
+      }
+      if (secondaryOpacity !== undefined) {
+        cssVars["--slatico-secondary-opacity"] = secondaryOpacity;
+      }
     }
 
     const resolvedStyle: CSSProperties | undefined = isColorVariant
-      ? style
+      ? Object.keys(cssVars).length > 0 || style !== undefined
+        ? ({ ...cssVars, ...style } as CSSProperties)
+        : undefined
       : ({
           color,
-          ...duotoneVars,
+          ...cssVars,
           ...style
         } as CSSProperties);
 

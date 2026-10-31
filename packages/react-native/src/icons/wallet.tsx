@@ -10,14 +10,26 @@ interface VariantRenderParams {
   readonly variant: SlaticoStyle;
   readonly color: string;
   readonly resolvedSecondaryColor: string;
+  readonly colorPrimary: string;
+  readonly colorSecondary: string;
   readonly secondaryOpacity: number | string;
   readonly instanceId: string;
 }
 
 function renderWalletNativeVariant(params: VariantRenderParams): ReactNode {
-  const { variant, color, resolvedSecondaryColor, secondaryOpacity, instanceId } = params;
+  const {
+    variant,
+    color,
+    resolvedSecondaryColor,
+    colorPrimary,
+    colorSecondary,
+    secondaryOpacity,
+    instanceId
+  } = params;
   void color;
   void resolvedSecondaryColor;
+  void colorPrimary;
+  void colorSecondary;
   void secondaryOpacity;
   void instanceId;
   switch (variant) {
@@ -69,10 +81,10 @@ function renderWalletNativeVariant(params: VariantRenderParams): ReactNode {
     case "color":
       return (
         <>
-        <Path fill="#000000" fillRule="evenodd" d="M2.425 15V7A2.575 2.575 0 0 1 5 4.425h12c1.243 0 2.28.881 2.522 2.053A2.6 2.6 0 0 0 19 6.425h-.696c-.221-.5-.722-.85-1.304-.85H5c-.787 0-1.425.638-1.425 1.425v8c0 .582.35 1.083.85 1.304V17q0 .27.053.522A2.576 2.576 0 0 1 2.425 15" clipRule="evenodd" />
-        <Path fill="#000000" fillRule="evenodd" d="M20.425 10.575H14a2.425 2.425 0 1 0 0 4.85h6.425v1.15H14a3.575 3.575 0 0 1 0-7.15h6.425z" clipRule="evenodd" />
-        <Path fill="#FF6040" d="M15 13a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
-        <Path fill="#FF6040" d="M4.478 17.522A2.576 2.576 0 0 0 7 19.575h12A2.575 2.575 0 0 0 21.575 17V9A2.576 2.576 0 0 0 19 6.425H7A2.575 2.575 0 0 0 4.425 9v8q0 .27.053.522M20.425 17c0 .787-.638 1.425-1.425 1.425H7A1.425 1.425 0 0 1 5.575 17V9c0-.787.638-1.425 1.425-1.425h12c.787 0 1.425.638 1.425 1.425z" />
+        <Path fill={colorSecondary} fillRule="evenodd" d="M2.425 15V7A2.575 2.575 0 0 1 5 4.425h12c1.243 0 2.28.881 2.522 2.053A2.6 2.6 0 0 0 19 6.425h-.696c-.221-.5-.722-.85-1.304-.85H5c-.787 0-1.425.638-1.425 1.425v8c0 .582.35 1.083.85 1.304V17q0 .27.053.522A2.576 2.576 0 0 1 2.425 15" clipRule="evenodd" />
+        <Path fill={colorSecondary} fillRule="evenodd" d="M20.425 10.575H14a2.425 2.425 0 1 0 0 4.85h6.425v1.15H14a3.575 3.575 0 0 1 0-7.15h6.425z" clipRule="evenodd" />
+        <Path fill={colorPrimary} d="M15 13a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+        <Path fill={colorPrimary} d="M4.478 17.522A2.576 2.576 0 0 0 7 19.575h12A2.575 2.575 0 0 0 21.575 17V9A2.576 2.576 0 0 0 19 6.425H7A2.575 2.575 0 0 0 4.425 9v8q0 .27.053.522M20.425 17c0 .787-.638 1.425-1.425 1.425H7A1.425 1.425 0 0 1 5.575 17V9c0-.787.638-1.425 1.425-1.425h12c.787 0 1.425.638 1.425 1.425z" />
         </>
       );
   }
@@ -81,7 +93,7 @@ function renderWalletNativeVariant(params: VariantRenderParams): ReactNode {
 export function WalletIcon({
   variant = "regular",
   size = 24,
-  color = "#09090B",
+  color,
   secondaryColor,
   secondaryOpacity = 0.22,
   title,
@@ -100,18 +112,22 @@ export function WalletIcon({
           (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
         ? size.trim()
         : 24;
-  const resolvedColor =
+  const hasExplicitColor =
     typeof color === "string" &&
     color.trim().length > 0 &&
-    color.trim() !== "currentColor"
-      ? color.trim()
-      : "#09090B";
-  const resolvedSecondaryColor =
+    color.trim() !== "currentColor";
+  const hasExplicitSecondaryColor =
     typeof secondaryColor === "string" &&
     secondaryColor.trim().length > 0 &&
-    secondaryColor.trim() !== "currentColor"
-      ? secondaryColor.trim()
-      : resolvedColor;
+    secondaryColor.trim() !== "currentColor";
+  const resolvedColor = hasExplicitColor ? color.trim() : "#09090B";
+  const resolvedSecondaryColor = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : resolvedColor;
+  const colorPrimary = hasExplicitColor ? color.trim() : "#FF6040";
+  const colorSecondary = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : "#000000";
   const parsedSecOpacity =
     typeof secondaryOpacity === "number"
       ? secondaryOpacity
@@ -139,6 +155,8 @@ export function WalletIcon({
         variant,
         color: resolvedColor,
         resolvedSecondaryColor,
+        colorPrimary,
+        colorSecondary,
         secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}

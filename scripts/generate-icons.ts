@@ -244,12 +244,19 @@ export function convertOptimizedSvgToVueVNodes(
   return serializeOrderedNodesToVueVNodes(children, indentLevel);
 }
 
-function formatReactNativeAttrExpression(attrName: string, val: string): string {
+function formatReactNativeAttrExpression(
+  attrName: string,
+  val: string,
+  style?: SlaticoStyle
+): string {
   if (val === "currentColor") {
     return "{color}";
   }
+  if (val.startsWith("var(--slatico-primary-color")) {
+    return "{colorPrimary}";
+  }
   if (val.startsWith("var(--slatico-secondary-color")) {
-    return "{resolvedSecondaryColor}";
+    return style === "color" ? "{colorSecondary}" : "{resolvedSecondaryColor}";
   }
   if (val.startsWith("var(--slatico-secondary-opacity")) {
     return "{secondaryOpacity}";
@@ -281,7 +288,8 @@ function serializeOrderedNodesToReactNativeJsx(
   nodes: readonly OrderedXmlNode[],
   indentLevel: number,
   usedRnComponents: Set<string>,
-  inheritedGroupAttrs: InheritedRnGroupAttrs = {}
+  inheritedGroupAttrs: InheritedRnGroupAttrs = {},
+  style?: SlaticoStyle
 ): string {
   const indent = " ".repeat(indentLevel);
   const lines: string[] = [];
@@ -307,7 +315,7 @@ function serializeOrderedNodesToReactNativeJsx(
       }
       const attrName = toReactAttrName(rawKey.slice(2));
       const strVal = String(val);
-      const formattedVal = formatReactNativeAttrExpression(attrName, strVal);
+      const formattedVal = formatReactNativeAttrExpression(attrName, strVal, style);
       attrMap.set(attrName, formattedVal);
     }
 
@@ -347,7 +355,8 @@ function serializeOrderedNodesToReactNativeJsx(
           children,
           indentLevel + 2,
           usedRnComponents,
-          nextInherited
+          nextInherited,
+          style
         )
       );
       lines.push(`${indent}</${rnComponent}>`);
@@ -510,19 +519,34 @@ export const ${baseComponentName} = forwardRef<SVGSVGElement, SlaticoIconProps>(
     const rawId = useId();
     const instanceId = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
     const isColorVariant = variant === "color";
-    const duotoneVars: Record<string, string | number> = {};
-    if (secondaryColor !== undefined) {
-      duotoneVars["--slatico-secondary-color"] = secondaryColor;
-    }
-    if (secondaryOpacity !== undefined) {
-      duotoneVars["--slatico-secondary-opacity"] = secondaryOpacity;
+    const cssVars: Record<string, string | number> = {};
+    if (isColorVariant) {
+      if (color !== undefined && color !== "currentColor" && color.trim() !== "") {
+        cssVars["--slatico-primary-color"] = color;
+      }
+      if (
+        secondaryColor !== undefined &&
+        secondaryColor !== "currentColor" &&
+        secondaryColor.trim() !== ""
+      ) {
+        cssVars["--slatico-secondary-color"] = secondaryColor;
+      }
+    } else {
+      if (secondaryColor !== undefined) {
+        cssVars["--slatico-secondary-color"] = secondaryColor;
+      }
+      if (secondaryOpacity !== undefined) {
+        cssVars["--slatico-secondary-opacity"] = secondaryOpacity;
+      }
     }
 
     const resolvedStyle: CSSProperties | undefined = isColorVariant
-      ? style
+      ? Object.keys(cssVars).length > 0 || style !== undefined
+        ? ({ ...cssVars, ...style } as CSSProperties)
+        : undefined
       : ({
           color,
-          ...duotoneVars,
+          ...cssVars,
           ...style
         } as CSSProperties);
 
@@ -624,14 +648,27 @@ export const ${baseComponentName} = defineComponent({
       const variant = props.variant ?? "regular";
       const isColorVariant = variant === "color";
       const styleObj: Record<string, string | number> = {};
-      if (!isColorVariant && props.color) {
-        styleObj.color = props.color;
-      }
-      if (props.secondaryColor !== undefined) {
-        styleObj["--slatico-secondary-color"] = props.secondaryColor;
-      }
-      if (props.secondaryOpacity !== undefined) {
-        styleObj["--slatico-secondary-opacity"] = props.secondaryOpacity;
+      if (isColorVariant) {
+        if (props.color && props.color !== "currentColor" && props.color.trim() !== "") {
+          styleObj["--slatico-primary-color"] = props.color;
+        }
+        if (
+          props.secondaryColor !== undefined &&
+          props.secondaryColor !== "currentColor" &&
+          props.secondaryColor.trim() !== ""
+        ) {
+          styleObj["--slatico-secondary-color"] = props.secondaryColor;
+        }
+      } else {
+        if (props.color) {
+          styleObj.color = props.color;
+        }
+        if (props.secondaryColor !== undefined) {
+          styleObj["--slatico-secondary-color"] = props.secondaryColor;
+        }
+        if (props.secondaryOpacity !== undefined) {
+          styleObj["--slatico-secondary-opacity"] = props.secondaryOpacity;
+        }
       }
 
       const children: VNode[] = [];
@@ -719,7 +756,13 @@ export function generateReactNativeIconModule(family: DiscoveredIconFamily): str
       throw new Error(`Missing <svg> root in ${family.name} (${style}).`);
     }
     const children = (svgNode.svg as OrderedXmlNode[] | undefined) ?? [];
-    const jsxBody = serializeOrderedNodesToReactNativeJsx(children, 8, usedRnComponents);
+    const jsxBody = serializeOrderedNodesToReactNativeJsx(
+      children,
+      8,
+      usedRnComponents,
+      {},
+      style
+    );
     const caseHeader =
       style === "regular"
         ? `    case "regular":\n    default:`
@@ -750,14 +793,26 @@ interface VariantRenderParams {
   readonly variant: SlaticoStyle;
   readonly color: string;
   readonly resolvedSecondaryColor: string;
+  readonly colorPrimary: string;
+  readonly colorSecondary: string;
   readonly secondaryOpacity: number | string;
   readonly instanceId: string;
 }
 
 function render${family.pascalName}NativeVariant(params: VariantRenderParams): ReactNode {
-  const { variant, color, resolvedSecondaryColor, secondaryOpacity, instanceId } = params;
+  const {
+    variant,
+    color,
+    resolvedSecondaryColor,
+    colorPrimary,
+    colorSecondary,
+    secondaryOpacity,
+    instanceId
+  } = params;
   void color;
   void resolvedSecondaryColor;
+  void colorPrimary;
+  void colorSecondary;
   void secondaryOpacity;
   void instanceId;
   switch (variant) {
@@ -768,7 +823,7 @@ ${switchCases.join("\n")}
 export function ${baseComponentName}({
   variant = "regular",
   size = 24,
-  color = "#09090B",
+  color,
   secondaryColor,
   secondaryOpacity = 0.22,
   title,
@@ -787,18 +842,22 @@ export function ${baseComponentName}({
           (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
         ? size.trim()
         : 24;
-  const resolvedColor =
+  const hasExplicitColor =
     typeof color === "string" &&
     color.trim().length > 0 &&
-    color.trim() !== "currentColor"
-      ? color.trim()
-      : "#09090B";
-  const resolvedSecondaryColor =
+    color.trim() !== "currentColor";
+  const hasExplicitSecondaryColor =
     typeof secondaryColor === "string" &&
     secondaryColor.trim().length > 0 &&
-    secondaryColor.trim() !== "currentColor"
-      ? secondaryColor.trim()
-      : resolvedColor;
+    secondaryColor.trim() !== "currentColor";
+  const resolvedColor = hasExplicitColor ? color.trim() : "#09090B";
+  const resolvedSecondaryColor = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : resolvedColor;
+  const colorPrimary = hasExplicitColor ? color.trim() : "#FF6040";
+  const colorSecondary = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : "#000000";
   const parsedSecOpacity =
     typeof secondaryOpacity === "number"
       ? secondaryOpacity
@@ -826,6 +885,8 @@ export function ${baseComponentName}({
         variant,
         color: resolvedColor,
         resolvedSecondaryColor,
+        colorPrimary,
+        colorSecondary,
         secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}

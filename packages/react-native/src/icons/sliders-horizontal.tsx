@@ -10,14 +10,26 @@ interface VariantRenderParams {
   readonly variant: SlaticoStyle;
   readonly color: string;
   readonly resolvedSecondaryColor: string;
+  readonly colorPrimary: string;
+  readonly colorSecondary: string;
   readonly secondaryOpacity: number | string;
   readonly instanceId: string;
 }
 
 function renderSlidersHorizontalNativeVariant(params: VariantRenderParams): ReactNode {
-  const { variant, color, resolvedSecondaryColor, secondaryOpacity, instanceId } = params;
+  const {
+    variant,
+    color,
+    resolvedSecondaryColor,
+    colorPrimary,
+    colorSecondary,
+    secondaryOpacity,
+    instanceId
+  } = params;
   void color;
   void resolvedSecondaryColor;
+  void colorPrimary;
+  void colorSecondary;
   void secondaryOpacity;
   void instanceId;
   switch (variant) {
@@ -78,15 +90,15 @@ function renderSlidersHorizontalNativeVariant(params: VariantRenderParams): Reac
     case "color":
       return (
         <>
-        <Path fill="#000000" d="M5.425 5.85a.576.576 0 0 1 0 1.15h-2.85a.575.575 0 0 1 0-1.15z" />
-        <Path fill="#000000" d="M21.425 5.85a.576.576 0 0 1 0 1.15h-9.85a.575.575 0 0 1 0-1.15z" />
-        <Path fill="#000000" d="M12.425 11.85a.575.575 0 0 1 0 1.15h-9.85a.575.575 0 0 1 0-1.15z" />
-        <Path fill="#000000" d="M21.425 11.85a.575.575 0 0 1 0 1.15h-2.85a.575.575 0 0 1 0-1.15z" />
-        <Path fill="#000000" d="M5.425 17.85a.575.575 0 0 1 0 1.15h-2.85a.575.575 0 0 1 0-1.15z" />
-        <Path fill="#000000" d="M21.425 17.85a.575.575 0 0 1 0 1.15h-9.85a.575.575 0 0 1 0-1.15z" />
-        <Path fill="#FF6040" d="M10.425 6.5a1.925 1.925 0 1 0-3.85 0 1.925 1.925 0 0 0 3.85 0m1.15 0a3.075 3.075 0 1 1-6.15 0 3.075 3.075 0 0 1 6.15 0" />
-        <Path fill="#FF6040" d="M17.425 12.5a1.925 1.925 0 1 0-3.85 0 1.925 1.925 0 0 0 3.85 0m1.15 0a3.075 3.075 0 1 1-6.15 0 3.075 3.075 0 0 1 6.15 0" />
-        <Path fill="#FF6040" d="M10.425 18.5a1.925 1.925 0 1 0-3.85 0 1.925 1.925 0 0 0 3.85 0m1.15 0a3.075 3.075 0 1 1-6.15 0 3.075 3.075 0 0 1 6.15 0" />
+        <Path fill={colorSecondary} d="M5.425 5.85a.576.576 0 0 1 0 1.15h-2.85a.575.575 0 0 1 0-1.15z" />
+        <Path fill={colorSecondary} d="M21.425 5.85a.576.576 0 0 1 0 1.15h-9.85a.575.575 0 0 1 0-1.15z" />
+        <Path fill={colorSecondary} d="M12.425 11.85a.575.575 0 0 1 0 1.15h-9.85a.575.575 0 0 1 0-1.15z" />
+        <Path fill={colorSecondary} d="M21.425 11.85a.575.575 0 0 1 0 1.15h-2.85a.575.575 0 0 1 0-1.15z" />
+        <Path fill={colorSecondary} d="M5.425 17.85a.575.575 0 0 1 0 1.15h-2.85a.575.575 0 0 1 0-1.15z" />
+        <Path fill={colorSecondary} d="M21.425 17.85a.575.575 0 0 1 0 1.15h-9.85a.575.575 0 0 1 0-1.15z" />
+        <Path fill={colorPrimary} d="M10.425 6.5a1.925 1.925 0 1 0-3.85 0 1.925 1.925 0 0 0 3.85 0m1.15 0a3.075 3.075 0 1 1-6.15 0 3.075 3.075 0 0 1 6.15 0" />
+        <Path fill={colorPrimary} d="M17.425 12.5a1.925 1.925 0 1 0-3.85 0 1.925 1.925 0 0 0 3.85 0m1.15 0a3.075 3.075 0 1 1-6.15 0 3.075 3.075 0 0 1 6.15 0" />
+        <Path fill={colorPrimary} d="M10.425 18.5a1.925 1.925 0 1 0-3.85 0 1.925 1.925 0 0 0 3.85 0m1.15 0a3.075 3.075 0 1 1-6.15 0 3.075 3.075 0 0 1 6.15 0" />
         </>
       );
   }
@@ -95,7 +107,7 @@ function renderSlidersHorizontalNativeVariant(params: VariantRenderParams): Reac
 export function SlidersHorizontalIcon({
   variant = "regular",
   size = 24,
-  color = "#09090B",
+  color,
   secondaryColor,
   secondaryOpacity = 0.22,
   title,
@@ -114,18 +126,22 @@ export function SlidersHorizontalIcon({
           (!Number.isNaN(Number(size)) ? Number(size) > 0 : true)
         ? size.trim()
         : 24;
-  const resolvedColor =
+  const hasExplicitColor =
     typeof color === "string" &&
     color.trim().length > 0 &&
-    color.trim() !== "currentColor"
-      ? color.trim()
-      : "#09090B";
-  const resolvedSecondaryColor =
+    color.trim() !== "currentColor";
+  const hasExplicitSecondaryColor =
     typeof secondaryColor === "string" &&
     secondaryColor.trim().length > 0 &&
-    secondaryColor.trim() !== "currentColor"
-      ? secondaryColor.trim()
-      : resolvedColor;
+    secondaryColor.trim() !== "currentColor";
+  const resolvedColor = hasExplicitColor ? color.trim() : "#09090B";
+  const resolvedSecondaryColor = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : resolvedColor;
+  const colorPrimary = hasExplicitColor ? color.trim() : "#FF6040";
+  const colorSecondary = hasExplicitSecondaryColor
+    ? secondaryColor.trim()
+    : "#000000";
   const parsedSecOpacity =
     typeof secondaryOpacity === "number"
       ? secondaryOpacity
@@ -153,6 +169,8 @@ export function SlidersHorizontalIcon({
         variant,
         color: resolvedColor,
         resolvedSecondaryColor,
+        colorPrimary,
+        colorSecondary,
         secondaryOpacity: resolvedSecondaryOpacity,
         instanceId
       })}

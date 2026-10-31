@@ -370,7 +370,18 @@ describe("@slatico/react components & real consumer package verification", () =>
     expect(duotoneHtml).toContain('fill="var(--slatico-secondary-color, currentColor)"');
 
     const colorHtml = renderToStaticMarkup(createElement(BellColorIcon, { size: 32 }));
-    expect(colorHtml).toContain('fill="#FF6040"');
+    expect(colorHtml).toContain('fill="var(--slatico-primary-color, #FF6040)"');
+    expect(colorHtml).toContain('fill="var(--slatico-secondary-color, #000000)"');
+
+    const customColorHtml = renderToStaticMarkup(
+      createElement(BellColorIcon, {
+        size: 32,
+        color: "#2563EB",
+        secondaryColor: "#10B981"
+      })
+    );
+    expect(customColorHtml).toContain("--slatico-primary-color:#2563EB");
+    expect(customColorHtml).toContain("--slatico-secondary-color:#10B981");
 
     // Verify all 7 explicit variant components render distinct markup
     const variantsMarkup = [
