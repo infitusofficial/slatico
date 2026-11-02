@@ -4,12 +4,34 @@ import { SITE_CONFIG } from "../config/site";
 import { homeMetadata } from "../config/metadata";
 import { DynamicSlaticoIcon } from "../components/dynamic-slatico-icon";
 import { IconExplorer } from "../components/explorer/icon-explorer";
+import { getExplorerSeed, preloadExplorerCatalog } from "../lib/catalog-seed";
 import { IconFontDemo } from "../components/icon-font-demo";
 import { PlatformIntegrationDemo } from "../components/platform-integration-demo";
+import { getSpriteSymbolId, getSvgSprite, renderSvgMarkup } from "@slatico/svg";
 
 export const metadata: Metadata = homeMetadata;
 
+/** `@slatico/svg` output for the platform demo, rendered at build time (see PlatformIntegrationDemo). */
+function getPlatformDemoMarkup() {
+  const bellSymbolId = getSpriteSymbolId("bell", "duotone");
+  const fullSprite = getSvgSprite("duotone");
+  const start = fullSprite.indexOf(`<symbol id="${bellSymbolId}"`);
+  const end = start >= 0 ? fullSprite.indexOf("</symbol>", start) : -1;
+  const symbol = end >= 0 ? fullSprite.slice(start, end + "</symbol>".length) : null;
+  if (!symbol) throw new Error(`Sprite symbol ${bellSymbolId} not found.`);
+  return {
+    bellSymbolId,
+    duotoneSprite: fullSprite.replace(/(<svg[^>]*>)[\s\S]*(<\/svg>)\s*$/, `$1${symbol}$2`),
+    programmaticSvg: renderSvgMarkup("wallet", "color", {
+      size: 28,
+      title: "Programmatic Wallet SVG",
+      idPrefix: "site-demo"
+    })
+  };
+}
+
 export default function HomePage() {
+  preloadExplorerCatalog();
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       {/* Hero Section */}
@@ -119,7 +141,7 @@ export default function HomePage() {
 
       {/* Main Interactive Icon Explorer Section */}
       <div className="mt-10">
-        <IconExplorer />
+        <IconExplorer routing="none" seed={getExplorerSeed()} />
       </div>
 
       {/* 7 Official Architectural Styles Matrix */}
@@ -254,7 +276,7 @@ export default function HomePage() {
             Live Web Components, SVG Sprites &amp; Webfonts
           </h2>
         </div>
-        <PlatformIntegrationDemo />
+        <PlatformIntegrationDemo {...getPlatformDemoMarkup()} />
         <IconFontDemo />
       </section>
     </div>

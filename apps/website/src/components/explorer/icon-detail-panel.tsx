@@ -1,20 +1,22 @@
 "use client";
 
-import Link from "next/link";
+import { CopyButton } from "../copy-button";
 import { useEffect, useRef, useState } from "react";
 import {
   SLATICO_STYLES,
   SLATICO_STYLE_SPECS,
   type SlaticoStyle
 } from "@slatico/core";
-import type { EnrichedCatalogIcon } from "../../lib/catalog";
+import type { CatalogFamily } from "../../lib/catalog-client";
+import { useFamilyVariants } from "../../lib/use-catalog";
+import { iconDetailPath } from "../../lib/icon-slug";
 import { SITE_CONFIG } from "../../config/site";
 import {
   getColorVariantDefaultSecondaryHex,
   resolveEffectiveSecondaryColor,
   useResolvedDarkTheme
 } from "../../lib/theme-color-defaults";
-import { DynamicSlaticoIcon } from "../dynamic-slatico-icon";
+import { IconSvg } from "../icon-svg";
 import {
   buildStandaloneSvg,
   downloadStandaloneSvg
@@ -45,11 +47,16 @@ export interface IconCustomizerState {
 }
 
 export interface IconDetailPanelProps {
-  readonly icon: EnrichedCatalogIcon;
+  readonly icon: CatalogFamily;
   readonly customizer: IconCustomizerState;
   readonly onCustomizerChange: (patch: Partial<IconCustomizerState>) => void;
   readonly onClose?: () => void;
   readonly mode?: "drawer" | "inline";
+  /**
+   * `copy-link`: the drawer lives on /icons and its URL is already /icons/<slug>.
+   * `open-in-explorer`: the drawer is opened elsewhere (homepage) and links to /icons/<slug>.
+   */
+  readonly linkMode?: "copy-link" | "open-in-explorer";
 }
 
 const COLOR_PRESETS: ReadonlyArray<{ label: string; value: string }> = [
@@ -82,8 +89,11 @@ export function IconDetailPanel({
   customizer,
   onCustomizerChange,
   onClose,
-  mode = "drawer"
+  mode = "drawer",
+  linkMode = "copy-link"
 }: IconDetailPanelProps) {
+  const variants = useFamilyVariants(icon.index);
+  const activeAsset = variants[customizer.style];
   const [activePlatform, setActivePlatform] =
     useState<CodeSnippetPlatformId>("react");
   const [rasterSize, setRasterSize] = useState<RasterExportSize>(256);
@@ -126,15 +136,6 @@ export function IconDetailPanel({
     }, 2400);
   };
 
-  const copyText = async (text: string, label: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      showToast(`Copied ${label}`);
-    } catch {
-      showToast(`Could not copy ${label}`);
-    }
-  };
-
   const resolvedRasterBg =
     rasterBgMode === "transparent"
       ? null
@@ -142,18 +143,19 @@ export function IconDetailPanel({
         ? "#FFFFFF"
         : "#0B1120";
 
-  const handleCopySvg = async () => {
-    const svg = buildStandaloneSvg(icon.name, customizer.style, {
-      size: customizer.size,
-      primaryColor: customizer.primaryColor,
-      secondaryColor: effectiveSecondaryColor,
-      secondaryOpacity: customizer.secondaryOpacity
-    });
-    await copyText(svg, `${icon.name} (${customizer.style}) SVG`);
-  };
+  const buildCopySvg = () =>
+    activeAsset
+      ? buildStandaloneSvg(activeAsset, {
+          size: customizer.size,
+          primaryColor: customizer.primaryColor,
+          secondaryColor: effectiveSecondaryColor,
+          secondaryOpacity: customizer.secondaryOpacity
+        })
+      : "";
 
   const handleDownloadSvg = () => {
-    downloadStandaloneSvg(icon.name, customizer.style, {
+    if (!activeAsset) return;
+    downloadStandaloneSvg(activeAsset, {
       size: customizer.size,
       primaryColor: customizer.primaryColor,
       secondaryColor: effectiveSecondaryColor,
@@ -163,9 +165,10 @@ export function IconDetailPanel({
   };
 
   const handleExportPng = async () => {
+    if (!activeAsset) return;
     setIsExporting(true);
     try {
-      const res = await exportIconToPng(icon.name, customizer.style, {
+      const res = await exportIconToPng(activeAsset, {
         dimension: rasterSize,
         primaryColor: customizer.primaryColor,
         secondaryColor: effectiveSecondaryColor,
@@ -181,9 +184,10 @@ export function IconDetailPanel({
   };
 
   const handleExportWebp = async () => {
+    if (!activeAsset) return;
     setIsExporting(true);
     try {
-      const res = await exportIconToWebp(icon.name, customizer.style, {
+      const res = await exportIconToWebp(activeAsset, {
         dimension: rasterSize,
         primaryColor: customizer.primaryColor,
         secondaryColor: effectiveSecondaryColor,
@@ -199,10 +203,11 @@ export function IconDetailPanel({
   };
 
   const handleExportPdf = async () => {
+    if (!activeAsset) return;
     setIsExporting(true);
     try {
       const { downloadVectorPdf } = await import("../../lib/pdf-export");
-      downloadVectorPdf(icon.name, customizer.style, {
+      downloadVectorPdf(activeAsset, {
         primaryColor: customizer.primaryColor,
         secondaryColor: effectiveSecondaryColor,
         secondaryOpacity: customizer.secondaryOpacity,
@@ -216,15 +221,18 @@ export function IconDetailPanel({
     }
   };
 
-  const currentCodeSnippet = generatePlatformCodeSnippet(activePlatform, {
-    name: icon.name,
-    pascalName: icon.pascalName,
-    style: customizer.style,
-    size: customizer.size,
-    primaryColor: customizer.primaryColor,
-    secondaryColor: effectiveSecondaryColor,
-    secondaryOpacity: customizer.secondaryOpacity
-  });
+  const currentCodeSnippet = activeAsset
+    ? generatePlatformCodeSnippet(activePlatform, {
+        name: icon.name,
+        pascalName: icon.pascalName,
+        style: customizer.style,
+        size: customizer.size,
+        primaryColor: customizer.primaryColor,
+        secondaryColor: effectiveSecondaryColor,
+        secondaryOpacity: customizer.secondaryOpacity,
+        asset: activeAsset
+      })
+    : "Loading icon data…";
 
   const activePlatformMeta = CODE_SNIPPET_PLATFORM_META[activePlatform];
 
@@ -258,20 +266,31 @@ export function IconDetailPanel({
             <code className="rounded bg-surface-muted px-1.5 py-0.5 font-mono text-foreground">
               {icon.name}
             </code>
-            <button
-              type="button"
-              onClick={() => copyText(icon.name, "icon slug")}
-              className="font-medium text-primary hover:underline"
-            >
-              Copy slug
-            </button>
+            <CopyButton
+              text={icon.name}
+              label="Copy slug"
+              announcement={`Icon slug ${icon.name} copied to clipboard`}
+              iconSize={12}
+              className="inline-flex items-center gap-1 font-medium text-primary hover:underline"
+            />
             <span>·</span>
-            <Link
-              href={`/icons/${icon.name}`}
-              className="font-medium text-primary hover:underline"
-            >
-              Open standalone page
-            </Link>
+            {linkMode === "open-in-explorer" ? (
+              <a
+                href={iconDetailPath(icon.name)}
+                className="font-medium text-primary hover:underline"
+              >
+                Open in Explorer
+              </a>
+            ) : (
+              <CopyButton
+                text={() => `${window.location.origin}${iconDetailPath(icon.name)}`}
+                label="Copy link"
+                copiedLabel="Link copied!"
+                announcement={`Link to ${icon.name} copied to clipboard`}
+                iconSize={12}
+                className="inline-flex items-center gap-1 font-medium text-primary hover:underline"
+              />
+            )}
           </div>
         </div>
 
@@ -332,8 +351,8 @@ export function IconDetailPanel({
             ))}
           </div>
 
-          <DynamicSlaticoIcon
-            name={icon.name}
+          <VariantOrPlaceholder
+            asset={activeAsset}
             style={customizer.style}
             size={customizer.size}
             color={customizer.primaryColor}
@@ -379,8 +398,8 @@ export function IconDetailPanel({
                       : "border-border bg-surface text-foreground hover:border-border-strong"
                   }`}
                 >
-                  <DynamicSlaticoIcon
-                    name={icon.name}
+                  <VariantOrPlaceholder
+                    asset={variants[st]}
                     style={st}
                     size={22}
                     color={customizer.primaryColor}
@@ -684,16 +703,19 @@ export function IconDetailPanel({
         </div>
 
         <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-5">
-          <button
-            type="button"
-            onClick={handleCopySvg}
+          <CopyButton
+            text={buildCopySvg}
+            disabled={!activeAsset}
+            label="Copy SVG"
+            copiedLabel="SVG Copied!"
+            announcement={`${icon.name} ${customizer.style} SVG copied to clipboard`}
             className="inline-flex items-center justify-center gap-1.5 rounded-[20px] squircle bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
-          >
-            <span>Copy SVG</span>
-          </button>
+            copiedClassName="!bg-primary-active"
+          />
 
           <button
             type="button"
+            disabled={!activeAsset}
             onClick={handleDownloadSvg}
             className="inline-flex items-center justify-center gap-1.5 rounded-[20px] squircle border border-border bg-surface-muted px-3 py-2 text-xs font-semibold text-foreground transition-colors hover:border-border-strong"
           >
@@ -702,7 +724,7 @@ export function IconDetailPanel({
 
           <button
             type="button"
-            disabled={isExporting}
+            disabled={isExporting || !activeAsset}
             onClick={handleExportPng}
             className="inline-flex items-center justify-center gap-1.5 rounded-[20px] squircle border border-border bg-surface-muted px-3 py-2 text-xs font-semibold text-foreground transition-colors hover:border-border-strong disabled:opacity-50"
           >
@@ -711,7 +733,7 @@ export function IconDetailPanel({
 
           <button
             type="button"
-            disabled={isExporting || !webpSupported}
+            disabled={isExporting || !webpSupported || !activeAsset}
             onClick={handleExportWebp}
             title={
               webpSupported
@@ -725,7 +747,7 @@ export function IconDetailPanel({
 
           <button
             type="button"
-            disabled={isExporting}
+            disabled={isExporting || !activeAsset}
             onClick={handleExportPdf}
             className="col-span-2 inline-flex items-center justify-center gap-1.5 rounded-[20px] squircle border border-primary-border bg-primary-soft px-3 py-2 text-xs font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground sm:col-span-1"
           >
@@ -745,15 +767,16 @@ export function IconDetailPanel({
               Package: <code className="font-mono text-foreground">{activePlatformMeta.packageName}</code>
             </p>
           </div>
-          <button
-            type="button"
-            onClick={() =>
-              copyText(currentCodeSnippet, `${activePlatformMeta.label} snippet`)
-            }
+          <CopyButton
+            key={activePlatformMeta.label}
+            text={currentCodeSnippet}
+            disabled={!activeAsset}
+            label={`Copy ${activePlatformMeta.shortLabel} Code`}
+            copiedLabel="Code Copied!"
+            announcement={`${activePlatformMeta.label} code copied to clipboard`}
             className="inline-flex items-center gap-1.5 rounded-[20px] squircle bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
-          >
-            <span>Copy {activePlatformMeta.shortLabel} Code</span>
-          </button>
+            copiedClassName="!bg-primary-active"
+          />
         </div>
 
         {/* Platform Tabs */}
@@ -831,4 +854,23 @@ export function IconDetailPanel({
       </div>
     </div>
   );
+}
+
+function VariantOrPlaceholder({
+  asset,
+  size = 24,
+  ...rest
+}: Omit<React.ComponentProps<typeof IconSvg>, "asset"> & {
+  readonly asset: React.ComponentProps<typeof IconSvg>["asset"] | undefined;
+}) {
+  if (!asset) {
+    return (
+      <span
+        aria-hidden
+        className="inline-block animate-pulse rounded-md bg-surface-muted"
+        style={{ width: size, height: size }}
+      />
+    );
+  }
+  return <IconSvg asset={asset} size={size} {...rest} />;
 }

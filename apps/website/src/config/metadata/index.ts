@@ -6,8 +6,7 @@ export {
 export { HOME_SEO_CONFIG, homeMetadata } from "./home";
 export {
   ICONS_EXPLORER_SEO_CONFIG,
-  iconsExplorerMetadata,
-  buildIconDetailMetadata
+  iconsExplorerMetadata
 } from "./icons";
 export {
   DOCS_OVERVIEW_SEO_CONFIG,

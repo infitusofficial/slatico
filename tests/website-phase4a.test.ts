@@ -11,7 +11,6 @@ import {
   aboutMetadata,
   contactMetadata,
   licenseMetadata,
-  buildIconDetailMetadata,
   buildDocsGuideMetadata
 } from "../apps/website/src/config/metadata";
 import {
@@ -19,6 +18,7 @@ import {
   filterCatalogIcons,
   getEnrichedIconByName
 } from "../apps/website/src/lib/catalog";
+import { getSvgAsset } from "../packages/svg/src/index.js";
 import { buildStandaloneSvg } from "../apps/website/src/lib/svg-export";
 import {
   hasValidPngMagicBytes,
@@ -58,6 +58,17 @@ function walkFiles(dir: string, extFilter: string[]): string[] {
     }
   }
   return results;
+}
+
+/** Supplies the SVG data the drawer now passes in from the lazily loaded catalog. */
+function snippetWithAsset(
+  platform: Parameters<typeof generatePlatformCodeSnippet>[0],
+  options: Omit<Parameters<typeof generatePlatformCodeSnippet>[1], "asset">
+): string {
+  return generatePlatformCodeSnippet(platform, {
+    ...options,
+    asset: getSvgAsset(options.name as (typeof ICON_NAMES)[number], options.style)
+  });
 }
 
 describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () => {
@@ -232,14 +243,8 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     expect(aboutMetadata.title).toContain("About");
     expect(contactMetadata.title).toContain("Contact");
     expect(licenseMetadata.title).toContain("MIT");
-    expect(
-      buildIconDetailMetadata({
-        name: "bell",
-        pascalName: "Bell",
-        categoryLabel: "Communication & Alerts",
-        keywords: ["notification"]
-      }).title
-    ).toContain("Bell (bell)");
+    // Per-icon pages were replaced by Explorer drawer states (canonical /icons).
+    expect(iconsExplorerMetadata.alternates?.canonical).toBe("https://slatico.dev/icons");
     expect(buildDocsGuideMetadata("swift").title).toContain("Apple Native");
   });
 
@@ -286,7 +291,7 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
   it("generates standalone valid 24x24 SVGs with all CSS variables resolved across all 161 variants and supports dual-color Color icons", () => {
     for (const name of ICON_NAMES) {
       for (const style of SLATICO_STYLES) {
-        const svg = buildStandaloneSvg(name, style, {
+        const svg = buildStandaloneSvg(getSvgAsset(name, style), {
           size: 32,
           primaryColor: "#1E293B",
           secondaryColor: "#4F46E5",
@@ -302,23 +307,23 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     }
 
     // Verify Color style preserves #FF6040 and #000000 by default and supports independent primary/secondary customization
-    const defaultColorSvg = buildStandaloneSvg("bell", "color");
+    const defaultColorSvg = buildStandaloneSvg(getSvgAsset("bell", "color"));
     expect(defaultColorSvg).toContain('fill="#FF6040"');
     expect(defaultColorSvg).toContain('fill="#000000"');
 
-    const customPrimaryOnlySvg = buildStandaloneSvg("bell", "color", {
+    const customPrimaryOnlySvg = buildStandaloneSvg(getSvgAsset("bell", "color"), {
       primaryColor: "#2563EB"
     });
     expect(customPrimaryOnlySvg).toContain('fill="#2563EB"');
     expect(customPrimaryOnlySvg).toContain('fill="#000000"');
 
-    const customSecondaryOnlySvg = buildStandaloneSvg("bell", "color", {
+    const customSecondaryOnlySvg = buildStandaloneSvg(getSvgAsset("bell", "color"), {
       secondaryColor: "#059669"
     });
     expect(customSecondaryOnlySvg).toContain('fill="#FF6040"');
     expect(customSecondaryOnlySvg).toContain('fill="#059669"');
 
-    const customBothColorSvg = buildStandaloneSvg("bell", "color", {
+    const customBothColorSvg = buildStandaloneSvg(getSvgAsset("bell", "color"), {
       primaryColor: "#2563EB",
       secondaryColor: "#059669"
     });
@@ -358,7 +363,7 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
 
   it("generates valid Vector PDF 1.4 documents with real vector path operators (m, l, c, h, f/f*) and ExtGState opacity", () => {
     for (const style of SLATICO_STYLES) {
-      const pdfBytes = buildVectorPdfBytes("bell", style, {
+      const pdfBytes = buildVectorPdfBytes(getSvgAsset("bell", style), {
         primaryColor: "#1E293B",
         secondaryColor: "#4F46E5",
         secondaryOpacity: 0.3
@@ -379,7 +384,7 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     }
 
     const duotoneLayers = extractSvgVectorLayers(
-      buildStandaloneSvg("bell", "duotone", {
+      buildStandaloneSvg(getSvgAsset("bell", "duotone"), {
         primaryColor: "#112233",
         secondaryColor: "#445566",
         secondaryOpacity: 0.35
@@ -389,7 +394,7 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     expect(duotoneLayers.some((l) => l.opacity === 0.35)).toBe(true);
 
     const colorLayers = extractSvgVectorLayers(
-      buildStandaloneSvg("bell", "color", {
+      buildStandaloneSvg(getSvgAsset("bell", "color"), {
         primaryColor: "#2563EB",
         secondaryColor: "#059669"
       })
@@ -413,7 +418,7 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     expect(CODE_SNIPPET_PLATFORMS.length).toBe(11);
 
     for (const platform of CODE_SNIPPET_PLATFORMS) {
-      const snippet = generatePlatformCodeSnippet(platform, {
+      const snippet = snippetWithAsset(platform, {
         name: "shield-check",
         pascalName: "ShieldCheck",
         style: "duotone",
@@ -426,7 +431,7 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
       expect(snippet.length).toBeGreaterThan(30);
     }
 
-    const reactColorSnippet = generatePlatformCodeSnippet("react", {
+    const reactColorSnippet = snippetWithAsset("react", {
       name: "bell",
       pascalName: "Bell",
       style: "color",
@@ -438,7 +443,7 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     expect(reactColorSnippet).toContain('secondaryColor="#059669"');
 
     expect(
-      generatePlatformCodeSnippet("react", {
+      snippetWithAsset("react", {
         name: "bell",
         pascalName: "Bell",
         style: "duotone",
@@ -450,7 +455,7 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     ).toContain("@slatico/react/icons/bell");
 
     expect(
-      generatePlatformCodeSnippet("flutter", {
+      snippetWithAsset("flutter", {
         name: "bell",
         pascalName: "Bell",
         style: "duotone",
@@ -462,7 +467,7 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     ).toContain("name: SlaticoIconName.bell");
 
     expect(
-      generatePlatformCodeSnippet("jetpack-compose", {
+      snippetWithAsset("jetpack-compose", {
         name: "shield-check",
         pascalName: "ShieldCheck",
         style: "duotone",
@@ -474,7 +479,7 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     ).toContain("SlaticoIconName.SHIELD_CHECK");
 
     expect(
-      generatePlatformCodeSnippet("swiftui", {
+      snippetWithAsset("swiftui", {
         name: "cloud-check",
         pascalName: "CloudCheck",
         style: "duotone",
@@ -486,7 +491,7 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     ).toContain("SlaticoIcon(");
 
     // Verify Android XML snippet matches actual generated VectorDrawable resource on disk (slatico_<snake_name>_<style>)
-    const androidXmlSnippet = generatePlatformCodeSnippet("android-xml", {
+    const androidXmlSnippet = snippetWithAsset("android-xml", {
       name: "shield-check",
       pascalName: "ShieldCheck",
       style: "regular",
@@ -512,7 +517,7 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     ).toBe(true);
 
     // Verify Flutter monochrome IconData constant matches actual generated SlaticoIcons.<camelName><PascalStyle>
-    const flutterRegularSnippet = generatePlatformCodeSnippet("flutter", {
+    const flutterRegularSnippet = snippetWithAsset("flutter", {
       name: "shield-check",
       pascalName: "ShieldCheck",
       style: "regular",
@@ -523,7 +528,7 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     expect(flutterRegularSnippet).toContain("SlaticoIcons.shieldCheckRegular");
 
     // Verify HTML snippet includes standalone SVG, programmatic @slatico/svg renderSvgMarkup, and @slatico/font class
-    const htmlRegularSnippet = generatePlatformCodeSnippet("html", {
+    const htmlRegularSnippet = snippetWithAsset("html", {
       name: "bell",
       pascalName: "Bell",
       style: "regular",
@@ -535,7 +540,7 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     expect(htmlRegularSnippet).toContain("slatico slatico-bell-regular");
 
     // Verify UIKit & AppKit snippets with customizable Color style
-    const uikitColorSnippet = generatePlatformCodeSnippet("uikit", {
+    const uikitColorSnippet = snippetWithAsset("uikit", {
       name: "wallet",
       pascalName: "Wallet",
       style: "color",
@@ -546,7 +551,7 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     expect(uikitColorSnippet).toContain("UIImage.slatico(");
     expect(uikitColorSnippet).toContain("secondaryColor: UIColor(");
 
-    const appkitColorSnippet = generatePlatformCodeSnippet("appkit", {
+    const appkitColorSnippet = snippetWithAsset("appkit", {
       name: "wallet",
       pascalName: "Wallet",
       style: "color",
@@ -589,12 +594,7 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     const expectedOutputs = [
       "index.html",
       "icons.html",
-      "icons/arrow-down.html",
-      "icons/arrow-up.html",
-      "icons/arrow-up-left.html",
-      "icons/arrow-up-right.html",
-      "icons/bell.html",
-      "icons/shield-check.html",
+      "catalog/manifest.json",
       "docs.html",
       "docs/react.html",
       "docs/vue.html",
@@ -632,8 +632,10 @@ describe("Slatico Phase 4A — Premium Icon Explorer Website Verification", () =
     expect(sitemapXml).toContain("<loc>https://slatico.dev/icons</loc>");
     expect(sitemapXml).toContain("<loc>https://slatico.dev/docs</loc>");
     expect(sitemapXml).toContain("<loc>https://slatico.dev/docs/swift</loc>");
+    // Icon detail URLs are Explorer drawer states (canonical /icons): no per-icon pages or sitemap entries.
     for (const iconName of ICON_NAMES) {
-      expect(sitemapXml).toContain(`<loc>https://slatico.dev/icons/${iconName}</loc>`);
+      expect(sitemapXml).not.toContain(`<loc>https://slatico.dev/icons/${iconName}</loc>`);
+      expect(existsSync(path.join(outDir, "icons", `${iconName}.html`))).toBe(false);
     }
     expect(sitemapXml).not.toContain("slatico.infitus.dev");
     expect(sitemapXml).not.toContain("localhost:3000");

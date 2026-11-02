@@ -1,4 +1,4 @@
-import type { SlaticoIconName, SlaticoStyle } from "@slatico/core";
+import type { IconVariantAsset } from "./icon-asset";
 import {
   buildStandaloneSvg,
   getExportFileBaseName,
@@ -575,12 +575,12 @@ export function svgPathToPdfOperators(d: string, pageSizePt: number): string {
  * paths (`m`, `l`, `c`, `h`, `f`, `f*`) and ExtGState alpha transparency.
  */
 export function buildVectorPdfBytes(
-  name: SlaticoIconName,
-  style: SlaticoStyle,
+  asset: IconVariantAsset,
   options: VectorPdfExportOptions = {}
 ): Uint8Array {
   const pageSizePt = options.pageSizePt ?? 96;
-  const standaloneSvg = buildStandaloneSvg(name, style, options);
+  const { name, style } = asset;
+  const standaloneSvg = buildStandaloneSvg(asset, options);
   const layers = extractSvgVectorLayers(standaloneSvg);
 
   // Collect unique opacity values to register ExtGState entries
@@ -647,11 +647,11 @@ export function buildVectorPdfBytes(
 }
 
 export function downloadVectorPdf(
-  name: SlaticoIconName,
-  style: SlaticoStyle,
+  asset: IconVariantAsset,
   options: VectorPdfExportOptions = {}
 ): Uint8Array {
-  const bytes = buildVectorPdfBytes(name, style, options);
+  const { name, style } = asset;
+  const bytes = buildVectorPdfBytes(asset, options);
   const blob = new Blob([bytes.buffer as ArrayBuffer], { type: "application/pdf" });
   const fileName = `${getExportFileBaseName(name, style)}.pdf`;
   triggerBlobDownload(blob, fileName);

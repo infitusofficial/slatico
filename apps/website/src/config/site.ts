@@ -1,4 +1,5 @@
-import { ICON_CATALOG, SLATICO_STYLES, SLATICO_STYLE_SPECS } from "@slatico/core";
+import { SLATICO_STYLES, SLATICO_STYLE_SPECS } from "@slatico/core";
+import { CATALOG_SUMMARY } from "../generated/catalog-summary";
 
 export interface SiteNavigationItem {
   readonly label: string;
@@ -75,7 +76,7 @@ export const DOCS_GUIDES: readonly DocsGuideNavItem[] = [
     packageName: "dev.slatico:slatico-android",
     ecosystem: "Jetpack Compose & Android View XML",
     summary:
-      `${ICON_CATALOG.totalVariants} native Android VectorDrawable resources and Jetpack Compose SlaticoIcon composables with runtime tinting.`
+      `${CATALOG_SUMMARY.totalVariants} native Android VectorDrawable resources and Jetpack Compose SlaticoIcon composables with runtime tinting.`
   },
   {
     slug: "swift",
@@ -108,18 +109,18 @@ export const SITE_CONFIG = {
   tagline: "Precision-crafted multi-platform icon system across 7 architectural styles.",
   title: "Slatico — Multi-Platform Open-Source Icon System by Infitus Creative Studio",
   description:
-    `Explore ${ICON_CATALOG.totalIcons} original icon families and ${ICON_CATALOG.totalVariants} production vector variants across Thin, Light, Regular, Bold, Fill, Duotone, and Color styles for React, Vue, Web Components, React Native, Flutter, Android, and Apple Swift.`,
+    `Explore ${CATALOG_SUMMARY.totalFamilies} original icon families and ${CATALOG_SUMMARY.totalVariants} production vector variants across Thin, Light, Regular, Bold, Fill, Duotone, and Color styles for React, Vue, Web Components, React Native, Flutter, Android, and Apple Swift.`,
   siteUrl: RESOLVED_SITE_URL,
   locale: "en_US",
   language: "en",
   license: "MIT",
-  version: ICON_CATALOG.version,
+  version: CATALOG_SUMMARY.version,
   npmScope: "@slatico",
   releaseStatus: {
     isPublishedToRegistries: true,
-    badgeLabel: `v${ICON_CATALOG.version} · Public Release`,
+    badgeLabel: `v${CATALOG_SUMMARY.version} · Public Release`,
     notice:
-      `Slatico ${ICON_CATALOG.version} is published on npm (@slatico/*), pub.dev (slatico_icons), Maven Central (dev.slatico:slatico-android), and Swift Package Manager (github.com/infitusofficial/slatico-swift).`
+      `Slatico ${CATALOG_SUMMARY.version} is published on npm (@slatico/*), pub.dev (slatico_icons), Maven Central (dev.slatico:slatico-android), and Swift Package Manager (github.com/infitusofficial/slatico-swift).`
   },
   links: {
     website: RESOLVED_SITE_URL,
@@ -159,10 +160,10 @@ export const SITE_CONFIG = {
     }
   },
   metrics: {
-    totalFamilies: ICON_CATALOG.totalIcons,
-    totalVariants: ICON_CATALOG.totalVariants,
+    totalFamilies: CATALOG_SUMMARY.totalFamilies,
+    totalVariants: CATALOG_SUMMARY.totalVariants,
     totalStyles: SLATICO_STYLES.length,
-    masterGrid: ICON_CATALOG.masterViewBox
+    masterGrid: CATALOG_SUMMARY.masterViewBox
   },
   styles: SLATICO_STYLES.map((styleId) => SLATICO_STYLE_SPECS[styleId]),
   mainNav: [

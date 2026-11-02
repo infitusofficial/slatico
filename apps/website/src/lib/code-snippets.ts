@@ -1,4 +1,5 @@
-import type { SlaticoIconName, SlaticoStyle } from "@slatico/core";
+import type { SlaticoStyle } from "@slatico/core";
+import type { IconVariantAsset } from "./icon-asset";
 import { buildStandaloneSvg } from "./svg-export";
 
 /** Slatico brand primary, used where the Explorer previews its `var(--primary)` theme token. */
@@ -111,13 +112,15 @@ export const CODE_SNIPPET_PLATFORM_META: Readonly<
 } as const;
 
 export interface CodeSnippetOptions {
-  readonly name: SlaticoIconName;
+  readonly name: string;
   readonly pascalName: string;
   readonly style: SlaticoStyle;
   readonly size: number;
   readonly primaryColor: string;
   readonly secondaryColor: string;
   readonly secondaryOpacity?: number;
+  /** SVG data for `name` + `style`; required by the HTML / inline SVG snippet. */
+  readonly asset: IconVariantAsset;
 }
 
 function toCamelCase(kebab: string): string {
@@ -296,7 +299,7 @@ import { ${componentName} } from "@slatico/vue/icons/${name}";
     }
 
     case "html": {
-      const standaloneSvg = buildStandaloneSvg(name, style, {
+      const standaloneSvg = buildStandaloneSvg(options.asset, {
         size,
         primaryColor,
         secondaryColor,

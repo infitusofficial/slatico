@@ -1,7 +1,19 @@
-# Cloudflare Pages path-level redirects
+# Cloudflare Pages path-level redirects and rewrites (first matching rule wins).
 # Note: Hostname-level redirects (www.slatico.dev -> https://slatico.dev) must be configured
 # via a Cloudflare Zone-Level Redirect Rule (http.host eq "www.slatico.dev") to preserve paths
 # and query strings without causing a path-wildcard loop on the apex domain.
 /home / 301
 /explore /icons 301
 /documentation /docs 301
+
+# Icon Explorer deep links. Pages applies these rules BEFORE serving static files, so:
+# 1. Next.js's own /icons route data (/icons/__next*.txt, /icons/__next.icons/...) must pass
+#    through untouched (rewriting a path to itself serves the real file, or a 404 if missing).
+# 2. /icons/<slug>/ (trailing slash) is normalised to /icons/<slug>.
+# 3. /icons/<slug> (exactly one segment) is served the /icons page with HTTP 200 and an unchanged
+#    URL; the Explorer validates the slug against the catalog and opens the detail drawer.
+# Nothing except Next.js `__next*` files may be emitted under out/icons/ (enforced by
+# scripts/verify-website-export.ts), or it would be shadowed by rule 3.
+/icons/__next* /icons/__next:splat 200
+/icons/:slug/ /icons/:slug 301
+/icons/:slug /icons 200

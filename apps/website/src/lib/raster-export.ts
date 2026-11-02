@@ -1,4 +1,4 @@
-import type { SlaticoIconName, SlaticoStyle } from "@slatico/core";
+import type { IconVariantAsset } from "./icon-asset";
 import {
   buildStandaloneSvg,
   getExportFileBaseName,
@@ -80,16 +80,16 @@ export function hasValidPngMagicBytes(bytes: Uint8Array): boolean {
 }
 
 async function renderSvgToCanvas(
-  name: SlaticoIconName,
-  style: SlaticoStyle,
+  asset: IconVariantAsset,
   options: RasterExportOptions
 ): Promise<HTMLCanvasElement> {
+  const { name, style } = asset;
   if (typeof document === "undefined") {
     throw new Error("Canvas raster export requires a browser environment.");
   }
 
   const dimension = Math.max(16, Math.min(4096, Math.round(options.dimension)));
-  const svgMarkup = buildStandaloneSvg(name, style, {
+  const svgMarkup = buildStandaloneSvg(asset, {
     ...options,
     size: dimension,
     backgroundColor: null // We paint background directly on canvas if specified
@@ -153,11 +153,11 @@ function canvasToBlob(
 }
 
 export async function exportIconToPng(
-  name: SlaticoIconName,
-  style: SlaticoStyle,
+  asset: IconVariantAsset,
   options: RasterExportOptions
 ): Promise<RasterExportResult> {
-  const canvas = await renderSvgToCanvas(name, style, options);
+  const { name, style } = asset;
+  const canvas = await renderSvgToCanvas(asset, options);
   const blob = await canvasToBlob(canvas, "image/png");
   const fileName = `${getExportFileBaseName(name, style, canvas.width)}.png`;
   triggerBlobDownload(blob, fileName);
@@ -171,8 +171,7 @@ export async function exportIconToPng(
 }
 
 export async function exportIconToWebp(
-  name: SlaticoIconName,
-  style: SlaticoStyle,
+  asset: IconVariantAsset,
   options: RasterExportOptions
 ): Promise<RasterExportResult> {
   if (!isCanvasWebpSupported()) {
@@ -181,7 +180,8 @@ export async function exportIconToWebp(
     );
   }
 
-  const canvas = await renderSvgToCanvas(name, style, options);
+  const { name, style } = asset;
+  const canvas = await renderSvgToCanvas(asset, options);
   const blob = await canvasToBlob(canvas, "image/webp", 0.96);
 
   if (blob.type !== "image/webp") {
