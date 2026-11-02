@@ -184,3 +184,6 @@ local.properties
 # OS metadata
 .DS_Store
 Thumbs.db
+
+# Generated Icon Explorer catalog shards (scripts/generate-website-catalog.ts)
+apps/website/public/catalog/

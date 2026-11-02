@@ -1,5 +1,6 @@
 import type { SlaticoIconName, SlaticoStyle } from "@slatico/core";
-import { getSvgAsset, scopeSvgIds } from "@slatico/svg";
+import { getSvgAsset } from "@slatico/svg";
+import { IconSvg } from "./icon-svg";
 
 export interface DynamicSlaticoIconProps {
   readonly name: SlaticoIconName;
@@ -14,72 +15,12 @@ export interface DynamicSlaticoIconProps {
 }
 
 /**
- * Renders any Slatico icon by name and style directly from `@slatico/svg` catalog data,
- * supporting dynamic style switching, primary color, Duotone secondary color + opacity,
- * and unique ID scoping so multiple instances on the page never collide.
+ * Server-side icon renderer backed by the full `@slatico/svg` catalog.
+ *
+ * Server components only: importing this from a client component would ship every SVG variant to
+ * the browser. Client components use `SiteIcon` (fixed chrome icons) or the catalog-backed
+ * `CatalogIcon`.
  */
-export function DynamicSlaticoIcon({
-  name,
-  style = "regular",
-  size = 24,
-  color = "currentColor",
-  secondaryColor,
-  secondaryOpacity,
-  title,
-  className,
-  idScope
-}: DynamicSlaticoIconProps) {
-  const asset = getSvgAsset(name, style);
-  const scopedInner = idScope
-    ? scopeSvgIds(asset.innerSvg, idScope)
-    : asset.innerSvg;
-
-  const inlineStyle: Record<string, string> = {};
-  if (style === "color") {
-    if (color && color !== "currentColor") {
-      inlineStyle["--slatico-primary-color"] = color;
-    }
-    if (
-      secondaryColor &&
-      secondaryColor !== "currentColor" &&
-      secondaryColor !== "var(--primary)"
-    ) {
-      inlineStyle["--slatico-secondary-color"] = secondaryColor;
-    } else {
-      inlineStyle["--slatico-secondary-color"] =
-        "var(--slatico-color-secondary-default, #000000)";
-    }
-  } else {
-    if (color) {
-      inlineStyle.color = color;
-    }
-    if (style === "duotone") {
-      if (secondaryColor) {
-        inlineStyle["--slatico-secondary-color"] = secondaryColor;
-      }
-      if (secondaryOpacity !== undefined) {
-        inlineStyle["--slatico-secondary-opacity"] = String(secondaryOpacity);
-      }
-    }
-  }
-
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox={asset.viewBox}
-      width={size}
-      height={size}
-      fill="none"
-      className={className}
-      style={inlineStyle}
-      role={title ? "img" : undefined}
-      aria-label={title || undefined}
-      aria-hidden={title ? undefined : true}
-      data-slatico-icon={name}
-      data-slatico-variant={style}
-      dangerouslySetInnerHTML={{
-        __html: title ? `<title>${title}</title>${scopedInner}` : scopedInner
-      }}
-    />
-  );
+export function DynamicSlaticoIcon({ name, style = "regular", ...rest }: DynamicSlaticoIconProps) {
+  return <IconSvg asset={getSvgAsset(name, style)} style={style} {...rest} />;
 }

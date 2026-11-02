@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { ICON_NAMES, type SlaticoIconName } from "@slatico/core";
+import type { SlaticoIconName } from "@slatico/core";
+import { CATALOG_SUMMARY } from "../generated/catalog-summary";
 import {
   FONT_COMPATIBLE_STYLES,
   FONT_FAMILIES,
@@ -71,8 +72,8 @@ ${getFontHtmlSnippet(selectedIcon, selectedStyle)}
               @slatico/font
             </span>
             <span className="min-w-0 break-words font-mono text-xs text-muted-foreground">
-              WOFF2 • WOFF • TTF • CSS • 5 Monochrome Styles × {ICON_NAMES.length} Icons ={" "}
-              {ICON_NAMES.length * FONT_COMPATIBLE_STYLES.length} Glyphs
+              WOFF2 • WOFF • TTF • CSS • 5 Monochrome Styles × {CATALOG_SUMMARY.totalFamilies} Icons ={" "}
+              {CATALOG_SUMMARY.totalFamilies * FONT_COMPATIBLE_STYLES.length} Glyphs
             </span>
           </div>
           <h3 className="mt-1.5 text-base font-bold text-foreground sm:text-lg">

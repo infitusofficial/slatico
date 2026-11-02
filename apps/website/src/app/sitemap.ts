@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_CONFIG } from "../config/site";
 import { resolveCanonicalUrl } from "../config/metadata";
-import { ENRICHED_ICONS } from "../lib/catalog";
 
 export const dynamic = "force-static";
 
@@ -56,12 +55,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })
   );
 
-  const iconPages: MetadataRoute.Sitemap = ENRICHED_ICONS.map((icon) => ({
-    url: resolveCanonicalUrl(`/icons/${icon.name}`),
-    lastModified,
-    changeFrequency: "monthly",
-    priority: 0.8
-  }));
-
-  return [...corePages, ...docsPages, ...iconPages];
+  // Icon detail URLs (/icons/<slug>) are drawer states of the Explorer and share its canonical
+  // (https://slatico.dev/icons), so they are intentionally not listed.
+  return [...corePages, ...docsPages];
 }

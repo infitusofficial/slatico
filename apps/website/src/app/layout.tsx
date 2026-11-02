@@ -39,8 +39,17 @@ export const viewport: Viewport = {
   ]
 };
 
+// Site-wide defaults come from the homepage metadata, except its canonical URL and robots
+// directives: every page sets its own, and inheriting them made the 404 page claim the homepage
+// canonical and emit "index, follow" next to Next.js's automatic "noindex".
+const {
+  alternates: _homeAlternates,
+  robots: _homeRobots,
+  ...siteDefaultMetadata
+} = homeMetadata;
+
 export const metadata: Metadata = {
-  ...homeMetadata,
+  ...siteDefaultMetadata,
   metadataBase: new URL(SITE_CONFIG.siteUrl),
   applicationName: SITE_CONFIG.brandName,
   authors: [{ name: SITE_CONFIG.publisher.name, url: SITE_CONFIG.publisher.url }],

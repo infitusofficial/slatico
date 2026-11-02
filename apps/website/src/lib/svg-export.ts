@@ -1,5 +1,5 @@
-import type { SlaticoIconName, SlaticoStyle } from "@slatico/core";
-import { getSvgAsset, scopeSvgIds } from "@slatico/svg";
+import type { SlaticoStyle } from "@slatico/core";
+import { scopeSvgIds, type IconVariantAsset } from "./icon-asset";
 
 export interface StandaloneSvgOptions {
   readonly size?: number;
@@ -45,11 +45,10 @@ function resolveCssColorToken(raw: string, fallback = "#1A1931"): string {
  * renders identically in Figma, Illustrator, browsers, and native image decoders.
  */
 export function buildStandaloneSvg(
-  name: SlaticoIconName,
-  style: SlaticoStyle,
+  asset: IconVariantAsset,
   options: StandaloneSvgOptions = {}
 ): string {
-  const asset = getSvgAsset(name, style);
+  const { style } = asset;
   const size = options.size ?? 24;
   const primaryColor = (options.primaryColor ?? "currentColor").trim() || "currentColor";
   const resolvedPrimary = resolveCssColorToken(primaryColor, "#1A1931");
@@ -116,7 +115,7 @@ export function buildStandaloneSvg(
 }
 
 export function getExportFileBaseName(
-  name: SlaticoIconName,
+  name: string,
   style: SlaticoStyle,
   size?: number
 ): string {
@@ -144,11 +143,11 @@ export function triggerBlobDownload(blob: Blob, fileName: string): void {
 }
 
 export function downloadStandaloneSvg(
-  name: SlaticoIconName,
-  style: SlaticoStyle,
+  asset: IconVariantAsset,
   options: StandaloneSvgOptions = {}
 ): string {
-  const svg = buildStandaloneSvg(name, style, options);
+  const { name, style } = asset;
+  const svg = buildStandaloneSvg(asset, options);
   const blob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
   const fileName = `${getExportFileBaseName(name, style, options.size)}.svg`;
   triggerBlobDownload(blob, fileName);

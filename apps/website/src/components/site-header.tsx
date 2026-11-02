@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { SITE_CONFIG } from "../config/site";
 import { BrandLogo } from "./brand-logo";
 import { ThemeToggle } from "./theme-toggle";
-import { DynamicSlaticoIcon } from "./dynamic-slatico-icon";
+import { SiteIcon } from "./site-icon";
 
 export function SiteHeader() {
   const pathname = usePathname() || "/";
@@ -80,11 +80,7 @@ export function SiteHeader() {
             aria-label={`Search ${SITE_CONFIG.metrics.totalVariants} icons in Icon Explorer`}
             className="hidden items-center gap-2 rounded-[20px] squircle border border-border bg-surface px-3 py-1.5 text-xs font-medium text-muted-foreground shadow-2xs transition-colors hover:border-border-strong hover:text-foreground lg:inline-flex"
           >
-            <DynamicSlaticoIcon
-              name="magnifying-glass"
-              style="regular"
-              size={14}
-            />
+            <SiteIcon icon="magnifying-glass:regular" size={14} />
             <span>Search {SITE_CONFIG.metrics.totalVariants} icons...</span>
             <kbd className="rounded border border-border bg-surface-muted px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
               /

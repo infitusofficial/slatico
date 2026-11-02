@@ -3,10 +3,17 @@ import { SITE_CONFIG } from "../../config/site";
 import { iconsExplorerMetadata } from "../../config/metadata";
 import { buildBreadcrumbJsonLd } from "../../lib/structured-data";
 import { IconExplorer } from "../../components/explorer/icon-explorer";
+import { getExplorerSeed, preloadExplorerCatalog } from "../../lib/catalog-seed";
 
 export const metadata: Metadata = iconsExplorerMetadata;
 
+/**
+ * Also served (via the Cloudflare Pages rewrite `/icons/:slug /icons 200`) for every
+ * `/icons/<slug>` deep link; the Explorer then opens that icon's drawer client-side. All drawer
+ * states share this page's canonical URL, https://slatico.dev/icons.
+ */
 export default function IconsExplorerPage() {
+  preloadExplorerCatalog();
   const breadcrumbJsonLd = buildBreadcrumbJsonLd([
     { name: "Home", path: "/" },
     { name: "Icons", path: "/icons" }
@@ -33,7 +40,7 @@ export default function IconsExplorerPage() {
         </div>
       </div>
 
-      <IconExplorer compactHeader />
+      <IconExplorer compactHeader routing="path" seed={getExplorerSeed()} />
     </div>
   );
 }

@@ -5,7 +5,6 @@ import { defineSlaticoIconElement, registerSlaticoIcons } from "@slatico/web";
 import { bellIconDef } from "@slatico/web/icons/bell";
 import { shieldCheckIconDef } from "@slatico/web/icons/shield-check";
 import { walletIconDef } from "@slatico/web/icons/wallet";
-import { getSpriteSymbolId, getSvgSprite, renderSvgMarkup } from "@slatico/svg";
 
 const FRAMEWORK_SNIPPETS = {
   react: `import { BellIcon } from "@slatico/react/icons/bell";
@@ -73,7 +72,21 @@ export function NativeDemo() {
 
 type FrameworkKey = keyof typeof FRAMEWORK_SNIPPETS;
 
-export function PlatformIntegrationDemo() {
+export interface PlatformIntegrationDemoProps {
+  /**
+   * Server-rendered `@slatico/svg` output. Computed on the server so this client component never
+   * bundles the SVG catalog; the sprite contains only the symbol the demo references.
+   */
+  readonly duotoneSprite: string;
+  readonly bellSymbolId: string;
+  readonly programmaticSvg: string;
+}
+
+export function PlatformIntegrationDemo({
+  duotoneSprite,
+  bellSymbolId,
+  programmaticSvg
+}: PlatformIntegrationDemoProps) {
   const [activeTab, setActiveTab] = useState<FrameworkKey>("react");
   const [webComponentReady, setWebComponentReady] = useState(false);
 
@@ -82,14 +95,6 @@ export function PlatformIntegrationDemo() {
     defineSlaticoIconElement();
     setWebComponentReady(true);
   }, []);
-
-  const duotoneSprite = getSvgSprite("duotone");
-  const bellSymbolId = getSpriteSymbolId("bell", "duotone");
-  const programmaticSvg = renderSvgMarkup("wallet", "color", {
-    size: 28,
-    title: "Programmatic Wallet SVG",
-    idPrefix: "site-demo"
-  });
 
   return (
     <div className="min-w-0 max-w-full rounded-[32px] squircle border border-border bg-surface p-4 shadow-xs sm:p-6">
