@@ -85,8 +85,9 @@ flutter pub add slatico_icons
 # Android (build.gradle.kts)
 implementation("dev.slatico:slatico-android:0.1.0")
 
-# Apple Swift Package Manager (Package.swift local monorepo path or Git release)
-.package(path: "../slatico/packages/swift")`}
+# Apple Swift Package Manager (Package.swift)
+.package(url: "https://github.com/infitusofficial/slatico-swift.git", from: "0.1.0")
+.product(name: "SlaticoIcons", package: "slatico-swift")`}
         />
       </section>
 

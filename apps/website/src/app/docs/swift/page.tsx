@@ -42,21 +42,21 @@ export default function SwiftDocsPage() {
         <DocsCodeBlock
           title="Package.swift"
           language="swift"
-          code={`// 1. Local monorepo path dependency (packages/swift/Package.swift):
+          code={`// Xcode: File → Add Package Dependencies… →
+// https://github.com/infitusofficial/slatico-swift.git (Up to Next Major from 0.1.0)
+
 dependencies: [
-    .package(path: "../slatico/packages/swift")
+    .package(url: "https://github.com/infitusofficial/slatico-swift.git", from: "0.1.0")
 ],
 targets: [
     .target(
         name: "YourApp",
         dependencies: [
-            .product(name: "SlaticoIcons", package: "SlaticoIcons")
+            // SwiftPM package identity comes from the URL: "slatico-swift"
+            .product(name: "SlaticoIcons", package: "slatico-swift")
         ]
     )
-]
-
-// 2. Or standalone Swift release mirror repository:
-// .package(url: "https://github.com/infitusofficial/slatico-swift.git", from: "0.1.0")`}
+]`}
         />
       </section>
 
