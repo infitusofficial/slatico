@@ -62,10 +62,19 @@ export class CatalogRequestError extends Error {
 }
 
 const defaultFetchJson: FetchJson = async (url, init) => {
-  const response = await fetch(url, {
-    credentials: "same-origin",
-    cache: init?.fresh ? "no-cache" : "default"
-  });
+  const request = () =>
+    fetch(url, { credentials: "same-origin", cache: init?.fresh ? "no-cache" : "default" });
+  let response: Response;
+  try {
+    response = await request();
+  } catch {
+    response = await request(); // one retry for a dropped connection
+  }
+  if (response.status >= 500) {
+    // Transient edge errors: retry once after a short pause before surfacing an error.
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    response = await request();
+  }
   if (!response.ok) throw new CatalogRequestError(response.status, url);
   return response.json();
 };

@@ -187,6 +187,22 @@ export function IconExplorer({
     );
   }, [client, query, category]);
 
+  // Style switches should feel instant: once idle, warm the other styles' shards for the first
+  // visible block (one small shard per style, independent of catalog size).
+  const firstId = results.ids[0];
+  useEffect(() => {
+    if (firstId === undefined) return;
+    const warm = () => {
+      for (const style of SLATICO_STYLES) void client.getVariant(firstId, style).catch(() => undefined);
+    };
+    const idle = window.requestIdleCallback?.(warm, { timeout: 3000 });
+    const timer = idle === undefined ? window.setTimeout(warm, 1500) : undefined;
+    return () => {
+      if (idle !== undefined) window.cancelIdleCallback(idle);
+      if (timer !== undefined) window.clearTimeout(timer);
+    };
+  }, [client, firstId]);
+
   // Remember how far the listing was scrolled when leaving the page; restore it on Back.
   useEffect(() => {
     return () => {
