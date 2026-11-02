@@ -2,7 +2,7 @@
   "name": "@slatico/react-native-example",
   "version": "0.1.0",
   "private": true,
-  "description": "Minimal React Native verification and showcase application for @slatico/react-native across all 7 styles (161 variants)",
+  "description": "Minimal React Native verification and showcase application for @slatico/react-native across all 7 styles (189 variants)",
   "license": "MIT",
   "scripts": {
     "start": "react-native start",

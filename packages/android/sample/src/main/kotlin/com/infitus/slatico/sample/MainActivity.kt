@@ -83,7 +83,7 @@ fun SlaticoCatalogShowcase() {
                 modifier = Modifier.size(28.dp)
             )
             Text(
-                text = "Slatico Android Showcase (23 × 7 = 161)",
+                text = "Slatico Android Showcase (27 × 7 = 189)",
                 style = MaterialTheme.typography.titleMedium
             )
         }
@@ -91,7 +91,7 @@ fun SlaticoCatalogShowcase() {
         OutlinedTextField(
             value = searchQuery,
             onValueChange = { searchQuery = it },
-            label = { Text("Search 23 Tier 1 icons...") },
+            label = { Text("Search 27 Tier 1 icons...") },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )

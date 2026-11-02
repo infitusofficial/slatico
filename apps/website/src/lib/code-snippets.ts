@@ -1,6 +1,9 @@
 import type { SlaticoIconName, SlaticoStyle } from "@slatico/core";
 import { buildStandaloneSvg } from "./svg-export";
 
+/** Slatico brand primary, used where the Explorer previews its `var(--primary)` theme token. */
+const SLATICO_BRAND_PRIMARY_HEX = "#FF6040";
+
 export const CODE_SNIPPET_PLATFORMS = [
   "react",
   "vue",
@@ -171,9 +174,15 @@ export function generatePlatformCodeSnippet(
     style,
     size,
     primaryColor,
-    secondaryColor,
     secondaryOpacity = 0.25
   } = options;
+  // `var(--primary)` is the Icon Explorer's own theme token (rendered as the Slatico brand
+  // primary #FF6040). It does not exist in consumer applications, so copy-paste snippets
+  // always receive the portable hex value instead.
+  const secondaryColor =
+    options.secondaryColor.trim() === "var(--primary)"
+      ? SLATICO_BRAND_PRIMARY_HEX
+      : options.secondaryColor;
 
   const componentName = `${pascalName}Icon`;
   const camelName = toCamelCase(name);
@@ -345,6 +354,7 @@ import { ${componentName} } from "@slatico/vue/icons/${name}";
       attrs.push(`label="${pascalName}"`);
 
       return `<script type="module">
+  // Bare package imports require a bundler (e.g. Vite) or an import map.
   import { defineSlaticoIconElement, registerSlaticoIcons } from "@slatico/web";
   import { ${defVar} } from "@slatico/web/icons/${name}";
 
@@ -564,11 +574,15 @@ struct ${pascalName}IconView: View {
       return `import UIKit
 import SlaticoIcons
 
-let iconImage = UIImage.slatico(
-    ${args.join(",\n    ")}
-)
-let imageView = UIImageView(image: iconImage)
-imageView.accessibilityLabel = "${pascalName}"`;
+func make${pascalName}IconView() -> UIImageView {
+    let iconImage = UIImage.slatico(
+        ${args.join(",\n        ")}
+    )
+    let imageView = UIImageView(image: iconImage)
+    imageView.isAccessibilityElement = true
+    imageView.accessibilityLabel = "${pascalName}"
+    return imageView
+}`;
     }
 
     case "appkit": {
@@ -605,11 +619,14 @@ imageView.accessibilityLabel = "${pascalName}"`;
       return `import AppKit
 import SlaticoIcons
 
-let iconImage = NSImage.slatico(
-    ${args.join(",\n    ")}
-)
-let imageView = NSImageView(image: iconImage)
-imageView.setAccessibilityLabel("${pascalName}")`;
+func make${pascalName}IconView() -> NSImageView {
+    let iconImage = NSImage.slatico(
+        ${args.join(",\n        ")}
+    )
+    let imageView = NSImageView(image: iconImage)
+    imageView.setAccessibilityLabel("${pascalName}")
+    return imageView
+}`;
     }
   }
 }

@@ -71,7 +71,7 @@ class _SlaticoCatalogScreenState extends State<SlaticoCatalogScreen> {
               onChanged: (value) => setState(() => _searchQuery = value),
               decoration: InputDecoration(
                 hintText:
-                    'Search 23 Tier 1 icons (e.g. house, bell, shield-check)...',
+                    'Search 27 Tier 1 icons (e.g. house, bell, shield-check)...',
                 prefixIcon:
                     const Icon(SlaticoIcons.magnifyingGlassRegular, size: 20),
                 isDense: true,

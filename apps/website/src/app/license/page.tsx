@@ -72,9 +72,9 @@ export default function LicensePage() {
               Conditions
             </h2>
             <ul className="mt-2.5 space-y-1.5 text-xs text-muted-foreground">
-              <li>• Retain the copyright and MIT license notice in source distributions</li>
+              <li>• Include the copyright and MIT license notice in all copies or substantial portions of the software</li>
               <li>• Software and artwork are provided &quot;as is&quot; without warranty</li>
-              <li>• Do not claim official endorsement by {SITE_CONFIG.publisher.name} for derivative icon packs</li>
+              <li>• Request (not a license term): please don&apos;t present derivative icon packs as officially endorsed by {SITE_CONFIG.publisher.name}</li>
             </ul>
           </div>
         </div>

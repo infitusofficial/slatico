@@ -6,19 +6,19 @@ Minimal production verification and showcase application for **`@slatico/react-n
 
 ## Features Verified
 
-- **All 23 Tier 1 Icon Families × 7 Official Styles (`161` Vector Variants):**
+- **All 27 Tier 1 Icon Families × 7 Official Styles (`189` Vector Variants):**
   - `thin`, `light`, `regular`, `bold`, `fill`, `duotone`, and `color`
 - **Barrel & Subpath Imports:**
   - Barrel imports from `@slatico/react-native` (`BellIcon`, `HouseIcon`, `WalletIcon`, etc.)
   - Direct tree-shakeable subpath imports (`@slatico/react-native/icons/wallet`, `@slatico/react-native/icons/shield-check`)
 - **Interactive Controls:**
-  - Style picker across all 7 styles + full 161-variant comparison matrix toggle
+  - Style picker across all 7 styles + full 189-variant comparison matrix toggle
   - Density-independent size presets (`16dp`, `20dp`, `24dp`, `32dp`, `40dp`, `48dp`)
   - Primary foreground color presets
   - Duotone secondary color and opacity (`15%`, `22%`, `35%`, `50%`) presets
   - Intrinsic multi-tone `color` preservation (`#FF6040` + `#000000`)
   - Light & Dark theme toggle
-  - Search filtering across all 23 icon families
+  - Search filtering across all 27 icon families
 
 ---
 

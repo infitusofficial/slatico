@@ -85,7 +85,7 @@ export const MASTER_VIEWBOX = "0 0 24 24" as const;
 
 /**
  * Official Slatico catalog collection tiers.
- * Tier 1 is the initial 23-family (161-variant) production collection.
+ * Tier 1 is the initial 27-family (189-variant) production collection.
  * Tier 2 and Tier 3 are reserved for subsequent production expansions.
  */
 export const SLATICO_TIERS = ["tier-1", "tier-2", "tier-3"] as const;

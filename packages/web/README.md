@@ -28,16 +28,22 @@ registerSlaticoIcons(bellIconDef, shieldCheckIconDef, walletIconDef);
 defineSlaticoIconElement();
 ```
 
-Or register the entire 27-icon catalog at once:
+Or register the entire 27-icon catalog at once (this imports every icon, so prefer selective registration in production bundles):
 
 ```ts
+import * as slatico from "@slatico/web";
 import {
-  ALL_WEB_ICON_DEFINITIONS,
   defineSlaticoIconElement,
-  registerSlaticoIcons
+  registerSlaticoIcons,
+  type SlaticoWebIconDefinition
 } from "@slatico/web";
 
-registerSlaticoIcons(...ALL_WEB_ICON_DEFINITIONS);
+// Every icon is exported as `<camelCaseName>IconDef` (e.g. `bellIconDef`, `arrowUpRightIconDef`).
+const allIconDefs = Object.entries(slatico)
+  .filter(([exportName]) => /^[a-z][A-Za-z]*IconDef$/.test(exportName))
+  .map(([, definition]) => definition as SlaticoWebIconDefinition);
+
+registerSlaticoIcons(...allIconDefs);
 defineSlaticoIconElement();
 ```
 

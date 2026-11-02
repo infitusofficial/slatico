@@ -51,7 +51,7 @@ dependencies:
 # Or via Flutter CLI:
 # flutter pub add slatico_icons
 
-# 2. Or consume directly from a local monorepo checkout:
+# 2. Contributors only — use a local monorepo checkout:
 dependencies:
   slatico_icons:
     path: ../slatico/packages/flutter`}

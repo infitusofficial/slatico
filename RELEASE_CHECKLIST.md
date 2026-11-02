@@ -2,6 +2,8 @@
 
 This document outlines the verified pre-release audit, required manual registry account steps, and exact release sequence for publishing **Slatico by Infitus Creative Studio** (`27` icon families, `189` style variants across `7` styles, `8` platform SDKs).
 
+> **Release Status (2026-11-02):** `0.1.0` is published for all 10 packages — npm (`@slatico/core`, `svg`, `font`, `react`, `vue`, `web`, `react-native`), pub.dev (`slatico_icons`, verified publisher `slatico.dev`), Maven Central (`dev.slatico:slatico-android`), and Swift Package Manager (`https://github.com/infitusofficial/slatico-swift`, tag `0.1.0`). Published versions are immutable; any fix ships as `0.1.1` or later. The steps below remain as the procedure for future releases.
+
 > **Safety Rule:** No credentials, API tokens, PGP private keys, or signing keystores are stored in this repository. All publishing actions require explicit manual authentication or GitHub Actions Encrypted Secrets.
 
 ---
@@ -19,7 +21,7 @@ Because the JavaScript/TypeScript packages depend on `@slatico/core`, packages m
 7. **`@slatico/react-native`** (npm — depends on `@slatico/core`)
 8. **`slatico_icons`** (pub.dev — standalone Flutter package with bundled TTF fonts and SVG assets)
 9. **`dev.slatico:slatico-android`** (Maven Central — standalone Android AAR with 189 `VectorDrawable` resources and Jetpack Compose APIs)
-10. **`SlaticoIcons`** (GitHub Release Tag / Swift Package Index — standalone Swift Package with 189 `CGPath` vector specs and 189 bundled SVG resources)
+10. **`SlaticoIcons`** (Git tag on `slatico-swift` + GitHub Release — standalone Swift Package with 189 `CGPath` vector specs and 189 bundled SVG resources)
 
 ---
 
@@ -141,17 +143,25 @@ cd packages/android
 
 ## 6. Apple Swift Package Manager Checklist (`SlaticoIcons`)
 
-### Architectural Distribution Options for SwiftPM
-Swift Package Manager resolves Git repositories by looking for `Package.swift` at the **root** of the Git repository. Because `packages/swift/Package.swift` lives inside a subdirectory of the Slatico monorepo, choose one of the two supported release distribution strategies before tagging `0.1.0`:
+### Distribution via the Dedicated `slatico-swift` Repository
+SwiftPM requires `Package.swift` at the repository root, so `packages/swift` is mirrored to `https://github.com/infitusofficial/slatico-swift` (which carries its own CI in `packages/swift/.github/`). `packages/swift` in this monorepo remains the only source of truth:
 
-1. **Option A — Dedicated Swift Mirror Repository (`Recommended for Xcode & Swift Package Index`):**
-   Push the `packages/swift` subtree to `https://github.com/infitusofficial/slatico-swift.git` and tag `0.1.0`:
-   ```bash
-   git subtree push --prefix=packages/swift https://github.com/infitusofficial/slatico-swift.git main
-   ```
-   Developers then add `https://github.com/infitusofficial/slatico-swift.git` directly in Xcode (`File → Add Package Dependencies…`) or `Package.swift`.
-2. **Option B — Local Monorepo Path Dependency:**
-   Developers working with a local clone of `slatico` use `.package(path: "../slatico/packages/swift")`.
+```bash
+# From an up-to-date monorepo main:
+git subtree split --prefix=packages/swift -b slatico-swift-split
+# Must be a fast-forward of slatico-swift main — never force-push:
+git push https://github.com/infitusofficial/slatico-swift.git slatico-swift-split:refs/heads/main
+# After slatico-swift CI passes, tag in a fresh clone of slatico-swift (not in the monorepo):
+git tag -a <version> -m "SlaticoIcons <version>" && git push origin refs/tags/<version>
+```
+
+Pushing the tag runs the repository's remote consumer verification. Consumers depend on it with:
+
+```swift
+.package(url: "https://github.com/infitusofficial/slatico-swift.git", from: "0.1.0")
+// SwiftPM package identity comes from the URL:
+.product(name: "SlaticoIcons", package: "slatico-swift")
+```
 
 ### Verification Commands (macOS / Linux with Swift 5.9+)
 ```bash

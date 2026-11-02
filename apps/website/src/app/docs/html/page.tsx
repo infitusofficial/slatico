@@ -157,6 +157,7 @@ const spriteSheet = getSvgSprite("regular");`}
           title="index.html"
           language="html"
           code={`<script type="module">
+  // Bare package imports require a bundler (e.g. Vite) or an import map.
   import { defineSlaticoIconElement, registerSlaticoIcons } from "@slatico/web";
   import { bellIconDef } from "@slatico/web/icons/bell";
   import { shieldCheckIconDef } from "@slatico/web/icons/shield-check";
@@ -262,7 +263,9 @@ const spriteSheet = getSvgSprite("regular");`}
         <DocsCodeBlock
           title="webfont-example.html"
           language="html"
-          code={`<link rel="stylesheet" href="/node_modules/@slatico/font/dist/slatico.css" />
+          code={`<!-- With a bundler (Vite, webpack, Next.js): import "@slatico/font/slatico.css"; -->
+<!-- Without a bundler, load the published stylesheet from a CDN: -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@slatico/font@0.1.0/dist/slatico.min.css" />
 
 <!-- Decorative monochrome font icons (class="slatico slatico-<name>-<style>") -->
 <i class="slatico slatico-bell-regular" style="font-size: 24px; color: #010520;" aria-hidden="true"></i>

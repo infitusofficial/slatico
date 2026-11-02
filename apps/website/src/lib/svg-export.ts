@@ -92,20 +92,17 @@ export function buildStandaloneSvg(
         ? resolveCssColorToken(colorSecondaryRaw, defaultColorSecondary)
         : defaultColorSecondary;
 
-    inner = inner
-      .replace(
-        /var\(--slatico-primary-color,\s*([^)]+)\)/gi,
-        resolvedColorPrimary
-      )
-      .replace(
-        /var\(--slatico-secondary-color,\s*([^)]+)\)/gi,
-        resolvedColorSecondary
-      )
-      .replace(/\bfill="#FF6040"/gi, `fill="${resolvedColorPrimary}"`)
-      .replace(
-        /\bfill="(?:black|#000000|#000)"/gi,
-        `fill="${resolvedColorSecondary}"`
-      );
+    // Single pass: chained replacements would re-match colors that were just substituted
+    // (e.g. a custom secondary of #FF6040 being rewritten to the primary color).
+    inner = inner.replace(
+      /var\(--slatico-primary-color,\s*[^)]+\)|var\(--slatico-secondary-color,\s*[^)]+\)|\bfill="#FF6040"|\bfill="(?:black|#000000|#000)"/gi,
+      (token) => {
+        if (/^var\(--slatico-primary-color/i.test(token)) return resolvedColorPrimary;
+        if (/^var\(--slatico-secondary-color/i.test(token)) return resolvedColorSecondary;
+        if (/#FF6040/i.test(token)) return `fill="${resolvedColorPrimary}"`;
+        return `fill="${resolvedColorSecondary}"`;
+      }
+    );
   } else {
     inner = inner.replace(/currentColor/g, resolvedPrimary);
   }

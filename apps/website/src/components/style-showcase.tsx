@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type ComponentType } from "react";
-import { SLATICO_STYLES, SLATICO_STYLE_SPECS, type SlaticoStyle } from "@slatico/core";
+import { ICON_CATALOG, SLATICO_STYLES, SLATICO_STYLE_SPECS, type SlaticoStyle } from "@slatico/core";
 import {
   BellIcon,
   CloudCheckIcon,
@@ -84,7 +84,7 @@ export function StyleShowcase() {
         <div>
           <div className="flex items-center gap-2">
             <span className="rounded-md bg-indigo-50 px-2.5 py-1 text-xs font-semibold text-indigo-700 dark:bg-indigo-950/70 dark:text-indigo-300">
-              Tier 1 Production Collection (23 Families · 161 Variants)
+              Tier 1 Production Collection ({ICON_CATALOG.totalIcons} Families · {ICON_CATALOG.totalVariants} Variants)
             </span>
             <span className="text-xs text-zinc-500 dark:text-zinc-400">
               Rendered via <code className="font-mono">@slatico/react</code> &amp; subpath imports

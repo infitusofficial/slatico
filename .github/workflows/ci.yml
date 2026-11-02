@@ -196,7 +196,7 @@ jobs:
         working-directory: packages/swift
         run: swift build -v
 
-      - name: Run XCTest suite on macOS (161 CGPaths, Bundle.module SVGs, AppKit & SwiftUI)
+      - name: Run XCTest suite on macOS (189 CGPaths, Bundle.module SVGs, AppKit & SwiftUI)
         working-directory: packages/swift
         run: swift test -v
 

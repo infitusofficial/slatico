@@ -160,7 +160,7 @@ implementation("dev.slatico:slatico-android:0.1.0")
           3. Icon Customization: Sizing, Primary &amp; Secondary Colors
         </h2>
         <p className="text-sm leading-relaxed text-muted-foreground">
-          Slatico supports three distinct color models across all 8 platform SDKs:
+          Every Slatico SDK supports the same three color models:
         </p>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           <div className="rounded-[24px] squircle border border-border bg-surface-subtle p-4">
@@ -168,7 +168,7 @@ implementation("dev.slatico:slatico-android:0.1.0")
               Monochrome (<code className="font-mono text-primary">thin</code>–<code className="font-mono text-primary">fill</code>)
             </h3>
             <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
-              Inherits <code className="font-mono">currentColor</code> on the web or the ambient theme tint on mobile. Pass <code className="font-mono">color</code> to override.
+              Inherits <code className="font-mono">currentColor</code> on the web, the ambient <code className="font-mono">IconTheme</code> / <code className="font-mono">LocalContentColor</code> / <code className="font-mono">.primary</code> color in Flutter, Compose, and SwiftUI, and defaults to <code className="font-mono">#09090B</code> in React Native (which has no <code className="font-mono">currentColor</code>). Pass <code className="font-mono">color</code> to override.
             </p>
           </div>
           <div className="rounded-[24px] squircle border border-border bg-surface-subtle p-4">
@@ -176,7 +176,7 @@ implementation("dev.slatico:slatico-android:0.1.0")
               Duotone (<code className="font-mono text-primary">duotone</code>)
             </h3>
             <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
-              Combines a primary foreground layer (<code className="font-mono">color</code>) with an independent secondary depth layer (<code className="font-mono">secondaryColor</code> and <code className="font-mono">secondaryOpacity</code>, default <code className="font-mono">0.2</code>).
+              Combines a primary foreground layer (<code className="font-mono">color</code>) with an independent secondary depth layer (<code className="font-mono">secondaryColor</code>, defaulting to the primary color, and <code className="font-mono">secondaryOpacity</code>). The default opacity is the authored <code className="font-mono">0.2</code> on web, Flutter, and Swift, and <code className="font-mono">0.22</code> in React Native and Jetpack Compose (<code className="font-mono">secondaryAlpha</code>).
             </p>
           </div>
           <div className="rounded-[24px] squircle border border-border bg-surface-subtle p-4">
@@ -184,7 +184,7 @@ implementation("dev.slatico:slatico-android:0.1.0")
               Dual-Color (<code className="font-mono text-primary">color</code>)
             </h3>
             <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
-              Authored with Slatico Primary (<code className="font-mono text-primary">#FF6040</code>) and dark structural accents (<code className="font-mono">#000000</code>). Pass <code className="font-mono">color</code> and/or <code className="font-mono">secondaryColor</code> in any SDK to customize either layer dynamically.
+              Authored with Slatico Primary (<code className="font-mono text-primary">#FF6040</code>) and dark structural accents (<code className="font-mono">#000000</code>). Pass <code className="font-mono">color</code> and/or <code className="font-mono">secondaryColor</code> in any SDK to customize either layer dynamically. A few glyphs are single-layer by design (<code className="font-mono">minus</code>, <code className="font-mono">plus</code>, and <code className="font-mono">shield</code> in Color; <code className="font-mono">minus</code> and <code className="font-mono">plus</code> in Duotone), so secondary settings have no visible effect on them.
             </p>
           </div>
         </div>
@@ -241,8 +241,7 @@ export function CustomizationDemo() {
           <li>
             <strong className="text-foreground">Decorative Icons (Default):</strong>{" "}
             When an icon sits beside visible text (such as a button label), omit the label prop. Web packages automatically set{" "}
-            <code className="font-mono text-primary">aria-hidden=&quot;true&quot;</code> and{" "}
-            <code className="font-mono text-primary">focusable=&quot;false&quot;</code>; Flutter sets{" "}
+            <code className="font-mono text-primary">aria-hidden=&quot;true&quot;</code>; React Native adds no accessibility props, so the SVG is not exposed as an accessible element; Flutter sets{" "}
             <code className="font-mono text-primary">excludeFromSemantics: true</code>; Jetpack Compose passes{" "}
             <code className="font-mono text-primary">contentDescription = null</code>; and SwiftUI applies{" "}
             <code className="font-mono text-primary">.accessibilityHidden(true)</code>.
@@ -250,7 +249,8 @@ export function CustomizationDemo() {
           <li>
             <strong className="text-foreground">Semantic / Standalone Icons:</strong>{" "}
             When an icon conveys meaning without adjacent text, pass{" "}
-            <code className="font-mono text-primary">title=&quot;Notifications&quot;</code> (React, Vue, SVG, React Native),{" "}
+            <code className="font-mono text-primary">title=&quot;Notifications&quot;</code> (React, Vue, SVG, React Native — which also accepts{" "}
+            <code className="font-mono text-primary">accessibilityLabel</code>),{" "}
             <code className="font-mono text-primary">label=&quot;Notifications&quot;</code> (Web Components),{" "}
             <code className="font-mono text-primary">semanticLabel: &apos;Notifications&apos;</code> (Flutter),{" "}
             <code className="font-mono text-primary">contentDescription = &quot;Notifications&quot;</code> (Android), or{" "}
@@ -286,15 +286,15 @@ export function CustomizationDemo() {
           code={`// Named barrel import (tree-shaken by ESM bundlers)
 import { BellIcon, ShieldCheckDuotoneIcon } from "@slatico/react";
 
-// Direct per-icon subpath import (zero barrel evaluation in dev & prod)
-import { BellIcon } from "@slatico/react/icons/bell";
+// Direct per-icon subpath imports (zero barrel evaluation in dev & prod)
+import { BellDuotoneIcon } from "@slatico/react/icons/bell";
 import { ArrowUpRightBoldIcon } from "@slatico/vue/icons/arrow-up-right";
 import { bellIconDef } from "@slatico/web/icons/bell";
 import { WalletColorIcon } from "@slatico/react-native/icons/wallet";`}
         />
       </section>
 
-      {/* 6. Monorepo Workspace Quickstart */}
+      {/* 6. Contributing From Source */}
       <section
         id="monorepo-quickstart"
         aria-labelledby="monorepo-quickstart-heading"
@@ -304,10 +304,11 @@ import { WalletColorIcon } from "@slatico/react-native/icons/wallet";`}
           id="monorepo-quickstart-heading"
           className="text-xl font-bold text-foreground"
         >
-          6. Monorepo Workspace Quickstart
+          6. Contributing From Source
         </h2>
         <p className="text-sm text-muted-foreground">
-          Clone the repository to develop locally or consume packages directly from source before public registry publication:
+          Applications should install the published packages listed in{" "}
+          <a href="#installation" className="font-semibold text-primary underline underline-offset-4">Installation</a>. To contribute icons or work on the SDKs, clone the monorepo:
         </p>
         <DocsCodeBlock
           title="Terminal (pnpm workspace)"
@@ -349,7 +350,7 @@ pnpm build:packages`}
               My Color icon on Android XML turns solid black or white when placed in an <code className="font-mono text-primary">ImageView</code>.
             </h3>
             <p className="mt-1 text-xs leading-relaxed">
-              Remove <code className="font-mono">app:tint</code> from the <code className="font-mono">ImageView</code> when rendering <code className="font-mono">@drawable/slatico_*_color</code> resources so Android preserves the authored <code className="font-mono">#FF6040</code> and <code className="font-mono">#000000</code> vector path fills. To customize both colors dynamically on Android, use the Jetpack Compose <code className="font-mono">SlaticoIcon</code> composable with <code className="font-mono">color</code> and <code className="font-mono">secondaryColor</code>.
+              Remove <code className="font-mono">android:tint</code> (or <code className="font-mono">app:tint</code>) from the <code className="font-mono">ImageView</code> when rendering <code className="font-mono">@drawable/slatico_*_color</code> resources so Android preserves the authored <code className="font-mono">#FF6040</code> and <code className="font-mono">#000000</code> vector path fills. To customize both colors dynamically on Android, use the Jetpack Compose <code className="font-mono">SlaticoIcon</code> composable with <code className="font-mono">color</code> and <code className="font-mono">secondaryColor</code>.
             </p>
           </div>
           <div className="rounded-[20px] squircle border border-border bg-surface-subtle p-4">
@@ -357,7 +358,39 @@ pnpm build:packages`}
               How do I prevent Dark Mode from hiding the dark secondary paths of a <code className="font-mono text-primary">color</code> icon?
             </h3>
             <p className="mt-1 text-xs leading-relaxed">
-              In Dark Mode, pass a light secondary color (such as <code className="font-mono">secondaryColor=&quot;#FFFFFF&quot;</code>) or set <code className="font-mono">--slatico-secondary-color: #FFFFFF;</code> inside your <code className="font-mono">.dark</code> CSS scope so the secondary layer contrasts cleanly against dark surfaces while preserving the <code className="font-mono">#FF6040</code> brand primary fill.
+              In Dark Mode, pass a light secondary color (such as <code className="font-mono">secondaryColor=&quot;#FFFFFF&quot;</code>) or, on the web, set <code className="font-mono">--slatico-secondary-color: #FFFFFF;</code> inside your <code className="font-mono">.dark</code> CSS scope so the secondary layer contrasts cleanly against dark surfaces while preserving the <code className="font-mono">#FF6040</code> brand primary fill. The SDKs do not switch colors automatically; the Icon Explorer previews <code className="font-mono">#FFFFFF</code> in dark theme only as a website default.
+            </p>
+          </div>
+          <div className="rounded-[20px] squircle border border-border bg-surface-subtle p-4">
+            <h3 className="font-semibold text-foreground">
+              React Native icons fail with <code className="font-mono text-primary">Unable to resolve module react-native-svg</code>.
+            </h3>
+            <p className="mt-1 text-xs leading-relaxed">
+              <code className="font-mono">react-native-svg</code> is a peer dependency. Install it alongside <code className="font-mono">@slatico/react-native</code> (<code className="font-mono">npx expo install react-native-svg</code> in Expo projects), then rebuild the native app.
+            </p>
+          </div>
+          <div className="rounded-[20px] squircle border border-border bg-surface-subtle p-4">
+            <h3 className="font-semibold text-foreground">
+              Swift Package Manager reports an unknown package <code className="font-mono text-primary">SlaticoIcons</code>.
+            </h3>
+            <p className="mt-1 text-xs leading-relaxed">
+              The product is <code className="font-mono">SlaticoIcons</code>, but SwiftPM identifies the package by its URL, so the dependency is{" "}
+              <code className="font-mono">.product(name: &quot;SlaticoIcons&quot;, package: &quot;slatico-swift&quot;)</code>.
+            </p>
+          </div>
+          <div className="rounded-[20px] squircle border border-border bg-surface-subtle p-4">
+            <h3 className="font-semibold text-foreground">Where do I report a bug or request an icon?</h3>
+            <p className="mt-1 text-xs leading-relaxed">
+              Open an issue at{" "}
+              <a
+                href={SITE_CONFIG.links.githubIssues}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-primary underline underline-offset-4"
+              >
+                github.com/infitusofficial/slatico/issues
+              </a>{" "}
+              with the package name, version, platform, and a minimal reproduction.
             </p>
           </div>
         </div>
@@ -373,14 +406,14 @@ pnpm build:packages`}
           8. Open-Source License ({SITE_CONFIG.license})
         </h2>
         <p className="text-sm leading-relaxed text-muted-foreground">
-          All {SITE_CONFIG.metrics.totalVariants} Slatico icons and all 8 platform SDKs are released under the permissive{" "}
+          All {SITE_CONFIG.metrics.totalVariants} Slatico icons and every Slatico package are released under the permissive{" "}
           <Link
             href="/license"
             className="font-semibold text-primary underline underline-offset-4"
           >
             MIT License
           </Link>{" "}
-          by {SITE_CONFIG.publisher.name}. You may use, customize, and bundle Slatico in personal and commercial projects without attribution requirements.
+          by {SITE_CONFIG.publisher.name}. You may use, customize, and bundle Slatico in personal and commercial projects. Keep the copyright and MIT license notice with copies of the software; no visible attribution in your product UI is required.
         </p>
       </section>
 

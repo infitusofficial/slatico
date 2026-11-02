@@ -364,7 +364,7 @@ export default function App(props: SlaticoShowcaseProps): ReactElement {
                   { color: showAll161 ? "#FFFFFF" : textPrimary }
                 ]}
               >
-                {showAll161 ? "Showing All 161 Variants" : "Show All 161 Matrix"}
+                {showAll161 ? `Showing All ${ICON_NAMES.length * 7} Variants` : `Show All ${ICON_NAMES.length * 7} Matrix`}
               </Text>
             </Pressable>
           </View>
@@ -400,7 +400,7 @@ export default function App(props: SlaticoShowcaseProps): ReactElement {
           </View>
         </View>
 
-        {/* Icon Gallery: Either Single Style or Full 161-Variant Matrix */}
+        {/* Icon Gallery: Either Single Style or Full 189-Variant Matrix */}
         {showAll161 ? (
           <View style={[styles.card, { backgroundColor: cardBg, borderColor }]}>
             <Text style={[styles.sectionTitle, { color: textPrimary }]}>

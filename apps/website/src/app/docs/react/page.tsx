@@ -139,8 +139,7 @@ export function ActionBadge() {
         </h2>
         <p className="text-sm text-muted-foreground">
           When <code className="font-mono text-primary">title</code> is omitted, the component renders{" "}
-          <code className="font-mono text-primary">aria-hidden=&quot;true&quot;</code> and{" "}
-          <code className="font-mono text-primary">focusable=&quot;false&quot;</code> so decorative icons inside buttons or links are ignored by screen readers. Pass{" "}
+          <code className="font-mono text-primary">aria-hidden=&quot;true&quot;</code> so decorative icons inside buttons or links are ignored by screen readers. Pass{" "}
           <code className="font-mono text-primary">title</code> when the icon conveys standalone semantic meaning:
         </p>
         <DocsCodeBlock

@@ -23,21 +23,35 @@ export default function DocsLayout({
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      {/* Pre-Release Monorepo Status Banner */}
+      {/* Release Status Banner */}
       <div className="mb-8 rounded-[24px] squircle border border-primary-border bg-primary-soft px-4 py-3 text-xs leading-relaxed text-foreground">
         <strong className="font-semibold text-primary">
-          Monorepo Release Notice ({SITE_CONFIG.releaseStatus.badgeLabel}):
+          {SITE_CONFIG.releaseStatus.badgeLabel}:
         </strong>{" "}
-        {SITE_CONFIG.releaseStatus.notice} Clone{" "}
+        {SITE_CONFIG.releaseStatus.notice} Registries:{" "}
+        {SITE_CONFIG.registries.map((registry, index) => (
+          <span key={registry.href}>
+            <a
+              href={registry.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-primary underline underline-offset-4"
+            >
+              {registry.label}
+            </a>
+            {index < SITE_CONFIG.registries.length - 1 ? " · " : ". "}
+          </span>
+        ))}
+        Report bugs on{" "}
         <a
-          href={SITE_CONFIG.links.github}
+          href={SITE_CONFIG.links.githubIssues}
           target="_blank"
           rel="noopener noreferrer"
-          className="font-mono font-semibold text-primary underline underline-offset-4"
+          className="font-semibold text-primary underline underline-offset-4"
         >
-          github.com/infitusofficial/slatico
-        </a>{" "}
-        to consume packages via workspace or local path today.
+          GitHub Issues
+        </a>
+        .
       </div>
 
       {/* Mobile-Friendly Quick Navigation (<lg) */}

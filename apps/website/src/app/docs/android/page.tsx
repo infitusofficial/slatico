@@ -42,14 +42,20 @@ export default function AndroidDocsPage() {
         <DocsCodeBlock
           title="build.gradle.kts"
           language="kotlin"
-          code={`// Maven Central dependency:
+          code={`// Maven Central dependency (requires mavenCentral() in your repositories):
 dependencies {
     implementation("dev.slatico:slatico-android:0.1.0")
 }
 
-// Or local monorepo composite build in settings.gradle.kts:
+// Contributors only — local monorepo composite build in settings.gradle.kts:
 // includeBuild("../slatico/packages/android")`}
         />
+        <p className="text-sm text-muted-foreground">
+          The Maven coordinates use the <code className="font-mono text-primary">dev.slatico</code> group, while the Kotlin APIs and generated resources live in the{" "}
+          <code className="font-mono text-primary">com.infitus.slatico</code> package (for example{" "}
+          <code className="font-mono text-primary">import com.infitus.slatico.SlaticoIcon</code>). Requires{" "}
+          <code className="font-mono text-primary">minSdk 24</code>.
+        </p>
       </section>
 
       {/* 2. Jetpack Compose */}
@@ -61,6 +67,7 @@ dependencies {
           title="MainScreen.kt"
           language="kotlin"
           code={`import androidx.compose.foundation.layout.Row
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.infitus.slatico.SlaticoIcon
@@ -123,13 +130,13 @@ fun HeaderActions() {
         <DocsCodeBlock
           title="res/layout/header_toolbar.xml"
           language="xml"
-          code={`<!-- 1. Monochrome VectorDrawable tinted via app:tint -->
+          code={`<!-- 1. Monochrome VectorDrawable tinted via android:tint (app:tint also works with AppCompat) -->
 <ImageView
     android:layout_width="24dp"
     android:layout_height="24dp"
     android:src="@drawable/slatico_bell_regular"
     android:contentDescription="@string/notifications"
-    app:tint="#010520" />
+    android:tint="#010520" />
 
 <!-- 2. Duotone VectorDrawable (secondary layer preserves built-in 20% fillAlpha) -->
 <ImageView
@@ -137,9 +144,9 @@ fun HeaderActions() {
     android:layout_height="28dp"
     android:src="@drawable/slatico_shield_check_duotone"
     android:contentDescription="@null"
-    app:tint="#010520" />
+    android:tint="#010520" />
 
-<!-- 3. Color VectorDrawable (omit app:tint to preserve #FF6040 + #000000 fills) -->
+<!-- 3. Color VectorDrawable (omit any tint to preserve #FF6040 + #000000 fills) -->
 <ImageView
     android:layout_width="28dp"
     android:layout_height="28dp"

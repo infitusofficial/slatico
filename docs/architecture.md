@@ -11,4 +11,13 @@
 
 ## 2. Non-JavaScript Platform Boundary
 
-Native packages (`packages/flutter`, `packages/android`, `packages/swift`) are intentionally excluded from `pnpm-workspace.yaml` and do not contain artificial `package.json` files. When implemented in Phase 3, they will use their native build manifests (`pubspec.yaml`, `build.gradle.kts`, and `Package.swift`).
+Native packages (`packages/flutter`, `packages/android`, `packages/swift`) are intentionally excluded from `pnpm-workspace.yaml` and do not contain artificial `package.json` files. They use their native build manifests (`pubspec.yaml`, `build.gradle.kts`, and `Package.swift`); their generated sources are emitted by `scripts/generate-flutter.ts`, `scripts/generate-android.ts`, and `scripts/generate-swift.ts`, which `scripts/generate-icons.ts` invokes.
+
+## 3. Distribution
+
+| Package | Registry | Source |
+| :------ | :------- | :----- |
+| `@slatico/core`, `svg`, `font`, `react`, `vue`, `web`, `react-native` | npm | `packages/<name>` |
+| `slatico_icons` | pub.dev | `packages/flutter` |
+| `dev.slatico:slatico-android` (Kotlin package `com.infitus.slatico`) | Maven Central | `packages/android` |
+| `SlaticoIcons` | Swift Package Manager via `github.com/infitusofficial/slatico-swift` (subtree split of `packages/swift`) | `packages/swift` |

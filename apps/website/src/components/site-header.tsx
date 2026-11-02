@@ -77,7 +77,7 @@ export function SiteHeader() {
         <div className="flex shrink-0 items-center gap-2">
           <Link
             href="/icons"
-            aria-label="Search 161 icons in Icon Explorer"
+            aria-label={`Search ${SITE_CONFIG.metrics.totalVariants} icons in Icon Explorer`}
             className="hidden items-center gap-2 rounded-[20px] squircle border border-border bg-surface px-3 py-1.5 text-xs font-medium text-muted-foreground shadow-2xs transition-colors hover:border-border-strong hover:text-foreground lg:inline-flex"
           >
             <DynamicSlaticoIcon

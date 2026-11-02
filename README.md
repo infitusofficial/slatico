@@ -4,9 +4,45 @@
 
 - **Brand:** Slatico
 - **Parent Brand:** Infitus Creative Studio
+- **Website & Docs:** [slatico.dev](https://slatico.dev) · [slatico.dev/docs](https://slatico.dev/docs)
 - **Repository:** [github.com/infitusofficial/slatico](https://github.com/infitusofficial/slatico)
-- **npm Scope:** `@slatico`
+- **Current Release:** `0.1.0` — 27 icon families × 7 styles = 189 variants
 - **License:** MIT
+- **Bugs & Requests:** [GitHub Issues](https://github.com/infitusofficial/slatico/issues)
+
+---
+
+## Installation
+
+All packages are published at version `0.1.0`:
+
+| Platform | Package | Install |
+| :------- | :------ | :------ |
+| React / Next.js | [`@slatico/react`](https://www.npmjs.com/package/@slatico/react) | `npm install @slatico/react` |
+| Vue 3 / Nuxt | [`@slatico/vue`](https://www.npmjs.com/package/@slatico/vue) | `npm install @slatico/vue` |
+| Web Components | [`@slatico/web`](https://www.npmjs.com/package/@slatico/web) | `npm install @slatico/web` |
+| SVG strings & sprites | [`@slatico/svg`](https://www.npmjs.com/package/@slatico/svg) | `npm install @slatico/svg` |
+| Icon font (5 monochrome styles) | [`@slatico/font`](https://www.npmjs.com/package/@slatico/font) | `npm install @slatico/font` |
+| React Native / Expo | [`@slatico/react-native`](https://www.npmjs.com/package/@slatico/react-native) | `npm install @slatico/react-native react-native-svg` |
+| Catalog & types | [`@slatico/core`](https://www.npmjs.com/package/@slatico/core) | installed automatically by the packages above |
+| Flutter | [`slatico_icons`](https://pub.dev/packages/slatico_icons) | `flutter pub add slatico_icons` |
+| Android (Views & Compose) | [`dev.slatico:slatico-android`](https://central.sonatype.com/artifact/dev.slatico/slatico-android) | `implementation("dev.slatico:slatico-android:0.1.0")` |
+| Apple (SwiftUI, UIKit, AppKit) | [`slatico-swift`](https://github.com/infitusofficial/slatico-swift) | `.package(url: "https://github.com/infitusofficial/slatico-swift.git", from: "0.1.0")` with `.product(name: "SlaticoIcons", package: "slatico-swift")` |
+
+```tsx
+import { BellIcon, ShieldCheckDuotoneIcon } from "@slatico/react";
+
+export function Example() {
+  return (
+    <>
+      <BellIcon variant="regular" size={24} title="Notifications" />
+      <ShieldCheckDuotoneIcon size={24} color="#010520" secondaryColor="#FF6040" />
+    </>
+  );
+}
+```
+
+Platform guides: [React](https://slatico.dev/docs/react) · [Vue](https://slatico.dev/docs/vue) · [HTML / Web Components / Font](https://slatico.dev/docs/html) · [React Native](https://slatico.dev/docs/react-native) · [Flutter](https://slatico.dev/docs/flutter) · [Android](https://slatico.dev/docs/android) · [Swift](https://slatico.dev/docs/swift)
 
 ---
 
@@ -22,31 +58,29 @@ Every icon in the Slatico catalog is authored across all seven styles using cons
 | 4 | **Bold** | `icons/bold/` | `3px` stroke | `currentColor` | Yes |
 | 5 | **Fill** | `icons/fill/` | Solid silhouette path | `currentColor` | Yes |
 | 6 | **Duotone** | `icons/duotone/` | Two-tone layered depth (`1.75px` primary + secondary tone/opacity layer) | `currentColor` + secondary tone (`--slatico-secondary-color` / opacity) | No (SVG / Vector required) |
-| 7 | **Color** | `icons/color/` | Multicolor vector design & gradients | Intrinsic SVG colors | No (SVG / Vector required) |
+| 7 | **Color** | `icons/color/` | Two-tone brand artwork | Primary `#FF6040` + secondary `#000000`, both overridable | No (SVG / Vector required) |
 
 > **Design Note:** Slatico never assumes every SVG style can be converted losslessly into an ordinary single-layer monochrome icon font. `Duotone` and `Color` variants preserve their layered opacity and multicolor vector definitions natively.
 
 ---
 
-## Platform Status (Implemented vs. Planned)
+## Platform Packages
 
-No packages have been published to npm or native registries yet. Below is the transparent status of the Phase 1 foundation:
-
-### Implemented Across Phases 1, 2A, 2B, 3A, 3B & 3C (All 10 Platform Targets Complete)
+All 10 platform packages are released at `0.1.0` (see [Installation](#installation) for registry links):
 
 | Target | Package / Location | Status | Description |
 | :----- | :----------------- | :----- | :---------- |
-| **Core Metadata & Catalog** | `@slatico/core` (`packages/core`) | **Implemented** | Style specifications, naming validators, and generated typed icon catalog. |
-| **SVG & Sprites Package** | `@slatico/svg` (`packages/svg`) | **Implemented** | Optimized individual SVG files (`dist/icons/*`), 7 variant SVG sprites (`dist/sprites/*`), stable symbol IDs, and programmatic SVG rendering. |
-| **React Components** | `@slatico/react` (`packages/react`) | **Implemented** | Tree-shakeable React components supporting all 7 variants, Duotone props, instance-scoped SVG IDs (`useId`), and subpath imports (`@slatico/react/icons/*`). |
-| **Vue 3 Components** | `@slatico/vue` (`packages/vue`) | **Implemented** | Typed Vue 3 components with SSR-safe instance-scoped SVG IDs (`useId`), Duotone props, and subpath imports (`@slatico/vue/icons/*`). |
-| **Native Web Components** | `@slatico/web` (`packages/web`) | **Implemented** | Framework-independent `<slatico-icon>` Shadow DOM Custom Element with selective icon registration (`@slatico/web/icons/*`). |
-| **React Native Components** | `@slatico/react-native` (`packages/react-native`) | **Implemented** | Native `react-native-svg` components supporting all 7 styles, Duotone props, multicolor gradients, and subpath imports (`@slatico/react-native/icons/*`). |
-| **Web Icon Font** | `@slatico/font` (`packages/font`) | **Implemented** | WOFF2, WOFF, and TTF monochrome icon fonts, `slatico.css` / `slatico.min.css`, JSON glyph manifest, and stable Unicode PUA mappings across Thin, Light, Regular, Bold, and Fill (`5 × 27 = 135` glyphs). |
-| **Flutter Package** | `slatico_icons` (`packages/flutter`) | **Implemented** | Pub.dev-ready Dart/Flutter package with `135` monochrome `IconData` constants (`SlaticoIcons`), `54` Duotone & Color SVG assets, `SlaticoIcon` widget, `SlaticoIconTheme`, tests, and showcase example app. |
-| **Android Native** | `dev.slatico:slatico-android` (`packages/android`) | **Implemented** | Native Android Library (`minSdk = 24`) with `189` `VectorDrawable` XML resources across all 7 styles, Kotlin `@DrawableRes` lookup (`SlaticoDrawables`), Jetpack Compose `SlaticoIcon` with dynamic two-color Duotone and Color support, and sample showcase app. |
-| **Apple Native (Swift)** | `SlaticoIcons` (`packages/swift`) | **Implemented** | Native Swift Package (`iOS 15+`, `macOS 12+`, `Mac Catalyst 15+`) supporting SwiftUI (`SlaticoIcon`), UIKit (`UIImage.slatico`), and AppKit (`NSImage.slatico`) with `189` `CGPath` vector definitions, bundled `.svg` resources, showcase target, and XCTest suite. |
-| **Technical Website** | `@slatico/website` (`apps/website`) | **Implemented** | Next.js 16 App Router + React 19 + TypeScript + Tailwind CSS v4 technical landing page, live 7-style matrix, `<slatico-icon>` & SVG sprite showcase, and interactive `@slatico/font` showcase. |
+| **Core Metadata & Catalog** | `@slatico/core` (`packages/core`) | **Released 0.1.0** | Style specifications, naming validators, and generated typed icon catalog. |
+| **SVG & Sprites Package** | `@slatico/svg` (`packages/svg`) | **Released 0.1.0** | Optimized individual SVG files (`dist/icons/*`), 7 variant SVG sprites (`dist/sprites/*`), stable symbol IDs, and programmatic SVG rendering. |
+| **React Components** | `@slatico/react` (`packages/react`) | **Released 0.1.0** | Tree-shakeable React components supporting all 7 variants, Duotone props, instance-scoped SVG IDs (`useId`), and subpath imports (`@slatico/react/icons/*`). |
+| **Vue 3 Components** | `@slatico/vue` (`packages/vue`) | **Released 0.1.0** | Typed Vue 3 components with SSR-safe instance-scoped SVG IDs (`useId`), Duotone props, and subpath imports (`@slatico/vue/icons/*`). |
+| **Native Web Components** | `@slatico/web` (`packages/web`) | **Released 0.1.0** | Framework-independent `<slatico-icon>` Shadow DOM Custom Element with selective icon registration (`@slatico/web/icons/*`). |
+| **React Native Components** | `@slatico/react-native` (`packages/react-native`) | **Released 0.1.0** | Native `react-native-svg` components supporting all 7 styles, Duotone and Color props, and subpath imports (`@slatico/react-native/icons/*`). |
+| **Web Icon Font** | `@slatico/font` (`packages/font`) | **Released 0.1.0** | WOFF2, WOFF, and TTF monochrome icon fonts, `slatico.css` / `slatico.min.css`, JSON glyph manifest, and stable Unicode PUA mappings across Thin, Light, Regular, Bold, and Fill (`5 × 27 = 135` glyphs). |
+| **Flutter Package** | `slatico_icons` (`packages/flutter`) | **Released 0.1.0** | Dart/Flutter package with `135` monochrome `IconData` constants (`SlaticoIcons`), `54` Duotone & Color SVG assets, `SlaticoIcon` widget, `SlaticoIconTheme`, tests, and showcase example app. |
+| **Android Native** | `dev.slatico:slatico-android` (`packages/android`) | **Released 0.1.0** | Native Android Library (`minSdk = 24`) with `189` `VectorDrawable` XML resources across all 7 styles, Kotlin `@DrawableRes` lookup (`SlaticoDrawables`), Jetpack Compose `SlaticoIcon` with dynamic two-color Duotone and Color support, and sample showcase app. |
+| **Apple Native (Swift)** | `SlaticoIcons` (`packages/swift`) | **Released 0.1.0** | Native Swift Package (`iOS 15+`, `macOS 12+`, `Mac Catalyst 15+`) supporting SwiftUI (`SlaticoIcon`), UIKit (`UIImage.slatico`), and AppKit (`NSImage.slatico`) with `189` `CGPath` vector definitions, bundled `.svg` resources, showcase target, and XCTest suite. |
+| **Technical Website** | `@slatico/website` (`apps/website`) | **Live at [slatico.dev](https://slatico.dev)** | Next.js 16 App Router + React 19 + TypeScript + Tailwind CSS v4 technical landing page, live 7-style matrix, `<slatico-icon>` & SVG sprite showcase, and interactive `@slatico/font` showcase. |
 
 ---
 
@@ -150,9 +184,9 @@ Our first production release (**Tier 1**) integrates **27 original icon families
 
 ---
 
-## Local Usage Example (`@slatico/react` & `@slatico/core`)
+## Usage Example (`@slatico/react`)
 
-Inside workspace applications (such as `apps/website`), generated icons can be imported from `@slatico/react` or via individual icon subpaths:
+Icons can be imported from the package barrel or from individual icon subpaths:
 
 ```tsx
 import { BellIcon, ShieldCheckDuotoneIcon } from "@slatico/react";
@@ -183,9 +217,9 @@ export function Example() {
 2. **Complete 7-Style Coverage:** Every icon name must exist in all seven directories (`icons/thin/`, `icons/light/`, `icons/regular/`, `icons/bold/`, `icons/fill/`, `icons/duotone/`, `icons/color/`). The pipeline rejects incomplete icon families and never fabricates missing styles.
 3. **Naming Convention:** Lowercase `kebab-case.svg` (e.g., `shield-check.svg`).
 4. **Color Rules:**
-   - Strict monochrome styles (`thin`, `light`, `regular`, `bold`, `fill`) must use `currentColor` (and `none` where applicable) — hardcoded hex/RGB values are rejected by `pnpm icons:validate`.
+   - Strict monochrome styles (`thin`, `light`, `regular`, `bold`, `fill`) are authored as a single color — `currentColor` or black (`black` / `#000` / `#000000`, which the pipeline converts to `currentColor`) plus `none`. Other hardcoded colors are rejected by `pnpm icons:validate`.
    - `duotone` style SVGs must contain at least two layers and preserve secondary tones or opacity layers (`var(--slatico-secondary-color, currentColor)` / `fill-opacity` / secondary hex) without collapsing into a single flat monochrome layer.
-   - `color` style SVGs preserve multicolor fills, strokes, and `<linearGradient>` / `<radialGradient>` definitions with icon-scoped IDs (`id="slatico-<icon-name>-..."`).
+   - `color` style SVGs use the Slatico primary `#FF6040` and a black secondary layer (exposed as `--slatico-primary-color` / `--slatico-secondary-color`). Any gradient or clip-path definitions must use icon-scoped IDs (`id="slatico-<icon-name>-..."`).
 
 ---
 

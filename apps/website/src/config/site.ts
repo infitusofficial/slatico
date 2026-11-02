@@ -63,7 +63,7 @@ export const DOCS_GUIDES: readonly DocsGuideNavItem[] = [
     shortTitle: "Flutter",
     href: "/docs/flutter",
     packageName: "slatico_icons",
-    ecosystem: "Dart 3 & Flutter 3.24+",
+    ecosystem: "Dart 3.3+ & Flutter 3.19+",
     summary:
       "Multi-style SlaticoIcon widget and SlaticoIcons catalog backed by flutter_svg and bundled vector assets."
   },
@@ -116,10 +116,10 @@ export const SITE_CONFIG = {
   version: ICON_CATALOG.version,
   npmScope: "@slatico",
   releaseStatus: {
-    isPublishedToRegistries: false,
-    badgeLabel: `v${ICON_CATALOG.version} · Workspace Monorepo Release`,
+    isPublishedToRegistries: true,
+    badgeLabel: `v${ICON_CATALOG.version} · Public Release`,
     notice:
-      "Packages are verified in the open-source Slatico monorepo CI pipeline and prepared for upcoming public registry publishing (npm, pub.dev, Maven Central, and Swift Package Index)."
+      `Slatico ${ICON_CATALOG.version} is published on npm (@slatico/*), pub.dev (slatico_icons), Maven Central (dev.slatico:slatico-android), and Swift Package Manager (github.com/infitusofficial/slatico-swift).`
   },
   links: {
     website: RESOLVED_SITE_URL,
@@ -128,6 +128,15 @@ export const SITE_CONFIG = {
     githubDiscussions: "https://github.com/infitusofficial/slatico/issues",
     licenseBlob: "https://github.com/infitusofficial/slatico/blob/main/LICENSE"
   },
+  registries: [
+    { label: "npm", href: "https://www.npmjs.com/org/slatico" },
+    { label: "pub.dev", href: "https://pub.dev/packages/slatico_icons" },
+    {
+      label: "Maven Central",
+      href: "https://central.sonatype.com/artifact/dev.slatico/slatico-android"
+    },
+    { label: "Swift Package", href: "https://github.com/infitusofficial/slatico-swift" }
+  ],
   assets: {
     logo: "/brand/logo.svg",
     logoDark: "/brand/logo-dark.svg",

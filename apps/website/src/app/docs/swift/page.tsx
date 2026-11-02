@@ -125,7 +125,7 @@ struct ContentView: View {
           language="swift"
           code={`import SlaticoIcons
 
-#if canImport(UIKit)
+#if canImport(UIKit) && !os(watchOS)
 import UIKit
 
 // 1. Monochrome template UIImage (uses .alwaysTemplate when color is nil)
@@ -151,7 +151,7 @@ let colorImage = UIImage.slatico(
 )
 #endif
 
-#if canImport(AppKit)
+#if canImport(AppKit) && !targetEnvironment(macCatalyst)
 import AppKit
 
 // macOS AppKit resolution-independent NSImage
