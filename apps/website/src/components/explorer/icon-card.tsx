@@ -3,6 +3,7 @@
 import { memo, type MouseEvent } from "react";
 import type { SlaticoStyle } from "@slatico/core";
 import type { CatalogFamily } from "../../lib/catalog-client";
+import { CopyButton } from "../copy-button";
 import { iconDetailPath } from "../../lib/icon-slug";
 import { useCatalogFamily, useCatalogVariant } from "../../lib/use-catalog";
 import { IconSvg } from "../icon-svg";
@@ -21,13 +22,11 @@ export interface IconCardProps {
   readonly setSize: number;
   readonly display: IconCardDisplay;
   readonly selected: boolean;
-  readonly copied: boolean;
   /** Server-rendered name/category shown until the metadata shard is available. */
   readonly seed?: { readonly name: string; readonly categoryLabel: string };
   /** `drawer`: "Details →" opens the drawer in place; `navigate`: it links to the Explorer. */
   readonly detailsMode: "drawer" | "navigate";
   readonly onOpen: (family: CatalogFamily, trigger: HTMLElement) => void;
-  readonly onCopyName: (event: MouseEvent, slug: string) => void;
   readonly onFocusPosition: (position: number) => void;
 }
 
@@ -44,11 +43,9 @@ export const IconCard = memo(function IconCard({
   setSize,
   display,
   selected,
-  copied,
   seed,
   detailsMode,
   onOpen,
-  onCopyName,
   onFocusPosition
 }: IconCardProps) {
   const family = useCatalogFamily(id);
@@ -109,14 +106,16 @@ export const IconCard = memo(function IconCard({
 
       {/* Quick Card Actions */}
       <div className="mt-2 flex w-full items-center justify-between border-t border-border/70 pt-2 text-[11px]">
-        <button
-          type="button"
+        <CopyButton
+          text={name ?? ""}
           disabled={!name}
-          onClick={(e) => name && onCopyName(e, name)}
+          label="Copy name"
+          announcement={`Icon name ${name ?? ""} copied to clipboard`}
+          showIcon={false}
+          stopPropagation
           className="font-medium text-muted-foreground transition-colors hover:text-primary"
-        >
-          {copied ? "Copied!" : "Copy name"}
-        </button>
+          copiedClassName="!text-primary"
+        />
         {name ? (
           <a
             href={iconDetailPath(name)}

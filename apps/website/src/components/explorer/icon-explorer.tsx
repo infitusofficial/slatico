@@ -105,7 +105,6 @@ export function IconExplorer({
   });
   const [selectedIcon, setSelectedIcon] = useState<CatalogFamily | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
-  const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
   const [results, setResults] = useState<ResultState>(() => ({
     ids: seed.map((_, i) => i),
     done: false,
@@ -373,19 +372,6 @@ export function IconExplorer({
 
   const updateCustomizer = useCallback((patch: Partial<IconCustomizerState>) => {
     setCustomizer((prev) => ({ ...prev, ...patch }));
-  }, []);
-
-  const handleQuickCopyName = useCallback(async (event: React.MouseEvent, slug: string) => {
-    event.stopPropagation();
-    try {
-      await navigator.clipboard.writeText(slug);
-      setCopiedSlug(slug);
-      setTimeout(() => {
-        setCopiedSlug((prev) => (prev === slug ? null : prev));
-      }, 1500);
-    } catch {
-      // ignore clipboard errors
-    }
   }, []);
 
   const display = useMemo<IconCardDisplay>(
@@ -722,11 +708,9 @@ export function IconExplorer({
               setSize={knownTotal ?? -1}
               display={display}
               selected={selectedIcon?.index === id}
-              copied={copiedSlug !== null && copiedSlug === client.peekFamily(id)?.name}
               seed={seedActive ? seed[id] : undefined}
               detailsMode={routing === "path" ? "drawer" : "navigate"}
               onOpen={openFamily}
-              onCopyName={handleQuickCopyName}
               onFocusPosition={setFocusedPosition}
             />
           )}

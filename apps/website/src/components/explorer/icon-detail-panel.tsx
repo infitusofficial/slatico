@@ -1,5 +1,6 @@
 "use client";
 
+import { CopyButton } from "../copy-button";
 import { useEffect, useRef, useState } from "react";
 import {
   SLATICO_STYLES,
@@ -135,15 +136,6 @@ export function IconDetailPanel({
     }, 2400);
   };
 
-  const copyText = async (text: string, label: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      showToast(`Copied ${label}`);
-    } catch {
-      showToast(`Could not copy ${label}`);
-    }
-  };
-
   const resolvedRasterBg =
     rasterBgMode === "transparent"
       ? null
@@ -151,16 +143,15 @@ export function IconDetailPanel({
         ? "#FFFFFF"
         : "#0B1120";
 
-  const handleCopySvg = async () => {
-    if (!activeAsset) return;
-    const svg = buildStandaloneSvg(activeAsset, {
-      size: customizer.size,
-      primaryColor: customizer.primaryColor,
-      secondaryColor: effectiveSecondaryColor,
-      secondaryOpacity: customizer.secondaryOpacity
-    });
-    await copyText(svg, `${icon.name} (${customizer.style}) SVG`);
-  };
+  const buildCopySvg = () =>
+    activeAsset
+      ? buildStandaloneSvg(activeAsset, {
+          size: customizer.size,
+          primaryColor: customizer.primaryColor,
+          secondaryColor: effectiveSecondaryColor,
+          secondaryOpacity: customizer.secondaryOpacity
+        })
+      : "";
 
   const handleDownloadSvg = () => {
     if (!activeAsset) return;
@@ -275,13 +266,13 @@ export function IconDetailPanel({
             <code className="rounded bg-surface-muted px-1.5 py-0.5 font-mono text-foreground">
               {icon.name}
             </code>
-            <button
-              type="button"
-              onClick={() => copyText(icon.name, "icon slug")}
-              className="font-medium text-primary hover:underline"
-            >
-              Copy slug
-            </button>
+            <CopyButton
+              text={icon.name}
+              label="Copy slug"
+              announcement={`Icon slug ${icon.name} copied to clipboard`}
+              iconSize={12}
+              className="inline-flex items-center gap-1 font-medium text-primary hover:underline"
+            />
             <span>·</span>
             {linkMode === "open-in-explorer" ? (
               <a
@@ -291,18 +282,14 @@ export function IconDetailPanel({
                 Open in Explorer
               </a>
             ) : (
-              <button
-                type="button"
-                onClick={() =>
-                  copyText(
-                    `${window.location.origin}${iconDetailPath(icon.name)}`,
-                    "link"
-                  )
-                }
-                className="font-medium text-primary hover:underline"
-              >
-                Copy link
-              </button>
+              <CopyButton
+                text={() => `${window.location.origin}${iconDetailPath(icon.name)}`}
+                label="Copy link"
+                copiedLabel="Link copied!"
+                announcement={`Link to ${icon.name} copied to clipboard`}
+                iconSize={12}
+                className="inline-flex items-center gap-1 font-medium text-primary hover:underline"
+              />
             )}
           </div>
         </div>
@@ -716,14 +703,15 @@ export function IconDetailPanel({
         </div>
 
         <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-5">
-          <button
-            type="button"
+          <CopyButton
+            text={buildCopySvg}
             disabled={!activeAsset}
-            onClick={handleCopySvg}
+            label="Copy SVG"
+            copiedLabel="SVG Copied!"
+            announcement={`${icon.name} ${customizer.style} SVG copied to clipboard`}
             className="inline-flex items-center justify-center gap-1.5 rounded-[20px] squircle bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
-          >
-            <span>Copy SVG</span>
-          </button>
+            copiedClassName="!bg-primary-active"
+          />
 
           <button
             type="button"
@@ -779,15 +767,16 @@ export function IconDetailPanel({
               Package: <code className="font-mono text-foreground">{activePlatformMeta.packageName}</code>
             </p>
           </div>
-          <button
-            type="button"
-            onClick={() =>
-              copyText(currentCodeSnippet, `${activePlatformMeta.label} snippet`)
-            }
+          <CopyButton
+            key={activePlatformMeta.label}
+            text={currentCodeSnippet}
+            disabled={!activeAsset}
+            label={`Copy ${activePlatformMeta.shortLabel} Code`}
+            copiedLabel="Code Copied!"
+            announcement={`${activePlatformMeta.label} code copied to clipboard`}
             className="inline-flex items-center gap-1.5 rounded-[20px] squircle bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
-          >
-            <span>Copy {activePlatformMeta.shortLabel} Code</span>
-          </button>
+            copiedClassName="!bg-primary-active"
+          />
         </div>
 
         {/* Platform Tabs */}
